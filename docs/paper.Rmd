@@ -1,6 +1,6 @@
 ---
-title: "Full Title"
-shorttitle: "Running Title"
+title: "Context-dependent consequences of including lagged effects in demographic models"
+shorttitle: "Lagged Effects IPMs"
 author:
   - Eric R. Scott:
       email: scottericr@gmail.com
@@ -78,7 +78,12 @@ Abstract text.
 
 # Introduction
 
-Introduction with an in-text citation [@scottInteractiveEffectsDrought2019].
+1.  Demographic models are widely used for all kinds of stuff
+
+2.  It has long been recognized that there is the potential for lagged effects.
+    Now there's evidence for that [@scottInteractiveEffectsDrought2019].
+
+3.  Lagged effects could be different in different habitat types (and this could be a big reason for differences between habitats)
 
 # Methods
 
