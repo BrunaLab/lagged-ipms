@@ -1,0 +1,54 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main, master]
+    paths: ['docs/paper.Rmd']
+  pull_request:
+    branches: [main, master]
+    paths: ['docs/paper.Rmd']
+
+name: build-manuscript
+
+jobs:
+  build-manuscript:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+    
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with: 
+          r-version: "release"
+      
+      - name: Install and cache packages
+        uses: r-lib/actions/setup-renv@v2
+      
+      - name: Install rmarkdown
+        run: Rscript -e 'if(!require("rmarkdown", quietly=TRUE)){renv::install("rmarkdown")}'
+      
+      - name: Render paper.Rmd to html
+        shell: Rscript {0}
+        run: |
+          rmarkdown::render("docs/paper.Rmd",
+          output_format = bookdown::html_document2(
+            number_sections = FALSE,
+            fig_caption = TRUE, 
+            pandoc_args = list(
+             "--lua-filter=templates/scholarly-metadata.lua",
+             "--lua-filter=templates/author-info-blocks.lua"
+          )))
+      
+      - name: Commit results
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add docs/paper.html
+          git commit docs/paper.html -m 'Re-build paper.html' || echo "No changes to commit"
+          git push origin master || echo "No changes to commit"

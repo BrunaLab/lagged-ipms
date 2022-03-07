@@ -1,0 +1,50 @@
+---
+title: "Response to Reviews"
+author: "Eric Scott"
+date: "`r Sys.Date()`"
+output: 
+  bookdown::word_document2:
+    reference_docx: template.docx
+    number_sections: true
+---
+
+# Reviewer 1
+
+**General comments**
+
+> General comment
+
+We are delighted that the reviewer found the manuscript engaging and valuable.
+Our responses to specific suggestions follow.
+
+##  {#R1-1}
+
+> Specific suggestion 1
+
+We have made the suggested changes
+
+##  {#R1-2}
+
+> Suggestion 2
+
+We have made the suggested changes
+
+# Reviewer 2
+
+**General Comments**
+
+We are pleased to hear such positive comments from the reviewer!
+
+## 
+
+> Specific suggestion 1
+
+We have made the suggested changes.
+See also our response to \@ref(R1-1)
+
+## 
+
+> Suggestion 2
+
+We have made the suggested changes.
+See also our response to \@ref(R1-2)

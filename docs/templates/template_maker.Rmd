@@ -1,0 +1,47 @@
+---
+title: "My title"
+author:
+- author 1
+- other author
+date: '`r Sys.Date()`'
+output: word_document
+abstract: "My abstract \n"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Knit this doc, and edit the styles in the resulting docx file. Then rename as 'template' and use this in the yml:
+
+```
+output:
+  word_document:
+    reference_docx: templates/template.docx
+```
+
+# Heading 1
+
+## Heading 2
+
+### Heading 3
+
+#### Heading 4
+
+\pagebreak
+
+```{r fig.cap="This is a figure caption. *italics*, **bold**, ~subscript~, ^superscript^ and $y = mx + \\beta$"}
+plot(cars)
+```
+
+\pagebreak
+
+```{r results='asis'}
+library(pander)
+pandoc.table(head(iris),
+             caption = "This is a table caption for a markdown table made with `pander`. *italics*, **bold**, ~subscript~, ^superscript^ and $y = mx + \\beta$")
+```
+
+
+To edit table style in the template, click on the table, choose "Table Design" from the ribbon,
+click the little tab to pull down the table style drawer, click "Modify Table Style..." and modify the style called "Table".  You may also want to modify the text style used (default "Compact") for the table.

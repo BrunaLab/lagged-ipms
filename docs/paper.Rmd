@@ -1,0 +1,139 @@
+---
+title: "Full Title"
+shorttitle: "Running Title"
+author:
+  - Eric R. Scott:
+      email: scottericr@gmail.com
+      institute: [UF_WEC]
+      correspondence: true
+  - Co-author two:
+      email: secondperson@university.edu
+      institute: [affiliation2]
+      correspondence: false
+  - Co-author three:
+      email: thirdperson@university.edu
+      institute: [UF_WEC, affiliation2]
+      correspondence: false
+      
+institute:
+  - UF_WEC: Department of Wildlife Ecology and Conservation, University of Florida, Gainesville, Florida 32611-0430
+  - affiliation2: Department of Ecology, Evolution and Environmental Biology, Example University 123 Center Avenue, New York, New York 10027 USA
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+    bookdown::word_document2:
+      linenumbers: yes
+      number_sections: no
+      fig_caption: yes
+      reference_docx: "templates/template.docx" # Insert path for the DOCX file
+      pandoc_args:
+      - --lua-filter=templates/scholarly-metadata.lua
+      - --lua-filter=templates/author-info-blocks.lua
+      #- -Fpandoc-crossref #required for cross-ref equations
+linkcolor: blue
+bibliography: references.bib
+csl: "templates/global-change-biology.csl" # Insert path for the bib-style
+keywords: |
+  keyword1; keyword2; keyword3
+highlights: |
+  These are the highlights
+  
+editor_options:
+  markdown:
+    wrap: sentence
+    canonical: true
+---
+
+<!-- This is the format for text comments that will be ignored during renderings. Do not put R code in these comments because it will not be ignored. -->
+
+<!-- With the following code you can access and display values from the yml header above. -->
+
+Keywords: `r rmarkdown::metadata$keywords`
+
+Running title: `r rmarkdown::metadata$shorttitle`
+
+<!-- Highlights: `r rmarkdown::metadata$highlights` -->
+
+<!-- The following code chunk defines some general settings how code chunks should behave. -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.path = "figures/",
+	dev = "png",
+	dpi = 300,
+	message = FALSE,
+	warning = FALSE,
+	collapse = TRUE,
+	comment = "#>"
+)
+library(targets)
+```
+
+<!-- The actual document text starts here: -->
+
+\pagebreak
+
+# Abstract
+
+Abstract text.
+
+\pagebreak
+
+# Introduction
+
+Introduction with an in-text citation [@scottInteractiveEffectsDrought2019].
+
+# Methods
+
+Methods text.
+
+# Results
+
+A reference to Table \@ref(tab:example-table).
+A reference to Figure \@ref(fig:example-figure).
+
+# Discussion
+
+# Acknowledgments
+
+We thank **,** \_, \_\_\_ and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript.
+Financial support was provided by the U.S.
+National Science Foundation (awards \_\_\_\_, and \_\_\_\_).
+The authors delcare no conflicts of interest.
+
+# Data Availability Statement
+
+Data and R code used in this study are archived with Zenodo at <doi url>.
+
+\pagebreak
+
+# Tables
+
+```{r}
+library(pander)
+```
+
+```{r example-table, results='asis'}
+pandoc.table(
+  head(iris),
+  justify = c("right", "right", "right", "right", "left"),
+  full_width = FALSE,
+  caption = "(\\#tab:example-table) A table must include the table tag in order to cross-reference it correctly."
+)
+```
+
+# Figures
+
+```{r}
+#| example-figure,
+#| fig.cap = "A caption for an example figure. It can be long and span mutiple
+#|   lines like this."
+plot(cars)
+```
+
+# References
+
+<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
+
+::: {#refs}
+:::
