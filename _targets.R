@@ -13,6 +13,7 @@ tar_plan(
   clim = read_wrangle_clim(clim_file),
   data_full = join_data(demog, clim),
   vit_list_det_ff = list(
-    surv = surv_det(data_full, habitat = "1-ha")
+    surv = surv_det(data_full, habitat = "1-ha"),
+    size = size_det(data_full, habitat = "1-ha")
   )
 ) 
