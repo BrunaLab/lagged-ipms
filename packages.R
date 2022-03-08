@@ -1,0 +1,18 @@
+## library() calls go here
+library(conflicted)
+library(dotenv)
+library(targets)
+library(tarchetypes)
+library(tidyverse)
+library(janitor)
+library(here)
+library(SPEI)
+library(tsibble)
+library(lubridate)
+library(tsModel)
+library(mgcv)
+library(gratia)
+library(broom)
+
+conflict_prefer("filter", "dplyr")
+conflict_prefer("lag", "dplyr")

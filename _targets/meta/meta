@@ -1,0 +1,11 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|iteration|parent|children|seconds|warnings|error
+.Random.seed|object|7e25e12cebd97590||||||||||||||
+read_wrangle_clim|function|f1ed299af500f231||||||||||||||
+as_living|function|35f18b3f19be7fa3||||||||||||||
+join_data|function|9520b416e853f126||||||||||||||
+read_wrangle_demog|function|5408348686909960||||||||||||||
+demog_file|stem|c406feb1910bfb60|43f962249af9975e|4e3739ef91745af0|821119725|/Users/scottericr/Documents/GitHub/lagged-ipms/data/Ha_survey_pre_submission.csv|t19040.8031018519s|73695c25544b70b6|8298002|file|vector|||0.002||
+clim_file|stem|67b7b1bff5756b4b|dd3ae5754a5736c2|4e3739ef91745af0|-1420109080|/Users/scottericr/Documents/GitHub/lagged-ipms/data/xavier_daily_0.25x0.25.csv|t18702.7901095989s|cf750ec57bbee546|2139545|file|vector|||0.001||
+demog|stem|eed97c12a3700e1c|b4f68b272fb08f09|931f50fb963ef210|-762039974||t19059.8365022606s|e697f207cf81a674|384183|rds|vector|||3.75||
+clim|stem|f18ea4fc5cd09bcc|1b30e0cba252f98f|23b7d974579c92a6|216604356||t19059.8365055399s|a5f62457ebfc5cc3|29921|rds|vector|||0.27||
+data_full|stem|bbb277a16f8228f2|6bf2cf960de580cc|4b498ce339f7e456|1603037424||t19059.836510047s|8887cb2941120efc|655966|rds|vector|||0.079||
