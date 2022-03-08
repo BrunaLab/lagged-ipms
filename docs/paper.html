@@ -220,16 +220,44 @@ pre code {
 <ol style="list-style-type: decimal">
 <li><p>Demographic models are widely used for all kinds of stuff</p></li>
 <li><p>It has long been recognized that there is the potential for lagged effects.
-Now there’s evidence for that <span class="citation">(Scott et al. 2019)</span>.</p></li>
+Now there’s evidence for that <span class="citation">(Evers et al. 2021; Scott et al. 2022)</span>.</p></li>
 <li><p>Lagged effects could be different in different habitat types (and this could be a big reason for differences between habitats)</p></li>
 </ol>
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
-<p>Methods text.</p>
+<div id="modeling-vital-rates" class="section level2">
+<h2>Modeling vital rates</h2>
+<p>Used 10 yr demographic dataset for modeling post-seedling survival, growth, and flowering; seedling survival and growth.
+For post-seedlings, all vital rates were modeled as a smooth function of log(size_t) using a penalized spline in generalized additive models (GAMs) using the <code>mgcv</code> package <span class="citation">(Wood 2011)</span>.</p>
+<ul>
+<li>Where the rest of the fecundity data comes from</li>
+</ul>
+<p>For stochastic IPMs, we took two approaches.
+In the first approach, we added a random intercept for year to all post-seedling vital rates GAMs, when supported by the data (i.e. p-value for random effect &lt; 0.05) <!--# something about how you can actually use p-values for random effects fit with mgcv -->.
+Then, we used kernel-resampled ipms to generate kernels for each year of data and iterate the IPM by drawing from these randomly.
+Equivalent to “matrix shuffling” approach in matrix population models (CITATION).
+In the second approach, we modeled the impacts of the environment on vital rates explicitly.
+We calculated the standardized precipitation evapotranspiraion index (SPEI).
+We modeled effects of SPEI on post-seedling survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines <span class="citation">(Scott et al. 2022)</span>.
+Then these models were incorporated into a parameter-resampled IPM.
+To iterate such an IPM, a random sequence of SPEI values is created by re-sampling the observed monthly SPEI data.
+Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
+These values are then used to iterate the IPM.</p>
+<p>IPMs built and iterated with the <span class="citation">(<strong>ipmr?</strong>)</span> package.</p>
+<p>Use fitted_samples() for bootsrapping CIs around lambda?</p>
+</div>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
+<ul>
+<li><p>table of vital rate models.
+Which vital rate, which IPM, ∆AIC, model edf.</p></li>
+<li><p>table of lambdas.
+2 habitats x 3 (4?) IPMs</p></li>
+<li><p>figure of PVA??
+Conceptual diagram instead?</p></li>
+</ul>
 <p>A reference to Table <a href="#tab:example-table">1</a>.
 A reference to Figure <a href="#fig:example-figure">1</a>.</p>
 </div>
@@ -239,9 +267,10 @@ A reference to Figure <a href="#fig:example-figure">1</a>.</p>
 <div id="acknowledgments" class="section level1">
 <h1>Acknowledgments</h1>
 <p>We thank <strong>,</strong> _, ___ and ___ anonymous reviewers for helpful discussions and comments on the manuscript.
+We thank Sam Levin for his help with the <code>ipmr</code> package.
 Financial support was provided by the U.S.
 National Science Foundation (awards ____, and ____).
-The authors delcare no conflicts of interest.</p>
+The authors declare no conflicts of interest.</p>
 </div>
 <div id="data-availability-statement" class="section level1">
 <h1>Data Availability Statement</h1>
@@ -327,8 +356,14 @@ Figure 1: A caption for an example figure. It can be long and span mutiple lines
 <h1>References</h1>
 <!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
 <div id="refs" class="references csl-bib-body">
-<div id="ref-scottInteractiveEffectsDrought2019" class="csl-entry">
-Scott, E. R., X. Li, N. Kfoury, J. Morimoto, W.-Y. Han, S. Ahmed, S. B. Cash, et al. 2019. <a href="https://doi.org/10.1016/j.envexpbot.2018.10.025">Interactive effects of drought severity and simulated herbivory on tea (<span><em>Camellia</em></span><span> <em>Sinensis</em></span>) volatile and non-volatile metabolites</a>. Environmental and Experimental Botany 157:283–292.
+<div id="ref-eversLaggedDormantSeason2021" class="csl-entry">
+Evers, S. M., T. M. Knight, D. W. Inouye, T. E. X. Miller, R. Salguero-Gómez, A. M. Iler, and A. Compagnoni. 2021. <a href="https://doi.org/10.1111/gcb.15519">Lagged and dormant season climate better predict plant vital rates than climate during the growing season</a>. Global Change Biology 27:1927–1941.
+</div>
+<div id="ref-scottDelayedEffectsClimate2022" class="csl-entry">
+Scott, E. R., M. Uriarte, and E. M. Bruna. 2022. <a href="https://doi.org/10.1111/gcb.15900">Delayed effects of climate on vital rates lead to demographic divergence in Amazonian forest fragments</a>. Global Change Biology 28:463–479.
+</div>
+<div id="ref-mgcv" class="csl-entry">
+Wood, S. N. 2011. Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models 73:3–36.
 </div>
 </div>
 </div>
