@@ -5,10 +5,8 @@
 # Session Data files
 .RData
 
-
 # RStudio files
 .Rproj.user/
-
 
 # knitr and R markdown default cache directories
 /*_cache/
@@ -18,7 +16,10 @@
 *.utf8.md
 *.knit.md
 
+# targets
+_targets/
 
 # Word
 *.docx
 !doc/templates/template.docx
+
