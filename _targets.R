@@ -15,5 +15,6 @@ tar_plan(
   vit_list_det_ff = list(
     surv = surv_det(data_full, habitat = "1-ha"),
     size = size_det(data_full, habitat = "1-ha")
-  )
+  ),
+  tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown")
 ) 
