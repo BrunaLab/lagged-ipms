@@ -43,23 +43,6 @@ size_raneff <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
 # k.check(size_raneff(data, habitat = "1-ha")) #no diff between k = 20 and k = 25
 
 
-size_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
-  
-  df <- data %>%
-    dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
-    dplyr::filter(surv == 1, !is.na(log_size))
-  
-  gam(
-    log_size ~ 1 + s(year_fct, bs = "re"),
-    family = scat,
-    data = df,
-    method = "REML"
-  )
-}
-
-
 flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
   habitat_choice <- match.arg(habitat)
   df <- data %>% 
@@ -77,3 +60,35 @@ flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
 }
 # k.check(flwr_raneff(data))
 # k.check(flwr_raneff(data, habitat = "1-ha"))
+
+size_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
+  
+  habitat_choice <- match.arg(habitat)
+  
+  df <- data %>%
+    dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
+    dplyr::filter(surv == 1, !is.na(log_size))
+  
+  gam(
+    log_size ~ 1 + s(year_fct, bs = "re"),
+    family = scat,
+    data = df,
+    method = "REML"
+  )
+}
+
+surv_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
+  
+  habitat_choice <- match.arg(habitat)
+  
+  df <- data %>%
+    filter(sdlg_prev == sdlg, habitat == habitat_choice)
+  
+  gam(
+    surv ~ 1 + s(year_fct, bs = "re"),
+    family = binomial,
+    data = df,
+    method = "REML"
+  )
+}
+
