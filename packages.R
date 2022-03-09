@@ -13,7 +13,7 @@ library(tsModel)
 library(mgcv)
 library(gratia)
 library(broom)
-library(bookdown)
+library(metRology)
 
 conflict_prefer("filter", "dplyr")
 conflict_prefer("lag", "dplyr")

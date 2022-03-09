@@ -57,6 +57,20 @@ size_sdlg_det <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
   )
 }
 
+surv_sdlg_det <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
+  
+  habitat_choice <- match.arg(habitat)
+  
+  df <- data %>%
+    filter(sdlg_prev == sdlg, habitat == habitat_choice)
+  
+  gam(
+    surv ~ 1,
+    family = binomial,
+    data = df,
+    method = "REML"
+  )
+}
 
 flwr_det <- function(data, habitat = c("CF", "1-ha")) {
   habitat_choice <- match.arg(habitat)
