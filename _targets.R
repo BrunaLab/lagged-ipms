@@ -16,7 +16,8 @@ tar_plan(
   
   demog = read_wrangle_demog(file_demog),
   clim = read_wrangle_clim(file_clim), #need to do in two steps to preserve timeseries data for later
-  data_full = join_data(demog, clim),
+  clim_lag = lag_clim(clim),
+  data_full = join_data(demog, clim_lag),
   
   data_1998 = read_wrangle_1998(file_1998),
   data_2008 = read.csv(file_2008),
@@ -92,38 +93,38 @@ tar_plan(
 
 # Stochastic parameter resampled IPM --------------------------------------
 
-## forets fragments
-vit_list_dlnm_ff = list(
-  vit_surv = surv_dlnm(data_full, habitat = "1-ha"),
-  vit_size = size_dlnm(data_full, habitat = "1-ha"),
-  vit_flwr = flwr_dlnm(data_full, habitat = "1-ha"),
-  vit_fruits = fruits_gam(data_1998),
-  vit_seeds = seeds_gam(data_1998, data_2008),
-  vit_germ_est = 0.018921527, #germination and establishment
-  vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "1-ha"),
-  vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "1-ha")
-),
-
-ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff) %>%
-  make_ipm(iterations = 1000,
-           usr_funs = list(get_scat_params = get_scat_params)),
-
-## continuous forest
-vit_list_dlnm_cf = list(
-  vit_surv = surv_dlnm(data_full, habitat = "CF"),
-  vit_size = size_dlnm(data_full, habitat = "CF"),
-  vit_flwr = flwr_dlnm(data_full, habitat = "CF"),
-  vit_fruits = fruits_gam(data_1998),
-  vit_seeds = seeds_gam(data_1998, data_2008),
-  vit_germ_est = 0.057098765, #germination and establishment
-  vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "CF"),
-  vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "CF")
-),
-
-ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf) %>%
-  
-  make_ipm(iterations = 1000,
-           usr_funs = list(get_scat_params = get_scat_params)),
+# ## forets fragments
+# vit_list_dlnm_ff = list(
+#   vit_surv = surv_dlnm(data_full, habitat = "1-ha"),
+#   vit_size = size_dlnm(data_full, habitat = "1-ha"),
+#   vit_flwr = flwr_dlnm(data_full, habitat = "1-ha"),
+#   vit_fruits = fruits_gam(data_1998),
+#   vit_seeds = seeds_gam(data_1998, data_2008),
+#   vit_germ_est = 0.018921527, #germination and establishment
+#   vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "1-ha"),
+#   vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "1-ha")
+# ),
+# 
+# ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff) %>%
+#   make_ipm(iterations = 1000,
+#            usr_funs = list(get_scat_params = get_scat_params)),
+# 
+# ## continuous forest
+# vit_list_dlnm_cf = list(
+#   vit_surv = surv_dlnm(data_full, habitat = "CF"),
+#   vit_size = size_dlnm(data_full, habitat = "CF"),
+#   vit_flwr = flwr_dlnm(data_full, habitat = "CF"),
+#   vit_fruits = fruits_gam(data_1998),
+#   vit_seeds = seeds_gam(data_1998, data_2008),
+#   vit_germ_est = 0.057098765, #germination and establishment
+#   vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "CF"),
+#   vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "CF")
+# ),
+# 
+# ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf) %>%
+#   
+#   make_ipm(iterations = 1000,
+#            usr_funs = list(get_scat_params = get_scat_params)),
   # Manuscript --------------------------------------------------------------
   tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown")
 ) 

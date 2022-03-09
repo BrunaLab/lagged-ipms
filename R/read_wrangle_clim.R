@@ -1,4 +1,4 @@
-read_wrangle_clim <- function(path, scale = 3, maxlag = 36) {
+read_wrangle_clim <- function(path, scale = 3) {
   xa_raw <- read_csv(here("data", "xavier_daily_0.25x0.25.csv"))
   
   # Calculate SPEI
@@ -18,15 +18,6 @@ read_wrangle_clim <- function(path, scale = 3, maxlag = 36) {
         scale = scale
       )$fitted
     )) %>% 
-    
-    #create lags
-    
-    group_by(latlon) %>% 
-    mutate(spei_history = tsModel::Lag(spei, 0:maxlag),
-           L = matrix(0:maxlag, nrow = n(), ncol = maxlag+1, byrow = TRUE)) %>% 
-    separate(latlon, into = c("lat", "lon"), sep = "_") %>% 
-    #clean up 
-    select(-month) %>% 
     ungroup()
   
 }
