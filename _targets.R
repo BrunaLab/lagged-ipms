@@ -15,9 +15,8 @@ tar_plan(
   tar_file(file_2008, here("data", "Heliconia_acuminata_seedset_2008.csv")),
   
   demog = read_wrangle_demog(file_demog),
-  clim = read_wrangle_clim(file_clim), #need to do in two steps to preserve timeseries data for later
-  clim_lag = lag_clim(clim),
-  data_full = join_data(demog, clim_lag),
+  clim = read_wrangle_clim(file_clim),
+  data_full = join_data(demog, clim),
   
   data_1998 = read_wrangle_1998(file_1998),
   data_2008 = read.csv(file_2008),

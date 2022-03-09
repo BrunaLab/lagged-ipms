@@ -1,4 +1,4 @@
-join_data <- function(demog, clim_lag) {
+join_data <- function(demog, clim) {
   demog <- demog %>% 
     mutate(lon = case_when(
       plot %in% c("Florestal-CF", "5752", "5751", "5750", "5756", "CaboFrio-CF") ~ "-59.875",
@@ -8,8 +8,8 @@ join_data <- function(demog, clim_lag) {
   
   #filter climate data so only months with census (february)
   clim_sub <- 
-    clim_lag %>% 
-    filter(month(date) == 2) %>% 
+    clim %>% 
+    filter(month == 2) %>% 
     #remove burnin for SPEI
     rowwise() %>% 
     filter(!any(is.na(spei_history)))
