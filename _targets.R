@@ -115,7 +115,7 @@ tar_plan(
   
   proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff),
   ipm_dlnm_ff = proto_ipm_dlnm_ff %>%
-    make_dlnm_ipm(clim, seed = 123, iterations = 100,
+    make_dlnm_ipm(clim, seed = 1234, iterations = 10,
                   normalize_pop_size = FALSE, # to run as PVA
                   usr_funs = list(get_scat_params = get_scat_params)),
   
@@ -133,7 +133,7 @@ tar_plan(
   
   proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf),
   ipm_dlnm_cf = proto_ipm_dlnm_cf %>%
-    make_dlnm_ipm(clim, seed = 123, iterations = 100,
+    make_dlnm_ipm(clim, seed = 1234, iterations = 10,
                   normalize_pop_size = FALSE, # to run as PVA
                   usr_funs = list(get_scat_params = get_scat_params)),
   
