@@ -27,7 +27,7 @@ tar_plan(
   data_2008 = read.csv(file_2008),
   
   # Deterministic IPM -------------------------------------------------------
-  ## forets fragments
+  ## forests fragments
   vit_list_det_ff = list(
     vit_surv = surv_det(data_full, habitat = "1-ha"),
     vit_size = size_det(data_full, habitat = "1-ha"),
@@ -40,7 +40,8 @@ tar_plan(
   ),
   
   ipm_det_ff = make_proto_ipm_det(vit_list_det_ff) %>% 
-    make_ipm(iterations = 1000, #only needs 100 to converge
+    make_ipm(iterations = 1000,  #only needs 100 to converge
+             normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
   
   ## continuous forest
@@ -57,6 +58,7 @@ tar_plan(
   
   ipm_det_cf = make_proto_ipm_det(vit_list_det_cf) %>% 
     make_ipm(iterations = 1000, #only needs 100 to converge
+             normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
   
   
@@ -76,6 +78,7 @@ tar_plan(
   
   ipm_stoch_ff = make_proto_ipm_stoch(vit_list_stoch_ff) %>%
     make_ipm(iterations = 1000,
+             normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
   
   ## continuous forest
@@ -92,6 +95,7 @@ tar_plan(
   
   ipm_stoch_cf = make_proto_ipm_stoch(vit_list_stoch_cf) %>%
     make_ipm(iterations = 1000,
+             normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
   
   
@@ -111,7 +115,8 @@ tar_plan(
   
   proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff),
   ipm_dlnm_ff = proto_ipm_dlnm_ff %>%
-    make_dlnm_ipm(clim, seed = 123, iterations = 1000,
+    make_dlnm_ipm(clim, seed = 123, iterations = 100,
+                  normalize_pop_size = FALSE, # to run as PVA
                   usr_funs = list(get_scat_params = get_scat_params)),
   
   ## continuous forest
@@ -128,18 +133,32 @@ tar_plan(
   
   proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf),
   ipm_dlnm_cf = proto_ipm_dlnm_cf %>%
-    make_dlnm_ipm(clim, seed = 123, iterations = 1000,
+    make_dlnm_ipm(clim, seed = 123, iterations = 100,
+                  normalize_pop_size = FALSE, # to run as PVA
                   usr_funs = list(get_scat_params = get_scat_params)),
   
   
   # Model Selection Table ---------------------------------------------------
   
-  aic_table_df = make_AIC_table(vit_list_det_cf,
-                                vit_list_det_ff,
-                                vit_list_dlnm_cf,
-                                vit_list_dlnm_ff,
-                                vit_list_stoch_cf,
-                                vit_list_stoch_ff),
+  aic_tbl_df = make_AIC_tbl(
+    vit_list_det_cf,
+    vit_list_det_ff,
+    vit_list_dlnm_cf,
+    vit_list_dlnm_ff,
+    vit_list_stoch_cf,
+    vit_list_stoch_ff
+  ),
+
+# Lambdas -----------------------------------------------------------------
+
+  lambda_tbl_df = make_lambda_tbl(
+    ipm_det_cf,
+    ipm_det_ff,
+    ipm_stoch_cf,
+    ipm_stoch_ff,
+    ipm_dlnm_cf,
+    ipm_dlnm_ff
+  ),
   # Manuscript --------------------------------------------------------------
   tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown")
 ) %>% 

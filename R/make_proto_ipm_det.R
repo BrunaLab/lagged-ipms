@@ -1,4 +1,4 @@
-library(ipmr)
+# library(ipmr)
 make_proto_ipm_det <- function(data_list) {
   
   init_ipm(

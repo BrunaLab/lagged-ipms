@@ -2,7 +2,7 @@ make_env_states <- function(clim, seed = NULL, maxlag = 36, iterations = NULL) {
   env_df <- 
     clim %>% 
     #remove leading NAs and any Inf or -Inf values that might exist in spei
-    filter(is.finite(spei)) %>% 
+    dplyr::filter(is.finite(spei)) %>% 
     #average spatially
     group_by(year, month) %>% 
     summarise(spei = mean(spei), .groups = "drop")
@@ -66,5 +66,5 @@ make_env_states <- function(clim, seed = NULL, maxlag = 36, iterations = NULL) {
     mutate(spei_history = foo(spei_history))
   
 }
-# make_env_states(clim, seed = 123, iterations = 100)
+# x <- make_env_states(clim, seed = 123, iterations = 1000)
 
