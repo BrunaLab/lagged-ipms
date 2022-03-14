@@ -1,4 +1,4 @@
-make_AIC_table <- function(...) {
+make_AIC_tbl <- function(...) {
   all_mods <- rlang::list2(...)
   mod_names <- rlang::ensyms(...) %>% as.character() %>% str_remove_all("vit_list_")
   names(all_mods) <- mod_names
