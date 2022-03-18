@@ -4,7 +4,8 @@ make_dlnm_ipm <- function(proto_ipm, clim, seed, iterations, ...) {
     as.list(env_states[iteration, ])
   }
   
-  env_states <- make_env_states(clim, seed = seed, iterations = iterations)
+  env_states <- make_env_states(clim, seed = seed, maxlag = 36, iterations = iterations)
+  n_it <- nrow(env_states) #should be the same as iterations, but just in case, since 
   
   proto_ipm %>% 
     define_env_state(
@@ -15,5 +16,5 @@ make_dlnm_ipm <- function(proto_ipm, clim, seed, iterations, ...) {
         sample_env = sample_env
       )
     ) %>% 
-    make_ipm(iterations = iterations, ...)
+    make_ipm(iterations = n_it, ...)
 }
