@@ -134,6 +134,10 @@ Financial support was provided by the U.S.
 National Science Foundation (awards \_\_\_\_, and \_\_\_\_).
 The authors declare no conflicts of interest.
 
+# CRediT Statement
+
+<!--# https://casrai.org/credit/ -->
+
 # Data Availability Statement
 
 Data and R code used in this study are archived with Zenodo at <doi url>.
