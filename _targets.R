@@ -3,6 +3,16 @@ options(
   clustermq.scheduler = "multiprocess"
 )
 
+
+# # Setup SSH connector
+# options(
+#   clustermq.scheduler = "ssh",
+#   clustermq.template = "ssh_clustermq.tmpl", #custom SSH template to use R 4.0
+#   clustermq.ssh.host = "hpg", #set up in ~/.ssh/config.
+#   clustermq.ssh.timeout = 30, #longer timeout helps with 2FA
+#   clustermq.ssh.log = "~/cmq_ssh.log" # log for easier debugging
+# )
+
 ## Load your packages, e.g. library(targets).
 source("./packages.R")
 
