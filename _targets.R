@@ -48,7 +48,7 @@ tar_plan(
   vit_other_cf = list(
     vit_fruits = fruits_gam(data_1998),
     vit_seeds = seeds_gam(data_1998, data_2008),
-    vit_germ_est = 0.057098765, #germination and establishment
+    vit_germ_est = 0.057098765 #germination and establishment
   ),
 
   
