@@ -189,7 +189,7 @@ tar_plan(
     reps = 15 #reps per branch
   ),
 
-#TODO: edit this function to use bootstrapped estimates and report lower, mean, and upper
+#TODO: edit this function to use `calc_ci()` to get estimate, lower, upper
   lambda_tbl_df = make_lambda_tbl(
     ipm_det_cf,
     ipm_det_ff,
