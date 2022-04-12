@@ -66,11 +66,11 @@ size_sdlg_det <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
     dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
   
-  bam(
+  gam(
     log_size ~ 1,
     family = scat,
     data = df,
-    method = "fREML"
+    method = "REML"
   )
 }
 
