@@ -5,26 +5,26 @@
 #' confidence intervals around lambda.
 #'
 #' @param boots a bootstrap rset object produced by `rsample::bootstraps()`
+#' @param vit_other a list containing vit_fruits, vit_seeds, and vit_germ_est
 #' @param habitat character, either "1-ha" or "CF"
 #'
 #' @return vector of lambdas
 #' 
 #' 
-ipm_boot_det <- function(boots, habitat = c("1-ha", "CF")) {
+ipm_boot_det <- function(boots, vit_other, habitat = c("1-ha", "CF")) {
   splits <- boots[["splits"]] %>% map(rsample::analysis)
   pb <- progress_bar$new(total = length(splits))
+  
   map_dbl(splits, ~{
-    pb$tick()
-    vit_list_det_ff <- list(
+    pb$tick() #advance progress bar
+    
+    vit_list_det_ff <- c(list(
       vit_surv = surv_det(.x, habitat = habitat),
       vit_size = size_det(.x, habitat = habitat),
       vit_flwr = flwr_det(.x, habitat = habitat),
-      vit_fruits = fruits_gam(data_1998), #TODO: these don't need to be re-fit for every bootstrap maybe?
-      vit_seeds = seeds_gam(data_1998, data_2008),
-      vit_germ_est = 0.018921527, #germination and establishment
       vit_size_sdlg = size_sdlg_det(.x, habitat = habitat),
       vit_surv_sdlg = surv_sdlg_det(.x, habitat = habitat)
-    )
+    ), vit_other)
     
     make_proto_ipm_det(vit_list_det_ff) %>% 
       make_ipm(iterations = 100,  #only needs 100 to converge
