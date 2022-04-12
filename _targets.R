@@ -175,27 +175,18 @@ tar_plan(
 # Lambdas -----------------------------------------------------------------
 
   # bootstrapping
-  tar_target(
-    data_boot, rsample::bootstraps(data_full, times = 999) %>% 
-      #batch rows to send off to separate cores
-      mutate(batch = 1:n() %/% 10) %>% 
-      group_by(batch) %>% 
-      tar_group(),
-    iteration = "group"
-  ),
-
-  tar_target(
+  tar_rep(
     lambda_bt_det_ff,
-    ipm_boot_det(data_boot, vit_other = vit_other_ff, habitat = "1-ha"),
-    pattern = map(data_boot),
-    iteration = "vector"
+    ipm_boot_det(data_full, vit_other = vit_other_ff, habitat = "1-ha"),
+    batches = 2, #number of branches to create
+    reps = 15 #reps per branch
   ),
 
-  tar_target(
+  tar_rep(
     lambda_bt_det_cf,
-    ipm_boot_det(data_boot, vit_other = vit_other_cf, habitat = "CF"),
-    pattern = map(data_boot),
-    iteration = "vector"
+    ipm_boot_det(data_full, vit_other = vit_other_cf, habitat = "CF"),
+    batches = 2, #number of branches to create
+    reps = 15 #reps per branch
   ),
 
 #TODO: edit this function to use bootstrapped estimates and report lower, mean, and upper
