@@ -164,6 +164,24 @@ tar_plan(
 
 # Lambdas -----------------------------------------------------------------
 
+  # bootstrapping
+  tar_target(
+    data_boot, rsample::bootstraps(data_full, times = 25) %>% 
+      #batch rows to send off to separate cores
+      mutate(batch = 1:n() %/% 10) %>% 
+      group_by(batch) %>% 
+      tar_group(),
+    iteration = "group"
+  ),
+
+  tar_target(
+    lambda_bt_det_ff,
+    ipm_boot_det(data_boot, habitat = "1-ha"),
+    pattern = map(data_boot),
+    iteration = "vector"
+  ),
+
+
   lambda_tbl_df = make_lambda_tbl(
     ipm_det_cf,
     ipm_det_ff,
