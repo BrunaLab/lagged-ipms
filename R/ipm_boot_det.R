@@ -11,8 +11,17 @@
 #' @return lambda
 #' 
 ipm_boot_det <- function(data, vit_other, habitat = c("1-ha", "CF")) {
-  #sample with replacement
-  boot <- dplyr::sample_n(data, nrow(data), replace = TRUE)
+  #sample ha_id_numbers with replacement within plots
+  boot_ids <-
+    data_full %>% 
+    group_by(plot) %>% 
+    summarize(ha_id_number = unique(ha_id_number)) %>% 
+    group_by(plot) %>% 
+    sample_n(n(), replace = TRUE) %>% 
+    #for validation:
+    mutate(unique_id = paste(ha_id_number, row_number(), sep = "-"))
+  
+  boot <- inner_join(data, boot_ids)
   
   #fit vital rates
   vit_list_det_ff <- c(list(
