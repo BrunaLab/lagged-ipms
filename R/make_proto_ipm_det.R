@@ -89,10 +89,10 @@ make_proto_ipm_det <- function(data_list) {
     
     # define implementation with midpoint rule
     define_impl(make_impl_args_list(
-      kernel_names = c("P",        "go_sdlg", "stay_sdlg", "leave_sdlg"),
-      int_rule = "midpoint",
-      state_start  = c("log_size", "log_size", "sdlg",     "sdlg"),
-      state_end    = c("log_size", "sdlg",     "sdlg",     "log_size")
+      kernel_names = c("P",        "go_sdlg",  "stay_sdlg", "leave_sdlg"),
+      int_rule     = c("midpoint", "midpoint", "midpoint",  "midpoint"),
+      state_start  = c("log_size", "log_size", "sdlg",      "sdlg"),
+      state_end    = c("log_size", "sdlg",     "sdlg",      "log_size")
     )) %>% 
     #define lower bound, upper bound, and number of meshpoints for log_size
     define_domains(log_size = c(0, 8.018296, 100)) %>%  

@@ -10,12 +10,12 @@ surv_raneff <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
   df <- data %>%
     filter(sdlg_prev == sdlg, habitat == habitat_choice)
   
-  gam(
+  bam(
     surv ~ s(log_size_prev, bs = "cr", k = 20) +
       s(year_fct, bs = "re"),
     family = binomial,
     data = df,
-    method = "REML"
+    method = "fREML"
   )
 }
 # k.check(surv_raneff(data))
@@ -31,12 +31,12 @@ size_raneff <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
     #only plants that survived get to grow
     dplyr::filter(surv == 1, !is.na(log_size))
   
-  gam(
+  bam(
     log_size ~ s(log_size_prev, bs = "cr", k = 20) +
       s(year_fct, bs = "re"),
     family = scat,
     data = df,
-    method = "REML"
+    method = "fREML"
   )
 }
 # k.check(size_raneff(data))
@@ -50,12 +50,12 @@ flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
     #current seedlings are excluded, but not plants that were seedlings in the previous year
     dplyr::filter(surv == 1, !is.na(log_size))
   
-  gam(
+  bam(
     flwr ~ s(log_size_prev, bs = "cr", k = 20) +
       s(year_fct, bs = "re"),
     family = binomial, 
     data = df,
-    method = "REML"
+    method = "fREML"
   )
 }
 # k.check(flwr_raneff(data))
@@ -69,11 +69,11 @@ size_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
     dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
   
-  gam(
+  bam(
     log_size ~ 1 + s(year_fct, bs = "re"),
     family = scat,
     data = df,
-    method = "REML"
+    method = "fREML"
   )
 }
 
@@ -84,11 +84,11 @@ surv_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
   df <- data %>%
     filter(sdlg_prev == sdlg, habitat == habitat_choice)
   
-  gam(
+  bam(
     surv ~ 1 + s(year_fct, bs = "re"),
     family = binomial,
     data = df,
-    method = "REML"
+    method = "fREML"
   )
 }
 
