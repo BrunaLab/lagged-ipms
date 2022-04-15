@@ -190,6 +190,20 @@ tar_plan(
     reps = 100 #reps per branch
   ),
 
+  tar_rep(
+    lambda_bt_stoch_ff,
+    ipm_boot_stoch(data_full, vit_other = vit_other_ff, habitat = "1-ha"),
+    batches = 5,
+    reps = 100
+  ),
+
+  tar_rep(
+    lambda_bt_stoch_cf,
+    ipm_boot_stoch(data_full, vit_other = vit_other_cf, habitat = "CF"),
+    batches = 5,
+    reps = 100
+  ),
+
 #TODO: edit this function to use `calc_ci()` to get estimate, lower, upper
   lambda_tbl_df = make_lambda_tbl(
     ipm_det_cf,
