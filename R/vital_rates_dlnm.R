@@ -8,7 +8,7 @@ surv_dlnm <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    filter(sdlg_prev == sdlg, habitat == habitat_choice)
+    dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice)
   
   bam(
     surv ~ s(log_size_prev, bs = "cr", k = 10) +
@@ -69,11 +69,11 @@ size_sdlg_dlnm <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
     dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
   
-  bam(
+  gam(
     log_size ~ 1 + te(spei_history, L, bs = "cr", k = c(10, 15)),
     family = scat,
     data = df,
-    method = "fREML"
+    method = "REML"
   )
 }
 #TODO: double-check k for seedling size and survival
@@ -84,13 +84,13 @@ surv_sdlg_dlnm <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    filter(sdlg_prev == sdlg, habitat == habitat_choice)
+    dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice)
   
-  bam(
+  gam(
     surv ~ 1 + te(spei_history, L, bs = "cr", k = c(15,15)),
     family = binomial,
     data = df,
-    method = "fREML"
+    method = "REML"
   )
 }
 # k.check(surv_sdlg_dlnm(data))

@@ -45,12 +45,12 @@ make_env_states <- function(clim, seed = NULL, maxlag = 36, iterations = NULL) {
   #its the same data, there might not have been observed data as extreme for
   #particular lag times.
   spei_max <- clim %>% 
-    filter(month == 2, year %in% 1998:2009) %>% 
+    dplyr::filter(month == 2, year %in% 1998:2009) %>% 
     pull(spei_history) %>% 
     apply(MARGIN = 2, FUN = max, na.rm = TRUE)
   
   spei_min <- clim %>% 
-    filter(month == 2, year %in% 1998:2009) %>% 
+    dplyr::filter(month == 2, year %in% 1998:2009) %>% 
     pull(spei_history) %>% 
     apply(MARGIN = 2, FUN = min, na.rm = TRUE)
   
