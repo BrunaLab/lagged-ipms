@@ -1,17 +1,17 @@
 # Uncomment these lines to run locally on multiple cores
-options(
-  clustermq.scheduler = "multiprocess"
-)
+# options(
+#   clustermq.scheduler = "multiprocess"
+# )
 
 
 # # Setup SSH connector
-# options(
-#   clustermq.scheduler = "ssh",
-#   clustermq.template = "ssh_clustermq.tmpl", #custom SSH template to use R 4.0
-#   clustermq.ssh.host = "hpg", #set up in ~/.ssh/config.
-#   clustermq.ssh.timeout = 30, #longer timeout helps with 2FA
-#   clustermq.ssh.log = "~/cmq_ssh.log" # log for easier debugging
-# )
+options(
+  clustermq.scheduler = "ssh",
+  clustermq.template = "ssh_clustermq.tmpl", #custom SSH template to use R 4.0
+  clustermq.ssh.host = "hpg", #set up in ~/.ssh/config.
+  clustermq.ssh.timeout = 30, #longer timeout helps with 2FA
+  clustermq.ssh.log = "~/cmq_ssh.log" # log for easier debugging
+)
 
 ## Load your packages, e.g. library(targets).
 source("./packages.R")
@@ -24,10 +24,10 @@ tar_plan(
   
   # Load and wrangle data ---------------------------------------------------
   
-  tar_file(file_demog, here("data", "Ha_survey_pre_submission.csv")),
-  tar_file(file_clim, here("data", "xavier_daily_0.25x0.25.csv")),
-  tar_file(file_1998, here("data", "ha_size_data_1998_cor.csv")),
-  tar_file(file_2008, here("data", "Heliconia_acuminata_seedset_2008.csv")),
+  tar_file(file_demog, here("data", "Ha_survey_pre_submission.csv"), deployment = "main"),
+  tar_file(file_clim, here("data", "xavier_daily_0.25x0.25.csv"), deployment = "main"),
+  tar_file(file_1998, here("data", "ha_size_data_1998_cor.csv"), deployment = "main"),
+  tar_file(file_2008, here("data", "Heliconia_acuminata_seedset_2008.csv"), deployment = "main"),
   
   demog = read_wrangle_demog(file_demog),
   clim = read_wrangle_clim(file_clim),
@@ -175,18 +175,19 @@ tar_plan(
 # Lambdas -----------------------------------------------------------------
 
   # bootstrapping
+#TODO: add tar_rep() for stochastic and dlnm models
   tar_rep(
     lambda_bt_det_ff,
     ipm_boot_det(data_full, vit_other = vit_other_ff, habitat = "1-ha"),
-    batches = 2, #number of branches to create
-    reps = 15 #reps per branch
+    batches = 5, #number of branches to create
+    reps = 100 #reps per branch
   ),
 
   tar_rep(
     lambda_bt_det_cf,
     ipm_boot_det(data_full, vit_other = vit_other_cf, habitat = "CF"),
-    batches = 2, #number of branches to create
-    reps = 15 #reps per branch
+    batches = 5, #number of branches to create
+    reps = 100 #reps per branch
   ),
 
 #TODO: edit this function to use `calc_ci()` to get estimate, lower, upper
