@@ -172,10 +172,8 @@ tar_plan(
     vit_list_stoch_ff
   ),
 
-# Lambdas -----------------------------------------------------------------
+# Bootstrapped Lambdas -----------------------------------------------------------------
 
-  # bootstrapping
-#TODO: add tar_rep() for stochastic and dlnm models
   tar_rep(
     lambda_bt_det_ff,
     ipm_boot_det(data_full, vit_other = vit_other_ff, habitat = "1-ha"),
@@ -204,15 +202,35 @@ tar_plan(
     reps = 100
   ),
 
-#TODO: edit this function to use `calc_ci()` to get estimate, lower, upper
-  lambda_tbl_df = make_lambda_tbl(
-    ipm_det_cf,
-    ipm_det_ff,
-    ipm_stoch_cf,
-    ipm_stoch_ff,
-    ipm_dlnm_cf,
-    ipm_dlnm_ff
+  tar_rep(
+    lambda_bt_dlnm_ff,
+    ipm_boot_dlnm(data_full, vit_other = vit_other_ff, habitat = "1-ha", clim = clim),
+    batches = 5,
+    reps = 100
   ),
+  
+  tar_rep(
+    lambda_bt_dlnm_cf,
+    ipm_boot_dlnm(data_full, vit_other = vit_other_cf, habitat = "CF", clim = clim),
+    batches = 5,
+    reps = 100
+  ),
+
+  tar_target(
+    lambda_df,
+    list(
+      det_ff = lambda_bt_det_ff,
+      det_cf = lambda_bt_det_cf,
+      stoch_ff = lambda_bt_stoch_ff,
+      stoch_cf = lambda_bt_stoch_cf,
+      dlnm_ff = lambda_bt_dlnm_ff,
+      dlnm_cf = lambda_bt_dlnm_cf
+    ) %>% 
+      map_df(calc_ci, .id = "model") %>% 
+      separate(model, into = c("ipm", "habitat")),
+    deployment = "main"
+  ),
+
   # Manuscript --------------------------------------------------------------
   tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown")
 ) %>% 
