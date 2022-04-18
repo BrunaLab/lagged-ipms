@@ -1,8 +1,9 @@
 #performance optimization
 library(targets)
+library(tidyverse)
 library(mgcv)
 library(tictoc)
-
+conflict_prefer("filter", "dplyr")
 df <- tar_read(data_full) %>% filter(habitat == "CF", sdlg_prev == FALSE)
 
 # gam(), REML
@@ -34,12 +35,19 @@ m2 <-
     method = "fREML"
   )
 toc()
-#132.61 sec elapsed
+#99.156 sec elapsed
 
 tic()
 predict(m2)
 toc()
-# 9.04 sec elapsed
+mean(c(6.806, 6.685, 6.8))
+# 6.763 sec elapsed
+
+tic()
+predict(m2, newdata.guaranteed = TRUE)
+toc()
+mean(c(6.456, 6.671, 6.851))
+#6.659 sec elapsed
 
 # gam(), REML, optimizer = "bfgs"
 tic()
@@ -118,3 +126,6 @@ mean(c(1.489, 1.246, 1.131))
 # 1.289 sec elapsed
 
 #damn!
+
+
+

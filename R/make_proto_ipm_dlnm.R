@@ -18,6 +18,7 @@ make_proto_ipm_dlnm <- function(data_list) {
                     newdata = tibble(log_size_prev = log_size_1,
                                      L = matrix(0:36, nrow = 1),
                                      spei_history = spei_history),
+                    newdata.guaranteed = TRUE,
                     type = 'response'),
       # Growth
       G_z1z = dt.scaled(
@@ -30,6 +31,7 @@ make_proto_ipm_dlnm <- function(data_list) {
                         newdata = tibble(log_size_prev = log_size_1,
                                          L = matrix(0:36, nrow = 1),
                                          spei_history = spei_history),
+                        newdata.guaranteed = TRUE,
                         type = 'response'),
       size_nu = get_scat_params(vit_size)["nu"],
       size_sd = get_scat_params(vit_size)["sd"],
@@ -51,6 +53,7 @@ make_proto_ipm_dlnm <- function(data_list) {
                     newdata = tibble(log_size_prev = log_size_1,
                                      L = matrix(0:36, nrow = 1),
                                      spei_history = spei_history),
+                    newdata.guaranteed = TRUE,
                     type = 'response'),
       fruits = predict(vit_fruits,
                        newdata = tibble(log_size_prev = log_size_1),
@@ -78,7 +81,8 @@ make_proto_ipm_dlnm <- function(data_list) {
       family = "DC",
       s_sdlg = predict(vit_surv_sdlg,
                        newdata = tibble(L = matrix(0:36, nrow = 1),
-                                        spei_history = spei_history)),
+                                        spei_history = spei_history),
+                       newdata.guaranteed = TRUE),
       G_z2_sdlg = dt.scaled(
         x    = log_size_2,
         df   = size_sdlg_nu,
@@ -87,7 +91,8 @@ make_proto_ipm_dlnm <- function(data_list) {
       ),
       size_sdlg_mu = predict(vit_size_sdlg,
                              newdata = tibble(L = matrix(0:36, nrow = 1),
-                                              spei_history = spei_history)), 
+                                              spei_history = spei_history),
+                             newdata.guaranteed = TRUE), 
       size_sdlg_nu = get_scat_params(vit_size_sdlg)["nu"],
       size_sdlg_sd = get_scat_params(vit_size_sdlg)["sd"],
       
