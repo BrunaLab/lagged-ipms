@@ -35,7 +35,7 @@ ipm_boot_stoch <- function(data, vit_other, habitat = c("1-ha", "CF")) {
   
   #make IPM
   make_proto_ipm_stoch(vit_list_stoch) %>% 
-    make_ipm(iterations = 1000,  #only needs 100 to converge
+    make_ipm(iterations = 1000,  
              normalize_pop_size = TRUE,
              usr_funs = list(get_scat_params = get_scat_params)
     ) %>% 
