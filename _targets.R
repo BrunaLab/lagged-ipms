@@ -136,7 +136,7 @@ tar_plan(
   
   proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff),
   ipm_dlnm_ff = proto_ipm_dlnm_ff %>%
-    make_dlnm_ipm(clim, seed = 1234, iterations = 500,
+    make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
                   return_sub_kernels = FALSE, # don't save every iteration
                   normalize_pop_size = FALSE, # to run as PVA
                   usr_funs = list(get_scat_params = get_scat_params)),
@@ -154,7 +154,7 @@ tar_plan(
   
   proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf),
   ipm_dlnm_cf = proto_ipm_dlnm_cf %>%
-    make_dlnm_ipm(clim, seed = 1234, iterations = 500,
+    make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
                   return_sub_kernels = FALSE, # don't save every iteration
                   normalize_pop_size = FALSE, # to run as PVA
                   report_progress = TRUE,
@@ -202,18 +202,20 @@ tar_plan(
     reps = 100
   ),
 
+
+# for these I use more batches, fewer reps because each rep is like an hour.  That way I can make incremental progress easier.
   tar_rep(
     lambda_bt_dlnm_ff,
     ipm_boot_dlnm(data_full, vit_other = vit_other_ff, habitat = "1-ha", clim = clim),
-    batches = 5,
-    reps = 100
+    batches = 500,
+    reps = 1
   ),
-  
+
   tar_rep(
     lambda_bt_dlnm_cf,
     ipm_boot_dlnm(data_full, vit_other = vit_other_cf, habitat = "CF", clim = clim),
-    batches = 5,
-    reps = 100
+    batches = 500,
+    reps = 1
   ),
 
   tar_target(
@@ -225,11 +227,12 @@ tar_plan(
       stoch_cf = lambda_bt_stoch_cf,
       dlnm_ff = lambda_bt_dlnm_ff,
       dlnm_cf = lambda_bt_dlnm_cf
-    ) %>% 
-      map_df(calc_ci, .id = "model") %>% 
+    ) %>%
+      map_df(calc_ci, .id = "model") %>%
       separate(model, into = c("ipm", "habitat")),
     deployment = "main"
   ),
+
 
   # Manuscript --------------------------------------------------------------
   tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown")

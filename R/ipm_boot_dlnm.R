@@ -12,7 +12,7 @@
 #'
 #' @return lambda
 #' 
-ipm_boot_dlnm <- function(data, vit_other, habitat = c("1-ha", "CF"), clim) {
+ipm_boot_dlnm_raw <- function(data, vit_other, habitat = c("1-ha", "CF"), clim) {
   #sample ha_id_numbers with replacement within plots
   boot_ids <-
     data %>% 
@@ -44,6 +44,7 @@ ipm_boot_dlnm <- function(data, vit_other, habitat = c("1-ha", "CF"), clim) {
     ipmr::lambda(log = FALSE)
   
 }
-
+#return NA if errors in fitting or iterating IPM
+ipm_boot_dlnm <- purrr::possibly(ipm_boot_dlnm_raw, otherwise = NA_real_)
 
 
