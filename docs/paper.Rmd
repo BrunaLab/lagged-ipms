@@ -93,7 +93,7 @@ Abstract text.
 
 Ultimately, we built and iterated three types of IPMs which each required different underlying vital rate model structure.
 For all models, we used the long term demographic dataset for modeling survival, growth, and flowering.
-For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in R [@rcoreteam2020].
+For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020].
 Seedlings were considered a separate discrete class not structured by size.
 For consistency, seedling survival and growth were also modeled using GAMs, but without size in the previous census as a predictor.
 For growth models, a scaled t family distribution provided a better fit to the data than a gaussian fit as the residuals were leptokurtic with a simple gaussian model.
@@ -107,7 +107,7 @@ These models were used to build a general, density-independent, deterministic IP
 For the second approach, we included environmental stochasticity by adding a random intercept for year to all vital rate models built with the long term demographic dataset.
 Then, we used these models to build general, density independent, stochastic, kernel-resampled IPMs.
 The kernel-resampling approach is to generate kernels for each year of data, using the random intercepts for year, and to iterate the IPM by drawing from these randomly.
-This is equivalent to "matrix shuffling" approach in matrix population models [@caswell2001] <!--# I'm not actually sure that Caswell calls it "matrix shuffling" -->.
+This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.
 
 For the third method, we modeled the impacts of drought on vital rates explicitly.
 We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016].
@@ -119,11 +119,12 @@ These values are then used to predict fitted values from the vital rates models,
 With this method, these kernels are not entirely independent because the SPEI from the previous two iterations is included in the vital rates underlying each kernel.
 
 All IPMs were constructed and iterated with the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
-We iterated all IPMs for 1000 iterations and checked for convergence of the population growth rate, lambda.
-Stochastic growth rates ($\lambda_s$) were calculated as the mean of $ln(\lambda)$ from each iteration and back-transformed to be on the same scale as deterministic lambdas for comparison <!--# could replace entirely with an equation -->.
-To calculate 95% confidence intervals around the growth rates, we bootstrapped plants in the 10 year demographic dataset within each habitat type 1000 times.
-For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and iterated them 1000 times to calculate lambda.
+For each type of IPM we iterated the model for 1000 time steps, discarding the first 100 time steps to omit transient effects.
+Stochastic growth rates ($\lambda_s$) were calculated as the average $ln(\lambda)$ from each time step [@caswell2001] and back-transformed to be on the same scale as deterministic lambdas for comparison.
+<!--# should  mention starting population vector here.  Observed population could be a reasonable starting point.  Emphasize that choice of starting vector should only impact transient dynamics, which we're not interested in here. -->
 
+To calculate 95% confidence intervals around the per-capita growth rates (lambdas), we created 1000 bootstraps of the 10 year demographic dataset by sampling individual plants with replacement within each habitat.
+For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and calculated a value for lambda as described above.
 This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.
 
 # Results
@@ -131,6 +132,7 @@ This workflow was managed using the `targets` R package [@targets] which also al
 For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (Table \@ref(tab:aic)).
 
 Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (Table \@ref(tab:lambdas)).
+Similar to @kayeEffectStochasticTechnique2003 finding that method effected stochastic lambda, but relative ranking of populations was consistent.
 
 # Discussion
 
