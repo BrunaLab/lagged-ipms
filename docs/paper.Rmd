@@ -111,14 +111,14 @@ This is equivalent to "matrix shuffling" approach in matrix population models [@
 
 For the third method, we modeled the impacts of drought on vital rates explicitly.
 We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016].
-We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months[@scottDelayedEffectsClimate2022].
+We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
 Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM.
 To iterate such an IPM, a random sequence of SPEI values is created by re-sampling the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
 These values are then used to predict fitted values from the vital rates models, generating different kernels at each iteration of the IPM.
 With this method, these kernels are not entirely independent because the SPEI from the previous two iterations is included in the vital rates underlying each kernel.
 
-All IPMs were constructed and iterated with the `ipmr` package in R [@ipmr].
+All IPMs were constructed and iterated with the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
 We iterated all IPMs for 1000 iterations and checked for convergence of the population growth rate, lambda.
 Stochastic growth rates ($\lambda_s$) were calculated as the mean of $ln(\lambda)$ from each iteration and back-transformed to be on the same scale as deterministic lambdas for comparison <!--# could replace entirely with an equation -->.
 To calculate 95% confidence intervals around the growth rates, we bootstrapped plants in the 10 year demographic dataset within each habitat type 1000 times.
@@ -128,7 +128,7 @@ This workflow was managed using the `targets` R package [@targets] which also al
 
 # Results
 
-For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best.
+For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (Table \@ref(tab:aic))
 
 -   table of vital rate models.
     Which vital rate, which IPM, ∆AIC, model edf.
@@ -138,9 +138,6 @@ For all vital rates estimated using the long term demographic dataset, the DLNM 
 
 -   figure of PVA??
     Conceptual diagram instead?
-
-A reference to Table \@ref(tab:example-table).
-A reference to Figure \@ref(fig:example-figure).
 
 # Discussion
 
@@ -168,12 +165,12 @@ Data and R code used in this study are archived with Zenodo at <doi url>.
 library(pander)
 ```
 
-```{r example-table, results='asis'}
+```{r aic, results='asis'}
 pandoc.table(
-  head(iris),
-  justify = c("right", "right", "right", "right", "left"),
+  tar_read(aic_tbl_df),
+  justify = c("left", "left", "left", "right", "right", "right"),
   full_width = FALSE,
-  caption = "(\\#tab:example-table) A table must include the table tag in order to cross-reference it correctly."
+  caption = "(\\#tab:aic) Comparison of vital rate models for deterministic, stochastic kernel-resampled, and stochastic parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM."
 )
 ```
 
