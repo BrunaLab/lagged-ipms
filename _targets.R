@@ -9,7 +9,7 @@ options(
   clustermq.scheduler = "ssh",
   clustermq.template = "ssh_clustermq.tmpl", #custom SSH template to use R 4.0
   clustermq.ssh.host = "hpg", #set up in ~/.ssh/config.
-  clustermq.ssh.timeout = 30, #longer timeout helps with 2FA
+  clustermq.ssh.timeout = 60, #longer timeout helps with 2FA
   clustermq.ssh.log = "~/cmq_ssh.log" # log for easier debugging
 )
 
@@ -137,8 +137,7 @@ tar_plan(
   proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff),
   ipm_dlnm_ff = proto_ipm_dlnm_ff %>%
     make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
-                  return_sub_kernels = FALSE, # don't save every iteration
-                  normalize_pop_size = FALSE, # to run as PVA
+                  return_main_env = FALSE, # don't save iteration mesh and other stuff
                   usr_funs = list(get_scat_params = get_scat_params)),
   
   ## continuous forest
@@ -155,9 +154,7 @@ tar_plan(
   proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf),
   ipm_dlnm_cf = proto_ipm_dlnm_cf %>%
     make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
-                  return_sub_kernels = FALSE, # don't save every iteration
-                  normalize_pop_size = FALSE, # to run as PVA
-                  report_progress = TRUE,
+                  return_main_env = FALSE, # don't save iteration mesh and other stuff
                   usr_funs = list(get_scat_params = get_scat_params)),
   
   
@@ -204,33 +201,41 @@ tar_plan(
 
 
 # for these I use more batches, fewer reps because each rep is like an hour.  That way I can make incremental progress easier.
-  tar_rep(
-    lambda_bt_dlnm_ff,
-    ipm_boot_dlnm(data_full, vit_other = vit_other_ff, habitat = "1-ha", clim = clim),
-    batches = 500,
-    reps = 1
-  ),
-
-  tar_rep(
-    lambda_bt_dlnm_cf,
-    ipm_boot_dlnm(data_full, vit_other = vit_other_cf, habitat = "CF", clim = clim),
-    batches = 500,
-    reps = 1
-  ),
+  # tar_rep(
+  #   lambda_bt_dlnm_ff,
+  #   ipm_boot_dlnm(data_full, vit_other = vit_other_ff, habitat = "1-ha", clim = clim),
+  #   batches = 500,
+  #   reps = 1
+  # ),
+  # 
+  # tar_rep(
+  #   lambda_bt_dlnm_cf,
+  #   ipm_boot_dlnm(data_full, vit_other = vit_other_cf, habitat = "CF", clim = clim),
+  #   batches = 500,
+  #   reps = 1
+  # ),
 
   tar_target(
-    lambda_df,
-    list(
-      det_ff = lambda_bt_det_ff,
-      det_cf = lambda_bt_det_cf,
-      stoch_ff = lambda_bt_stoch_ff,
-      stoch_cf = lambda_bt_stoch_cf,
-      dlnm_ff = lambda_bt_dlnm_ff,
-      dlnm_cf = lambda_bt_dlnm_cf
-    ) %>%
-      map_df(calc_ci, .id = "model") %>%
-      separate(model, into = c("ipm", "habitat")),
-    deployment = "main"
+    lambda_table,
+    make_lambda_table(
+      ipm_list = list(
+        det_ff = ipm_det_ff,
+        det_cf = ipm_det_cf,
+        stoch_ff = ipm_stoch_ff,
+        stoch_cf = ipm_stoch_cf#,
+        # dlnm_ff = ipm_dlnm_ff,
+        # dlnm_cf = ipm_dlnm_cf
+      ),
+      bt_list = list(
+        det_ff = lambda_bt_det_ff,
+        det_cf = lambda_bt_det_cf,
+        stoch_ff = lambda_bt_stoch_ff,
+        stoch_cf = lambda_bt_stoch_cf#,
+        # dlnm_ff = lambda_bt_dlnm_ff,
+        # dlnm_cf = lambda_bt_dlnm_cf
+      )
+    ),
+    deployment = "main" #data limited, not computation limited
   ),
 
 
