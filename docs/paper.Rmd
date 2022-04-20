@@ -87,30 +87,48 @@ Abstract text.
 
 # Methods
 
+## Demographic Data
+
 ## Modeling vital rates
 
-Used 10 yr demographic dataset for modeling post-seedling survival, growth, and flowering; seedling survival and growth.
-For post-seedlings, all vital rates were modeled as a smooth function of log(size_t) using a penalized spline in generalized additive models (GAMs) using the `mgcv` package [@mgcv].
+Ultimately, we built and iterated three types of IPMs which each required different underlying vital rate model structure.
+For all models, we used the long term demographic dataset for modeling survival, growth, and flowering.
+For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in R [@rcoreteam2020].
+Seedlings were considered a separate discrete class not structured by size.
+For consistency, seedling survival and growth were also modeled using GAMs, but without size in the previous census as a predictor.
+For growth models, a scaled t family distribution provided a better fit to the data than a gaussian fit as the residuals were leptokurtic with a simple gaussian model.
 
--   Where the rest of the fecundity data comes from
+To estimate reproduction we drew on additional data sources to estimate the number of fruits per flowering plant as a function of plant size, the number of seeds per fruit, and germination and establishment rates in continuous forest and forest fragments.
+<!--# Emilio: add more info here -->
 
-For stochastic IPMs, we took two approaches.
-In the first approach, we added a random intercept for year to all post-seedling vital rates GAMs, when supported by the data (i.e. p-value for random effect \< 0.05) <!--# something about how you can actually use p-values for random effects fit with mgcv -->.
-Then, we used kernel-resampled ipms to generate kernels for each year of data and iterate the IPM by drawing from these randomly.
-Equivalent to "matrix shuffling" approach in matrix population models (CITATION).
-In the second approach, we modeled the impacts of the environment on vital rates explicitly.
-We calculated the standardized precipitation evapotranspiraion index (SPEI).
-We modeled effects of SPEI on post-seedling survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines [@scottDelayedEffectsClimate2022].
-Then these models were incorporated into a parameter-resampled IPM.
+These models were used to build a general, density-independent, deterministic IPM with four sub-kernels: growth and survival, reproduction, probability of staying a seedling (always = 0), and seedling survival and establishment.
+<!--# include equation --> The seedling bank, or probability of staying a seedling, was always equal to zero, but was required <!--# for reasons? -->.
+
+For the second approach, we included environmental stochasticity by adding a random intercept for year to all vital rate models built with the long term demographic dataset.
+Then, we used these models to build general, density independent, stochastic, kernel-resampled IPMs.
+The kernel-resampling approach is to generate kernels for each year of data, using the random intercepts for year, and to iterate the IPM by drawing from these randomly.
+This is equivalent to "matrix shuffling" approach in matrix population models [@caswell2001] <!--# I'm not actually sure that Caswell calls it "matrix shuffling" -->.
+
+For the third method, we modeled the impacts of drought on vital rates explicitly.
+We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016].
+We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months[@scottDelayedEffectsClimate2022].
+Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM.
 To iterate such an IPM, a random sequence of SPEI values is created by re-sampling the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
-These values are then used to iterate the IPM.
+These values are then used to predict fitted values from the vital rates models, generating different kernels at each iteration of the IPM.
+With this method, these kernels are not entirely independent because the SPEI from the previous two iterations is included in the vital rates underlying each kernel.
 
-IPMs built and iterated with the `ipmr` package [@ipmr].
+All IPMs were constructed and iterated with the `ipmr` package in R [@ipmr].
+We iterated all IPMs for 1000 iterations and checked for convergence of the population growth rate, lambda.
+Stochastic growth rates ($\lambda_s$) were calculated as the mean of $ln(\lambda)$ from each iteration and back-transformed to be on the same scale as deterministic lambdas for comparison <!--# could replace entirely with an equation -->.
+To calculate 95% confidence intervals around the growth rates, we bootstrapped plants in the 10 year demographic dataset within each habitat type 1000 times.
+For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and iterated them 1000 times to calculate lambda.
 
-Use fitted_samples() for bootsrapping CIs around lambda?
+This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.
 
 # Results
+
+For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best.
 
 -   table of vital rate models.
     Which vital rate, which IPM, ∆AIC, model edf.
