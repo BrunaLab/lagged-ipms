@@ -128,16 +128,9 @@ This workflow was managed using the `targets` R package [@targets] which also al
 
 # Results
 
-For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (Table \@ref(tab:aic))
+For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (Table \@ref(tab:aic)).
 
--   table of vital rate models.
-    Which vital rate, which IPM, ∆AIC, model edf.
-
--   table of lambdas.
-    2 habitats x 3 (4?) IPMs
-
--   figure of PVA??
-    Conceptual diagram instead?
+Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (Table \@ref(tab:lambdas)).
 
 # Discussion
 
@@ -177,6 +170,18 @@ pandoc.table(
 )
 ```
 
+```{r lambdas, results='asis'}
+pandoc.table(
+  tar_read(lambda_table),
+  digits = 5,
+  keep.trailing.zeros = TRUE,
+  justify = c("left", "left", "right", "right", "right", "right"),
+  full_width = FALSE,
+  caption = "(\\#tab:lambda) Population growth rates for continuous forest (cf) and forest fragments (ff) under different kinds of IPMs with bootstrapped 95% confidence intervals."
+)
+
+```
+
 # Figures
 
 ```{r}
@@ -185,6 +190,9 @@ pandoc.table(
 #|   lines like this."
 plot(cars)
 ```
+
+Some kind of conceptual diagram of the methods?
+The life cycle diagram with equations on it?
 
 # References
 
