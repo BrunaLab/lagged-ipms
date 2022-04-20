@@ -69,11 +69,11 @@ size_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
     dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
   
-  bam(
+  gam(
     log_size ~ 1 + s(year_fct, bs = "re"),
     family = scat,
     data = df,
-    method = "fREML"
+    method = "REML"
   )
 }
 
@@ -84,11 +84,11 @@ surv_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
   df <- data %>%
     filter(sdlg_prev == sdlg, habitat == habitat_choice)
   
-  bam(
+  gam(
     surv ~ 1 + s(year_fct, bs = "re"),
     family = binomial,
     data = df,
-    method = "fREML"
+    method = "REML"
   )
 }
 

@@ -49,7 +49,7 @@ flwr_det <- function(data, habitat = c("CF", "1-ha")) {
     dplyr::filter(surv == 1, !is.na(log_size))
   
   bam(
-    flwr ~ s(log_size_prev, bs = "cr", k = 15),
+    flwr ~ s(log_size_prev, bs = "cr", k = 20),
     family = binomial, 
     data = df,
     method = "fREML"
