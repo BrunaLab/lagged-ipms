@@ -153,6 +153,9 @@ The authors declare no conflicts of interest.
 
 <!--# https://casrai.org/credit/ -->
 
+ERS contributed to the conceptualization, methodology, formal analysis, and led the writing of the original draft.
+EMB contributed to the conceptualization, methodology, and writing and also acquired funding.
+
 # Data Availability Statement
 
 Data and R code used in this study are archived with Zenodo at <doi url>.
