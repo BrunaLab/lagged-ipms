@@ -9,7 +9,7 @@ options(
   clustermq.scheduler = "ssh",
   clustermq.template = "ssh_clustermq.tmpl", #custom SSH template to use R 4.0
   clustermq.ssh.host = "hpg", #set up in ~/.ssh/config.
-  clustermq.ssh.timeout = 60, #longer timeout helps with 2FA
+  clustermq.ssh.timeout = 80, #longer timeout helps with 2FA
   clustermq.ssh.log = "~/cmq_ssh.log" # log for easier debugging
 )
 
@@ -134,11 +134,24 @@ tar_plan(
     ),
     vit_other_ff),
   
+  # Unfortunately, I think the dlnm IPMs need to be run locally (deployment =
+  # "main") because otherwise it times out when trying to pass the resulting
+  # object back to the local session from the HPC.
+  
   proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff),
-  ipm_dlnm_ff = proto_ipm_dlnm_ff %>%
-    make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
-                  return_main_env = FALSE, # don't save iteration mesh and other stuff
-                  usr_funs = list(get_scat_params = get_scat_params)),
+  tar_target(
+    ipm_dlnm_ff,
+    proto_ipm_dlnm_ff %>%
+      make_dlnm_ipm(
+        clim,
+        seed = 1234,
+        iterations = 1000,
+        return_main_env = FALSE,
+        # don't save iteration mesh and other stuff
+        usr_funs = list(get_scat_params = get_scat_params)
+      ),
+    deployment = "main"
+  ), 
   
   ## continuous forest
   vit_list_dlnm_cf = c(
@@ -152,10 +165,19 @@ tar_plan(
     vit_other_cf),
   
   proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf),
-  ipm_dlnm_cf = proto_ipm_dlnm_cf %>%
-    make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
-                  return_main_env = FALSE, # don't save iteration mesh and other stuff
-                  usr_funs = list(get_scat_params = get_scat_params)),
+  tar_target(
+    ipm_dlnm_cf,
+    proto_ipm_dlnm_cf %>%
+      make_dlnm_ipm(
+        clim,
+        seed = 1234,
+        iterations = 1000,
+        return_main_env = FALSE,
+        # don't save iteration mesh and other stuff
+        usr_funs = list(get_scat_params = get_scat_params)
+      ),
+    deployment = "main"
+  ), 
   
   
   # Model Selection Table ---------------------------------------------------
@@ -222,9 +244,9 @@ tar_plan(
         det_ff = ipm_det_ff,
         det_cf = ipm_det_cf,
         stoch_ff = ipm_stoch_ff,
-        stoch_cf = ipm_stoch_cf#,
-        # dlnm_ff = ipm_dlnm_ff,
-        # dlnm_cf = ipm_dlnm_cf
+        stoch_cf = ipm_stoch_cf,
+        dlnm_ff = ipm_dlnm_ff,
+        dlnm_cf = ipm_dlnm_cf
       ),
       bt_list = list(
         det_ff = lambda_bt_det_ff,
