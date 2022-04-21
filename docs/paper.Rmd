@@ -91,6 +91,19 @@ Abstract text.
 
 ## Modeling vital rates
 
+\<!-
+-# TODO:
+
+-   Mention number of meshpoints
+
+-   Add info about starting pop vector for IPMs
+
+-   Add equations / figures
+
+-   Add info about additional datasets (Emilio)
+
+--\>
+
 Ultimately, we built and iterated three types of IPMs which each required different underlying vital rate model structure.
 For all models, we used the long term demographic dataset for modeling survival, growth, and flowering.
 For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020].
