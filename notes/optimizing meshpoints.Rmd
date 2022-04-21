@@ -1,0 +1,115 @@
+---
+title: "Meshpoint optimization"
+author: "Eric R. Scott"
+date: "2022-04-21"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+    highlight: kate
+    theme:
+      version: 4
+      bootswatch: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(metRology)
+library(targets)
+library(ipmr)
+
+library(conflicted)
+source(here("R", "make_proto_ipm_det.R"))
+source(here("R", "make_proto_ipm_stoch.R"))
+source(here("R", "get_scat_params.R"))
+
+conflict_prefer("lag", "dplyr")
+conflict_prefer("filter", "dplyr")
+```
+
+*Last compiled: `r Sys.Date()`*
+
+# Purpose
+
+To figure out the minimum number of meshpoints needed to accurately (precisely?) model population growth.
+
+# Load Data
+
+```{r data, echo=TRUE}
+tar_load(vit_list_det_ff)
+tar_load(vit_list_stoch_ff)
+```
+
+# Make proto IPM
+
+```{r}
+proto_det <- make_proto_ipm_det(vit_list_det_ff)
+```
+
+# Alter meshpoints
+
+Ok, so let's alter the number of meshpoints systematically and see where lambda converges
+
+```{r}
+proto_det_list <- 
+  seq(20, 150, 5) %>% 
+  map(~{
+    proto_det %>% 
+    define_domains(log_size = c(0, 8.018296, .x)) %>%  
+    #arbitrary starting population state
+    define_pop_state(n_log_size = runif(.x), n_sdlg = .1)
+  })
+lambdas_det <- proto_det_list %>% 
+  map_dbl(~make_ipm(.x, usr_funs = list(get_scat_params = get_scat_params)) %>% lambda())
+
+plot(x =seq(20, 150, 5), y = lambdas_det, ylab = "lambda", xlab = "meshpoints")
+```
+
+Looks like 100 is probably the best.
+Could *maybe* do 80.
+
+# Stochastic IPM
+
+Let's try with stochastic IPM.
+
+```{r}
+proto_stoch <- make_proto_ipm_stoch(vit_list_stoch_ff)
+```
+
+```{r}
+year_seq <- sample(2000:2009, 100, replace = TRUE)
+
+proto_stoch_list <- 
+  seq(60, 120, 10) %>%
+  map(~{
+    proto_stoch %>% 
+    define_domains(log_size = c(0, 8.018296, .x)) %>%  
+    #arbitrary starting population state
+    define_pop_state(n_log_size = runif(.x), n_sdlg = .1)
+  })
+
+# make_ipm(proto_stoch_list[[1]],
+#          iterations = 100,
+#          kernel_seq = year_seq,
+#          usr_funs = list(get_scat_params = get_scat_params))
+```
+
+###Note:
+
+This currently isn't working because of a bug in `ipmr` that causes `make_ipm()` to hang when `kernel_seq` is supplied <https://github.com/levisc8/ipmr/issues/58>
+
+```{r}
+lambdas_stoch <-
+  proto_stoch_list %>%
+  map_dbl( ~ make_ipm(
+    .x,
+    iterations = 100,
+    kernel_seq = year_seq,
+    usr_funs = list(get_scat_params = get_scat_params, coef = coef)
+  ) %>% lambda(log = FALSE))
+
+plot(x = seq(60, 120, 10), y = lambdas_stoch, ylab = "stochastic lambda", xlab = "meshpoints")
+```
