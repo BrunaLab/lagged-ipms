@@ -94,6 +94,7 @@ Not clear to me what slope means exactly in this context.
 tic()
 m2 <- bam(
   surv ~ s(log_size_prev, bs = "cr", k = 20) +
+    s(year_fct, bs = "re") +
     s(year_fct, log_size_prev, bs = "re"),
   family = binomial,
     data = df,
@@ -125,7 +126,7 @@ AICtab(m0, m1, m2, m3)
 ```
 
 The last one fits the data best, but also takes the longest to fit.
-m2 is not far off with a dAIC of 5.
+m2 is not far off with a dAIC of 6.8.
 
 This is what the fitted values look like
 
@@ -148,4 +149,37 @@ p0 + p1 + p2 + p3 &
   labs(y = ".fitted") &
   theme(legend.position = "none") &
   plot_annotation(title = "survival probability")
+```
+
+With newdata to better reflect what the IPM is doing under the hood:
+
+```{r}
+newdata <- expand.grid(
+  log_size_prev = seq(min(df$log_size_prev), max(df$log_size_prev), length.out = 50),
+  year_fct = unique(df$year_fct)
+)
+
+fitted_newdf<- list(m0 = m0, m1 = m1, m2 = m2, m3 = m3) %>% 
+  map_dfc(~predict(.x, newdata = newdata, type = "response")) %>% 
+  bind_cols(newdata)
+
+p0 <- ggplot(fitted_newdf, aes(x = log_size_prev)) +
+  geom_line(aes(y = m0)) +
+  labs(title = "no random effect")
+p1 <- ggplot(fitted_newdf, aes(x = log_size_prev)) +
+  geom_line(aes(y = m1, color = year_fct)) +
+  labs(title = "random intercept")
+p2 <- ggplot(fitted_newdf, aes(x = log_size_prev)) +
+  geom_line(aes(y = m2, color = year_fct)) +
+  labs(title = "random intercept and slope")
+p3 <- ggplot(fitted_newdf, aes(x = log_size_prev)) +
+  geom_line(aes(y = m3, color = year_fct)) +
+  labs(title = "random shape")
+```
+
+```{r}
+p0 + p1 + p2 + p3 &
+  labs(y = ".fitted") &
+  theme(legend.position = "none") &
+  plot_annotation(title = "survival probability") & ylim(0,1)
 ```
