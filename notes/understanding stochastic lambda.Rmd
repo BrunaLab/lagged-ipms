@@ -1,0 +1,297 @@
+---
+title: "Why is Stochastic Lambda > Deterministic?"
+author: "Eric R. Scott"
+date: "2022-04-21"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+    highlight: kate
+    theme:
+      version: 4
+      bootswatch: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(conflicted)
+
+conflict_prefer("lag", "dplyr")
+conflict_prefer("filter", "dplyr")
+```
+
+*Last compiled: `r Sys.Date()`*
+
+# Purpose
+
+Figure out what the heck is going on.
+
+# Load Data
+
+```{r include=FALSE}
+## Load your packages, e.g. library(targets).
+source(here("packages.R"))
+
+## Load your R files
+lapply(list.files(here("R"), full.names = TRUE), source)
+
+withr::with_dir(here(),{
+  tar_load(data_full)
+  tar_load(vit_other_ff)
+})
+```
+
+# Pick two years, worst and best
+
+Fit determinsitic IPMs to all years separately to identify a bad year and a good year.
+Then subset data to only contain those years
+
+```{r warning=FALSE}
+lambdas <- data_full %>%
+  filter(year>1998) %>% 
+  group_by(year_fct) %>% 
+  group_split() %>% 
+  map_dbl(~{
+    vit_list_det_ff = c(
+      list(
+        vit_surv = surv_det(.x, habitat = "1-ha"),
+        vit_size = size_det(.x, habitat = "1-ha"),
+        vit_flwr = flwr_det(.x, habitat = "1-ha"),
+        vit_size_sdlg = size_sdlg_det(.x, habitat = "1-ha"),
+        vit_surv_sdlg = surv_sdlg_det(.x, habitat = "1-ha")
+      ),
+      vit_other_ff)
+    
+    make_proto_ipm_det(vit_list_det_ff) %>% 
+      make_ipm(iterations = 1000,  #only needs 100 to converge
+               normalize_pop_size = FALSE, # to run as PVA
+               usr_funs = list(get_scat_params = get_scat_params)) %>% lambda()
+  })
+worst_year <- c(1999:max(data_full$year))[which.min(lambdas)]; min(lambdas)
+best_year <- c(1999:max(data_full$year))[which.max(lambdas)]; max(lambdas)
+
+two_yrs <- data_full %>% filter(year %in% c(best_year, worst_year))
+```
+
+# Fit IPMs
+
+## Deterministic
+
+Fit a deterministic IPM with just those two years of data
+
+```{r}
+vit_list_det_ff = c(
+  list(
+    vit_surv = surv_det(two_yrs, habitat = "1-ha"),
+    vit_size = size_det(two_yrs, habitat = "1-ha"),
+    vit_flwr = flwr_det(two_yrs, habitat = "1-ha"),
+    vit_size_sdlg = size_sdlg_det(two_yrs, habitat = "1-ha"),
+    vit_surv_sdlg = surv_sdlg_det(two_yrs, habitat = "1-ha")
+  ),
+  vit_other_ff)
+
+ipm_det_ff = make_proto_ipm_det(vit_list_det_ff) %>% 
+  make_ipm(iterations = 1000,  #only needs 100 to converge
+           normalize_pop_size = FALSE, # to run as PVA
+           usr_funs = list(get_scat_params = get_scat_params))
+lambda(ipm_det_ff)
+```
+
+## Stochastic
+
+The stochastic IPM requires re-writing the proto_ipm function because it's now using different parameter sets for year.
+
+```{r}
+## forets fragments
+vit_list_stoch_ff = c(
+  list(
+    vit_surv = surv_raneff(two_yrs, habitat = "1-ha"),
+    vit_size = size_raneff(two_yrs, habitat = "1-ha"),
+    vit_flwr = flwr_raneff(two_yrs, habitat = "1-ha"),
+    vit_size_sdlg = size_sdlg_raneff(two_yrs, habitat = "1-ha"),
+    vit_surv_sdlg = surv_sdlg_raneff(two_yrs, habitat = "1-ha")
+  ), 
+  vit_other_ff)
+
+proto_ipm_stoch_ff <- 
+  init_ipm(
+    sim_gen = "general",
+    di_dd = "di",
+    det_stoch = "stoch",
+    kern_param = "kern"
+  ) %>% 
+  
+  # Define growth and survival kernel
+  define_kernel(
+    "P_yr", #_yr makes a different P kernel for each value of `yr` from par_set_indices
+    formula = s_z * G_z1z * d_log_size,
+    family  = "CC",
+    # Probability of survival
+    s_z = predict(vit_surv,
+                  newdata = tibble(log_size_prev = log_size_1, year_fct = yr),
+                  type = 'response'),
+    # Growth
+    G_z1z = dt.scaled(
+      log_size_2,
+      df   = size_nu,
+      mean = size_mu,
+      sd   = size_sd
+    ),
+    size_mu = predict(vit_size,
+                      newdata = tibble(log_size_prev = log_size_1, year_fct = yr),
+                      type = 'response'),
+    size_nu = get_scat_params(vit_size)["nu"],
+    size_sd = get_scat_params(vit_size)["sd"],
+    
+    data_list = vit_list_stoch_ff,
+    states          = list(c('log_size')),
+    uses_par_sets   = TRUE,
+    par_set_indices = list(yr = c(2001, 2003)),
+    evict_cor       = TRUE,
+    evict_fun       = truncated_distributions("t.scaled", "G_z1z")
+  ) %>% 
+  
+  # Define fecundity and recruitment kernel
+  define_kernel(
+    "go_sdlg_yr",
+    formula = p_f * fruits * seeds * g_e * d_log_size,
+    family  = "CD",
+    # probability of flowering
+    p_f = predict(vit_flwr,
+                  newdata = tibble(log_size_prev = log_size_1, year_fct = yr),
+                  type = 'response'),
+    fruits = predict(vit_fruits,
+                     newdata = tibble(log_size_prev = log_size_1),
+                     type = 'response'), 
+    seeds = exp(coef(vit_seeds)[1]), #mean seeds per fruit
+    g_e = vit_germ_est,
+    
+    data_list     = vit_list_stoch_ff,
+    states        = list(c('log_size', 'sdlg')),
+    uses_par_sets = TRUE,
+    par_set_indices = list(yr = c(2001, 2003))
+  ) %>% 
+  
+  define_kernel(
+    name = "stay_sdlg",
+    formula = 0,
+    family = "DD",
+    states = list(c("sdlg")),
+    evict_cor = FALSE
+  ) %>% 
+  
+  # Enter into post-seedling
+  define_kernel(
+    name = "leave_sdlg_yr",
+    formula = s_sdlg * G_z2_sdlg,
+    family = "DC",
+    s_sdlg = predict(vit_surv_sdlg,
+                     newdata = tibble(year_fct = yr),
+                     type = 'response'), #intercept from intercept-only glm
+    G_z2_sdlg = dt.scaled(
+      x    = log_size_2,
+      df   = size_sdlg_nu,
+      mean = size_sdlg_mu,
+      sd   = size_sdlg_sd
+    ),
+    size_sdlg_mu = coef(vit_size_sdlg)[1], #intercept from intercept-only glm
+    size_sdlg_nu = get_scat_params(vit_size_sdlg)["nu"],
+    size_sdlg_sd = get_scat_params(vit_size_sdlg)["sd"],
+    
+    data_list = vit_list_stoch_ff,
+    states = list(c("sdlg", "log_size")),
+    uses_par_sets = TRUE,
+    par_set_indices = list(yr = c(2001, 2003)),
+    evict_cor = TRUE,
+    evict_fun = truncated_distributions("t.scaled", "G_z2_sdlg")
+  ) %>% 
+  
+  # define implementation with midpoint rule
+  define_impl(make_impl_args_list(
+    kernel_names = c("P_yr",        "go_sdlg_yr", "stay_sdlg", "leave_sdlg_yr"),
+    int_rule = "midpoint",
+    state_start  = c("log_size", "log_size", "sdlg",     "sdlg"),
+    state_end    = c("log_size", "sdlg",     "sdlg",     "log_size")
+  )) %>% 
+  #define lower bound, upper bound, and number of meshpoints for log_size
+  define_domains(log_size = c(0, 8.018296, 100)) %>%  
+  #arbitrary starting population state
+  define_pop_state(n_log_size = runif(100), n_sdlg = .1)
+```
+
+Iterate IPM
+
+```{r}
+ipm_stoch_ff <- 
+  proto_ipm_stoch_ff %>%
+  make_ipm(iterations = 1000,
+           normalize_pop_size = FALSE, # to run as PVA
+           usr_funs = list(get_scat_params = get_scat_params))
+```
+
+# Investigation
+
+First, with just the worst and best years, is the stochastic lambda still higher than the deterministic?
+
+```{r}
+lambda(ipm_det_ff)
+lambda(ipm_stoch_ff, log = FALSE)
+```
+
+Yes, stochastic lambda is still higher!
+
+What about the averages for each year?
+Are they consistent with a bad and good year?
+
+```{r}
+all_lams <- tibble(year = ipm_stoch_ff$env_seq,
+       lambda = lambda(ipm_stoch_ff, type_lambda = "all")[,1])
+all_lams %>% group_by(year) %>% summarize(mean(lambda)) %>% knitr::kable()
+```
+
+Yes, but both the good and bad years mean lambdas are *greater* than the deterministic lambda.
+
+How do they compare at the level of vital rates?
+
+```{r}
+newdata <- expand.grid(
+  log_size_prev = seq(min(two_yrs$log_size_prev, na.rm = TRUE), max(two_yrs$log_size_prev, na.rm = TRUE), length.out = 50),
+  year_fct = as.character(c(2001, 2003))
+)
+
+safe_predict <- possibly(predict, NA)
+
+det_fitted <- 
+  vit_list_det_ff %>% 
+  map_df(~safe_predict(.x, newdata = newdata, type = "response")) %>% 
+  bind_cols(newdata) %>%
+  select(-vit_fruits, -vit_seeds, -vit_germ_est) %>% 
+  pivot_longer(starts_with("vit_"), names_to = "vital_rate", values_to = ".fitted", names_prefix = "vit_") %>% 
+  mutate(year_fct = "deterministic")
+
+stoch_fitted <- 
+  vit_list_stoch_ff %>%
+  map_df(~safe_predict(.x, newdata= newdata, type = "response")) %>%
+  bind_cols(newdata) %>%
+  select(-vit_fruits, -vit_seeds, -vit_germ_est) %>% 
+  pivot_longer(starts_with("vit_"), names_to = "vital_rate", values_to = ".fitted", names_prefix = "vit_")
+
+bind_rows(stoch_fitted, det_fitted) %>% 
+  ggplot(aes(x = log_size_prev, y = .fitted, color = year_fct)) +
+  geom_line() +
+  facet_wrap(~vital_rate, scales = "free")
+
+```
+
+Hold on.
+Those numbers for size_sdlg don't make sense!
+The mean size a seedling establishes at should be more like 2
+
+```{r}
+two_yrs %>% filter(sdlg_prev == TRUE, !is.na(log_size), habitat== "1-ha") %>% select(-L, -spei_history) %>% pull(log_size) %>% hist()
+data_full %>% filter(ha_id_number == "2") %>% View()
+data_full %>% filter(sdlg_prev == TRUE, !is.na(log_size), habitat == "1-ha") %>% View()
+```
