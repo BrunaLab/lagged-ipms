@@ -3,12 +3,12 @@
 # library(tidyverse)
 # data <- tar_read(data_full)
 
-surv_det <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
+surv_det <- function(data, habitat = c("CF", "1-ha")) {
 
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    filter(sdlg_prev == sdlg, habitat == habitat_choice)
+    filter(sdlg_prev == FALSE, habitat == habitat_choice)
   
   bam(
     surv ~ s(log_size_prev, bs = "cr", k = 20),
@@ -21,12 +21,12 @@ surv_det <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
 # k.check(surv_det(data, habitat = "1-ha"))
 
 
-size_det <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
+size_det <- function(data, habitat = c("CF", "1-ha")) {
   
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
+    dplyr::filter(sdlg_prev == FALSE, habitat == habitat_choice) %>% 
     #only plants that survived get to grow
     dplyr::filter(surv == 1, !is.na(log_size))
   
@@ -58,12 +58,12 @@ flwr_det <- function(data, habitat = c("CF", "1-ha")) {
 # k.check(flwr_det(data))
 # k.check(flwr_det(data, habitat = "1-ha"))
 
-size_sdlg_det <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
+size_sdlg_det <- function(data, habitat = c("CF", "1-ha")) {
   
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
+    dplyr::filter(sdlg_prev == TRUE, habitat == habitat_choice) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
   
   gam(
@@ -74,12 +74,12 @@ size_sdlg_det <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
   )
 }
 
-surv_sdlg_det <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
+surv_sdlg_det <- function(data, habitat = c("CF", "1-ha")) {
   
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    filter(sdlg_prev == sdlg, habitat == habitat_choice)
+    filter(sdlg_prev == TRUE, habitat == habitat_choice)
   
   gam(
     surv ~ 1,

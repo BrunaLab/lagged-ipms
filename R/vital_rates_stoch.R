@@ -3,12 +3,12 @@
 # library(tidyverse)
 # data <- tar_read(data_full)
 
-surv_raneff <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
+surv_raneff <- function(data, habitat = c("CF", "1-ha")) {
   
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    filter(sdlg_prev == sdlg, habitat == habitat_choice)
+    filter(sdlg_prev == FALSE, habitat == habitat_choice)
   
   bam(
     surv ~ s(log_size_prev, bs = "cr", k = 20, m = 2) +
@@ -22,12 +22,12 @@ surv_raneff <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
 # k.check(surv_raneff(data, habitat = "1-ha"))
 
 
-size_raneff <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
+size_raneff <- function(data, habitat = c("CF", "1-ha")) {
   
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
+    dplyr::filter(sdlg_prev == FALSE, habitat == habitat_choice) %>% 
     #only plants that survived get to grow
     dplyr::filter(surv == 1, !is.na(log_size))
   
@@ -44,7 +44,9 @@ size_raneff <- function(data, sdlg = FALSE, habitat = c("CF", "1-ha")) {
 
 
 flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
+  
   habitat_choice <- match.arg(habitat)
+  
   df <- data %>% 
     dplyr::filter(habitat == habitat_choice, sdlg == FALSE) %>% 
     #current seedlings are excluded, but not plants that were seedlings in the previous year
@@ -61,12 +63,13 @@ flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
 # k.check(flwr_raneff(data))
 # k.check(flwr_raneff(data, habitat = "1-ha"))
 
-size_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
+size_sdlg_raneff <- function(data, habitat = c("CF", "1-ha")) {
   
   habitat_choice <- match.arg(habitat)
+  sdlg_choice <- sdlg
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == sdlg, habitat == habitat_choice) %>% 
+    dplyr::filter(sdlg_prev == TRUE, habitat == habitat_choice) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
   
   gam(
@@ -77,12 +80,12 @@ size_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
   )
 }
 
-surv_sdlg_raneff <- function(data, sdlg = TRUE, habitat = c("CF", "1-ha")) {
+surv_sdlg_raneff <- function(data, habitat = c("CF", "1-ha")) {
   
   habitat_choice <- match.arg(habitat)
   
   df <- data %>%
-    filter(sdlg_prev == sdlg, habitat == habitat_choice)
+    filter(sdlg_prev == TRUE, habitat == habitat_choice)
   
   gam(
     surv ~ 1 + s(year_fct, bs = "re"),
