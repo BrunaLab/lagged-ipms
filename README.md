@@ -11,7 +11,8 @@ tentatively titled: \_\_\_\_\_.
 The most recent draft of the manuscript is available
 [here](https://brunalab.github.io/lagged-ipms/paper.html).
 
-[Notes for collaborators](notes/index.html)
+[Notes for
+collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
 
 # Reproducibility
 

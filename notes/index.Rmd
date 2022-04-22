@@ -9,8 +9,8 @@ base_url <- "https://brunalab.github.io/lagged-ipms/notes/"
 # paste(base_url, list.files(here::here("notes"), pattern = "[^index].html"), sep = "")
 ```
 
-[Exploring different ways of fitting random effects GAMs](notes/environmental-stochasticity.html)
+[Exploring different ways of fitting random effects GAMs](https://brunalab.github.io/lagged-ipms/notes/environmental-stochasticity.html)
 
-[Why is stochastic lambda \> deterministic?](notes/understanding-stochastic-lambda.html)
+[Why is stochastic lambda \> deterministic?](https://brunalab.github.io/lagged-ipms/notes/understanding-stochastic-lambda.html)
 
-[Optimizing the number of meshpoints](notes/optimizing-meshpoints.html)
+[Optimizing the number of meshpoints](https://brunalab.github.io/lagged-ipms/notes/optimizing-meshpoints.html)
