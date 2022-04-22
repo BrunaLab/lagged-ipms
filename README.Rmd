@@ -21,6 +21,8 @@ This repository contains data and code for a manuscript by Eric Scott and Emilio
 
 The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/paper.html).
 
+[Notes for collaborators](notes/index.html)
+
 # Reproducibility
 
 This research compendium has been developed using the statistical programming language R.

@@ -11,6 +11,8 @@ tentatively titled: \_\_\_\_\_.
 The most recent draft of the manuscript is available
 [here](https://brunalab.github.io/lagged-ipms/paper.html).
 
+[Notes for collaborators](notes/index.html)
+
 # Reproducibility
 
 This research compendium has been developed using the statistical
@@ -27,11 +29,8 @@ To run the compendium and reproduce all outputs:
 -   Open the project in RStudio by double-clicking the `.Rproj` file.
 -   Install packages listed in `packages.R` (if this compendium uses
     `renv`, this may happen automatically or with `renv::restore()`).
--   Run scripts in /R/ in numerical order.
--   Knit /doc/paper.Rmd to produce output
+-   Install the [`targets` package](https://docs.ropensci.org/targets/).
+-   Run `targets::tar_make()` or `targets::tar_make_clustermq()` from
+    the R console to run all code and produce all outputs.
 
-<!-- Additional instructions if project uses `targets`: -->
-<!-- -   Install the [`targets` package](https://docs.ropensci.org/targets/). -->
-<!-- -   Run `targets::tar_make()` or `targets::tar_make_clustermq()` from the R console to run all code and produce all outputs. -->
-<!-- **NOTE**: the GitHub actions in .github/workflows/build-manuscript.yaml will not work with a `targets` project. -->
-<!-- Consider `targets::tar_github_actions()` as an alternative -->
+<!-- Consider using `targets::tar_github_actions()` if targets aren't too big -->

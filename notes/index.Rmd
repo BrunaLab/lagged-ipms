@@ -1,0 +1,16 @@
+---
+output: html_document
+---
+
+# Notes:
+
+```{r eval=FALSE, include=FALSE, results='asis'}
+base_url <- "https://brunalab.github.io/lagged-ipms/notes/"
+# paste(base_url, list.files(here::here("notes"), pattern = "[^index].html"), sep = "")
+```
+
+[Exploring different ways of fitting random effects GAMs](notes/environmental-stochasticity.html)
+
+[Why is stochastic lambda \> deterministic?](notes/understanding-stochastic-lambda.html)
+
+[Optimizing the number of meshpoints](notes/optimizing-meshpoints.html)

@@ -39,8 +39,10 @@ To figure out the minimum number of meshpoints needed to accurately (precisely?)
 # Load Data
 
 ```{r data, echo=TRUE}
-tar_load(vit_list_det_ff)
-tar_load(vit_list_stoch_ff)
+withr::with_dir(here::here(), {
+  tar_load(vit_list_det_ff)
+  tar_load(vit_list_stoch_ff)
+})
 ```
 
 # Make proto IPM
@@ -97,11 +99,11 @@ proto_stoch_list <-
 #          usr_funs = list(get_scat_params = get_scat_params))
 ```
 
-###Note:
+### Note:
 
 This currently isn't working because of a bug in `ipmr` that causes `make_ipm()` to hang when `kernel_seq` is supplied <https://github.com/levisc8/ipmr/issues/58>
 
-```{r}
+```{r eval=FALSE}
 lambdas_stoch <-
   proto_stoch_list %>%
   map_dbl( ~ make_ipm(
