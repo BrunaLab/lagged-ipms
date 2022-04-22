@@ -11,8 +11,8 @@ surv_raneff <- function(data, habitat = c("CF", "1-ha")) {
     filter(sdlg_prev == FALSE, habitat == habitat_choice)
   
   bam(
-    surv ~ s(log_size_prev, bs = "cr", k = 20) +
-      s(year_fct, bs = "re"),
+    surv ~ s(log_size_prev, bs = "cr", k = 20, m = 2) +
+      s(log_size_prev, year_fct, bs = "fs", m = 2),
     family = binomial,
     data = df,
     method = "fREML"
@@ -32,8 +32,8 @@ size_raneff <- function(data, habitat = c("CF", "1-ha")) {
     dplyr::filter(surv == 1, !is.na(log_size))
   
   bam(
-    log_size ~ s(log_size_prev, bs = "cr", k = 20) +
-      s(year_fct, bs = "re"),
+    log_size ~ s(log_size_prev, bs = "cr", k = 20, m = 2) +
+      s(log_size_prev, year_fct, bs = "fs", m = 2),
     family = scat,
     data = df,
     method = "fREML"
@@ -53,8 +53,8 @@ flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
     dplyr::filter(surv == 1, !is.na(log_size))
   
   bam(
-    flwr ~ s(log_size_prev, bs = "cr", k = 20) +
-      s(year_fct, bs = "re"),
+    flwr ~ s(log_size_prev, bs = "cr", k = 20, m = 2) +
+      s(log_size_prev, year_fct, bs = "fs", m = 2),
     family = binomial, 
     data = df,
     method = "fREML"
@@ -66,8 +66,7 @@ flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
 size_sdlg_raneff <- function(data, habitat = c("CF", "1-ha")) {
   
   habitat_choice <- match.arg(habitat)
-  sdlg_choice <- sdlg
-  
+
   df <- data %>%
     dplyr::filter(sdlg_prev == TRUE, habitat == habitat_choice) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
