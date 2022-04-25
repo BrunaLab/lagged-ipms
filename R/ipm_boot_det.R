@@ -33,8 +33,11 @@ ipm_boot_det <- function(data, vit_other, habitat = c("1-ha", "CF")) {
     vit_surv_sdlg = surv_sdlg_det(boot, habitat = habitat)
   ), vit_other)
   
+  #make starting population vector
+  pop_vec <- make_pop_vec(boot, n_mesh = 100)
+  
   #make IPM
-  make_proto_ipm_det(vit_list_det) %>% 
+  make_proto_ipm_det(vit_list_det, pop_vec) %>% 
     make_ipm(iterations = 100,  #only needs 100 to converge
              normalize_pop_size = TRUE,
              usr_funs = list(get_scat_params = get_scat_params)

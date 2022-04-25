@@ -34,8 +34,11 @@ ipm_boot_dlnm_raw <- function(data, vit_other, habitat = c("1-ha", "CF"), clim) 
     vit_surv_sdlg = surv_sdlg_dlnm(boot, habitat = habitat)
   ), vit_other)
   
+  #make starting population vector
+  pop_vec <- make_pop_vec(boot, n_mesh = 100)
+  
   #make IPM
-  make_proto_ipm_dlnm(vit_list_dlnm) %>% 
+  make_proto_ipm_dlnm(vit_list_dlnm, pop_vec) %>% 
     make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
                   return_sub_kernels = FALSE, # don't save every iteration
                   normalize_pop_size = TRUE,

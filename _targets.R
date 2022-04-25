@@ -51,6 +51,11 @@ tar_plan(
     vit_germ_est = 0.057098765 #germination and establishment
   ),
 
+
+  # Starting population for simulations -------------------------------------
+
+  pop_vec_ff = make_pop_vec(data_full %>% filter(habitat == "1-ha"), n_mesh = 100),
+  pop_vec_cf = make_pop_vec(data_full %>% filter(habitat == "CF"),   n_mesh = 100),
   
   # Deterministic IPM -------------------------------------------------------
   ## forests fragments
@@ -64,7 +69,7 @@ tar_plan(
     ),
     vit_other_ff),
   
-  ipm_det_ff = make_proto_ipm_det(vit_list_det_ff) %>% 
+  ipm_det_ff = make_proto_ipm_det(vit_list_det_ff, pop_vec_ff) %>% 
     make_ipm(iterations = 1000,  #only needs 100 to converge
              normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
@@ -80,7 +85,7 @@ tar_plan(
     ),
     vit_other_cf),
   
-  ipm_det_cf = make_proto_ipm_det(vit_list_det_cf) %>% 
+  ipm_det_cf = make_proto_ipm_det(vit_list_det_cf, pop_vec_cf) %>% 
     make_ipm(iterations = 1000, #only needs 100 to converge
              normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
@@ -99,7 +104,7 @@ tar_plan(
     ), 
     vit_other_ff),
   
-  ipm_stoch_ff = make_proto_ipm_stoch(vit_list_stoch_ff) %>%
+  ipm_stoch_ff = make_proto_ipm_stoch(vit_list_stoch_ff, pop_vec_ff) %>%
     make_ipm(iterations = 1000,
              normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
@@ -115,7 +120,7 @@ tar_plan(
     ),
     vit_other_cf),
   
-  ipm_stoch_cf = make_proto_ipm_stoch(vit_list_stoch_cf) %>%
+  ipm_stoch_cf = make_proto_ipm_stoch(vit_list_stoch_cf, pop_vec_cf) %>%
     make_ipm(iterations = 1000,
              normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
@@ -123,70 +128,70 @@ tar_plan(
   
   # Stochastic parameter resampled IPM --------------------------------------
   
-  ## forest fragments
-  # vit_list_dlnm_ff = c(
-  #   list(
-  #     vit_surv = surv_dlnm(data_full, habitat = "1-ha"),
-  #     vit_size = size_dlnm(data_full, habitat = "1-ha"),
-  #     vit_flwr = flwr_dlnm(data_full, habitat = "1-ha"),
-  #     vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "1-ha"),
-  #     vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "1-ha")
-  #   ),
-  #   vit_other_ff),
-  # 
+  # forest fragments
+  vit_list_dlnm_ff = c(
+    list(
+      vit_surv = surv_dlnm(data_full, habitat = "1-ha"),
+      vit_size = size_dlnm(data_full, habitat = "1-ha"),
+      vit_flwr = flwr_dlnm(data_full, habitat = "1-ha"),
+      vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "1-ha"),
+      vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "1-ha")
+    ),
+    vit_other_ff),
+
   # Unfortunately, I think the dlnm IPMs need to be run locally (deployment =
   # "main") because otherwise it times out when trying to pass the resulting
   # object back to the local session from the HPC.
   
-  # proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff),
-  # tar_target(
-  #   ipm_dlnm_ff,
-  #   proto_ipm_dlnm_ff %>%
-  #     make_dlnm_ipm(
-  #       clim,
-  #       seed = 1234,
-  #       iterations = 1000,
-  #       return_main_env = FALSE,
-  #       # don't save iteration mesh and other stuff
-  #       usr_funs = list(get_scat_params = get_scat_params)
-  #     ),
-  #   deployment = "main"
-  # ), 
-  # 
-  ## continuous forest
-  # vit_list_dlnm_cf = c(
-  #   list(
-  #     vit_surv = surv_dlnm(data_full, habitat = "CF"),
-  #     vit_size = size_dlnm(data_full, habitat = "CF"),
-  #     vit_flwr = flwr_dlnm(data_full, habitat = "CF"),
-  #     vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "CF"),
-  #     vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "CF")
-  #   ),
-  #   vit_other_cf),
-  # 
-  # proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf),
-  # tar_target(
-  #   ipm_dlnm_cf,
-  #   proto_ipm_dlnm_cf %>%
-  #     make_dlnm_ipm(
-  #       clim,
-  #       seed = 1234,
-  #       iterations = 1000,
-  #       return_main_env = FALSE,
-  #       # don't save iteration mesh and other stuff
-  #       usr_funs = list(get_scat_params = get_scat_params)
-  #     ),
-  #   deployment = "main"
-  # ), 
-  # 
+  proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff, pop_vec_ff),
+  tar_target(
+    ipm_dlnm_ff,
+    proto_ipm_dlnm_ff %>%
+      make_dlnm_ipm(
+        clim,
+        seed = 1234,
+        iterations = 1000,
+        return_main_env = FALSE,
+        # don't save iteration mesh and other stuff
+        usr_funs = list(get_scat_params = get_scat_params)
+      ),
+    deployment = "main"
+  ),
+
+  # continuous forest
+  vit_list_dlnm_cf = c(
+    list(
+      vit_surv = surv_dlnm(data_full, habitat = "CF"),
+      vit_size = size_dlnm(data_full, habitat = "CF"),
+      vit_flwr = flwr_dlnm(data_full, habitat = "CF"),
+      vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "CF"),
+      vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "CF")
+    ),
+    vit_other_cf),
+
+  proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf, pop_vec_cf),
+  tar_target(
+    ipm_dlnm_cf,
+    proto_ipm_dlnm_cf %>%
+      make_dlnm_ipm(
+        clim,
+        seed = 1234,
+        iterations = 1000,
+        return_main_env = FALSE,
+        # don't save iteration mesh and other stuff
+        usr_funs = list(get_scat_params = get_scat_params)
+      ),
+    deployment = "main"
+  ),
+
   
   # Model Selection Table ---------------------------------------------------
   
   aic_tbl_df = make_AIC_tbl(
     vit_list_det_cf,
     vit_list_det_ff,
-    # vit_list_dlnm_cf,
-    # vit_list_dlnm_ff,
+    vit_list_dlnm_cf,
+    vit_list_dlnm_ff,
     vit_list_stoch_cf,
     vit_list_stoch_ff
   ),
@@ -244,9 +249,9 @@ tar_plan(
         det_ff = ipm_det_ff,
         det_cf = ipm_det_cf,
         stoch_ff = ipm_stoch_ff,
-        stoch_cf = ipm_stoch_cf#,
-        # dlnm_ff = ipm_dlnm_ff,
-        # dlnm_cf = ipm_dlnm_cf
+        stoch_cf = ipm_stoch_cf,
+        dlnm_ff = ipm_dlnm_ff,
+        dlnm_cf = ipm_dlnm_cf
       ),
       bt_list = list(
         det_ff = lambda_bt_det_ff,
