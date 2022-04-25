@@ -30,7 +30,7 @@ linkcolor: blue
 bibliography: references.bib
 csl: "templates/the-american-naturalist.csl" # Insert path for the bib-style
 keywords: |
-  keyword1; keyword2; keyword3
+  integral projection models; environmental stochasticity; lagged effects
 highlights: |
   These are the highlights
   
@@ -108,23 +108,22 @@ Ultimately, we built and iterated three types of IPMs which each required differ
 For all models, we used the long term demographic dataset for modeling survival, growth, and flowering.
 For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020].
 Seedlings were considered a separate discrete class not structured by size.
-For consistency, seedling survival and growth were also modeled using GAMs, but without size in the previous census as a predictor.
+For consistency, seedling survival and growth were also modeled using GAMs, but without size in the previous census as a predictor (i.e. intercept only models).
 For growth models, a scaled t family distribution provided a better fit to the data than a gaussian fit as the residuals were leptokurtic with a simple gaussian model.
 
 To estimate reproduction we drew on additional data sources to estimate the number of fruits per flowering plant as a function of plant size, the number of seeds per fruit, and germination and establishment rates in continuous forest and forest fragments.
 <!--# Emilio: add more info here -->
 
 These models were used to build a general, density-independent, deterministic IPM with four sub-kernels: growth and survival, reproduction, probability of staying a seedling (always = 0), and seedling survival and establishment.
-<!--# include equation --> The seedling bank, or probability of staying a seedling, was always equal to zero, but was required <!--# for reasons? -->.
+<!--# include equation --> The seedling bank, or probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.
 
-For the second approach, we included environmental stochasticity by adding a random intercept for year to all vital rate models built with the long term demographic dataset.
+For the second approach, we included environmental stochasticity by adding a random intercept <!--# or intercept and slope or factor-smooth interaction -->for year to all vital rate models built with the long term demographic dataset.
 Then, we used these models to build general, density independent, stochastic, kernel-resampled IPMs.
-The kernel-resampling approach is to generate kernels for each year of data, using the random intercepts for year, and to iterate the IPM by drawing from these randomly.
+The kernel-resampling approach is to generate kernels corresponding to each transition year in the demographic dataset using the random intercepts for year, and to iterate the IPM by drawing from these randomly.
 This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.
 
 For the third method, we modeled the impacts of drought on vital rates explicitly.
-We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016].
-We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
+We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022. We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
 Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM.
 To iterate such an IPM, a random sequence of SPEI values is created by re-sampling the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
@@ -134,20 +133,24 @@ With this method, these kernels are not entirely independent because the SPEI fr
 All IPMs were constructed and iterated with the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
 For each type of IPM we iterated the model for 1000 time steps, discarding the first 100 time steps to omit transient effects.
 Stochastic growth rates ($\lambda_s$) were calculated as the average $ln(\lambda)$ from each time step [@caswell2001] and back-transformed to be on the same scale as deterministic lambdas for comparison.
-<!--# should  mention starting population vector here.  Observed population could be a reasonable starting point.  Emphasize that choice of starting vector should only impact transient dynamics, which we're not interested in here. -->
+We used the distribution of established plant sizes and proportion of seedlings from the full dataset as a starting population vector.
+While other starting population vectors were possible, the choice is of little importance as it will only impact transient dynamics, which we aren't interested in for this study.
 
-To calculate 95% confidence intervals around the per-capita growth rates (lambdas), we created 1000 bootstraps of the 10 year demographic dataset by sampling individual plants with replacement within each habitat.
+To calculate 95% confidence intervals around the per-capita growth rates (lambdas), we created 1000 bootstraps of the demographic dataset by sampling individual plants with replacement within each habitat.
 For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and calculated a value for lambda as described above.
+
 This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.
 
 # Results
 
 For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (Table \@ref(tab:aic)).
+<!--# No longer true if random effect = different smooth for each year -->
 
 Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (Table \@ref(tab:lambdas)).
-Similar to @kayeEffectStochasticTechnique2003 finding that method effected stochastic lambda, but relative ranking of populations was consistent.
 
 # Discussion
+
+-   Our finding that the choice of IPM didn't change the relative ranking of CF and FF is consistent with @kayeEffectStochasticTechnique2003 finding that method effected stochastic lambda, but relative ranking of populations was consistent.
 
 # Acknowledgments
 
