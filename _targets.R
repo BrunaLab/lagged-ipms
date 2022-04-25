@@ -32,6 +32,8 @@ tar_plan(
   demog = read_wrangle_demog(file_demog),
   clim = read_wrangle_clim(file_clim),
   data_full = join_data(demog, clim),
+  data_cf = data_full %>% filter(habitat == "CF"),
+  data_ff = data_full %>% filter(habitat == "1-ha"),
   
   data_1998 = read_wrangle_1998(file_1998),
   data_2008 = read.csv(file_2008),
@@ -54,18 +56,18 @@ tar_plan(
 
   # Starting population for simulations -------------------------------------
 
-  pop_vec_ff = make_pop_vec(data_full %>% filter(habitat == "1-ha"), n_mesh = 100),
-  pop_vec_cf = make_pop_vec(data_full %>% filter(habitat == "CF"),   n_mesh = 100),
+  pop_vec_ff = make_pop_vec(data_ff, n_mesh = 100),
+  pop_vec_cf = make_pop_vec(data_cf, n_mesh = 100),
   
   # Deterministic IPM -------------------------------------------------------
   ## forests fragments
   vit_list_det_ff = c(
     list(
-      vit_surv = surv_det(data_full, habitat = "1-ha"),
-      vit_size = size_det(data_full, habitat = "1-ha"),
-      vit_flwr = flwr_det(data_full, habitat = "1-ha"),
-      vit_size_sdlg = size_sdlg_det(data_full, habitat = "1-ha"),
-      vit_surv_sdlg = surv_sdlg_det(data_full, habitat = "1-ha")
+      vit_surv = surv_det(data_ff),
+      vit_size = size_det(data_ff),
+      vit_flwr = flwr_det(data_ff),
+      vit_size_sdlg = size_sdlg_det(data_ff),
+      vit_surv_sdlg = surv_sdlg_det(data_ff)
     ),
     vit_other_ff),
   
@@ -77,11 +79,11 @@ tar_plan(
   ## continuous forest
   vit_list_det_cf = c(
     list(
-      vit_surv = surv_det(data_full, habitat = "CF"),
-      vit_size = size_det(data_full, habitat = "CF"),
-      vit_flwr = flwr_det(data_full, habitat = "CF"),
-      vit_size_sdlg = size_sdlg_det(data_full, habitat = "CF"),
-      vit_surv_sdlg = surv_sdlg_det(data_full, habitat = "CF")
+      vit_surv = surv_det(data_cf),
+      vit_size = size_det(data_cf),
+      vit_flwr = flwr_det(data_cf),
+      vit_size_sdlg = size_sdlg_det(data_cf),
+      vit_surv_sdlg = surv_sdlg_det(data_cf)
     ),
     vit_other_cf),
   
@@ -96,11 +98,11 @@ tar_plan(
   ## forets fragments
   vit_list_stoch_ff = c(
     list(
-      vit_surv = surv_raneff(data_full, habitat = "1-ha"),
-      vit_size = size_raneff(data_full, habitat = "1-ha"),
-      vit_flwr = flwr_raneff(data_full, habitat = "1-ha"),
-      vit_size_sdlg = size_sdlg_raneff(data_full, habitat = "1-ha"),
-      vit_surv_sdlg = surv_sdlg_raneff(data_full, habitat = "1-ha")
+      vit_surv = surv_raneff(data_ff),
+      vit_size = size_raneff(data_ff),
+      vit_flwr = flwr_raneff(data_ff),
+      vit_size_sdlg = size_sdlg_raneff(data_ff),
+      vit_surv_sdlg = surv_sdlg_raneff(data_ff)
     ), 
     vit_other_ff),
   
@@ -112,11 +114,11 @@ tar_plan(
   ## continuous forest
   vit_list_stoch_cf = c(
     list(
-      vit_surv = surv_raneff(data_full, habitat = "CF"),
-      vit_size = size_raneff(data_full, habitat = "CF"),
-      vit_flwr = flwr_raneff(data_full, habitat = "CF"),
-      vit_size_sdlg = size_sdlg_raneff(data_full, habitat = "CF"),
-      vit_surv_sdlg = surv_sdlg_raneff(data_full, habitat = "CF")
+      vit_surv = surv_raneff(data_cf),
+      vit_size = size_raneff(data_cf),
+      vit_flwr = flwr_raneff(data_cf),
+      vit_size_sdlg = size_sdlg_raneff(data_cf),
+      vit_surv_sdlg = surv_sdlg_raneff(data_cf)
     ),
     vit_other_cf),
   
@@ -131,11 +133,11 @@ tar_plan(
   # forest fragments
   vit_list_dlnm_ff = c(
     list(
-      vit_surv = surv_dlnm(data_full, habitat = "1-ha"),
-      vit_size = size_dlnm(data_full, habitat = "1-ha"),
-      vit_flwr = flwr_dlnm(data_full, habitat = "1-ha"),
-      vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "1-ha"),
-      vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "1-ha")
+      vit_surv = surv_dlnm(data_ff),
+      vit_size = size_dlnm(data_ff),
+      vit_flwr = flwr_dlnm(data_ff),
+      vit_size_sdlg = size_sdlg_dlnm(data_ff),
+      vit_surv_sdlg = surv_sdlg_dlnm(data_ff)
     ),
     vit_other_ff),
 
@@ -161,11 +163,11 @@ tar_plan(
   # continuous forest
   vit_list_dlnm_cf = c(
     list(
-      vit_surv = surv_dlnm(data_full, habitat = "CF"),
-      vit_size = size_dlnm(data_full, habitat = "CF"),
-      vit_flwr = flwr_dlnm(data_full, habitat = "CF"),
-      vit_size_sdlg = size_sdlg_dlnm(data_full, habitat = "CF"),
-      vit_surv_sdlg = surv_sdlg_dlnm(data_full, habitat = "CF")
+      vit_surv = surv_dlnm(data_cf),
+      vit_size = size_dlnm(data_cf),
+      vit_flwr = flwr_dlnm(data_cf),
+      vit_size_sdlg = size_sdlg_dlnm(data_cf),
+      vit_surv_sdlg = surv_sdlg_dlnm(data_cf)
     ),
     vit_other_cf),
 
@@ -200,28 +202,28 @@ tar_plan(
 
   tar_rep(
     lambda_bt_det_ff,
-    ipm_boot_det(data_full, vit_other = vit_other_ff, habitat = "1-ha"),
+    ipm_boot_det(data_ff, vit_other = vit_other_ff),
     batches = 5, #number of branches to create
     reps = 100 #reps per branch
   ),
 
   tar_rep(
     lambda_bt_det_cf,
-    ipm_boot_det(data_full, vit_other = vit_other_cf, habitat = "CF"),
+    ipm_boot_det(data_cf, vit_other = vit_other_cf),
     batches = 5, #number of branches to create
     reps = 100 #reps per branch
   ),
 
   tar_rep(
     lambda_bt_stoch_ff,
-    ipm_boot_stoch(data_full, vit_other = vit_other_ff, habitat = "1-ha"),
+    ipm_boot_stoch(data_ff, vit_other = vit_other_ff),
     batches = 5,
     reps = 100
   ),
 
   tar_rep(
     lambda_bt_stoch_cf,
-    ipm_boot_stoch(data_full, vit_other = vit_other_cf, habitat = "CF"),
+    ipm_boot_stoch(data_cf, vit_other = vit_other_cf),
     batches = 5,
     reps = 100
   ),
@@ -230,14 +232,14 @@ tar_plan(
 # for these I use more batches, fewer reps because each rep is like an hour.  That way I can make incremental progress easier.
   # tar_rep(
   #   lambda_bt_dlnm_ff,
-  #   ipm_boot_dlnm(data_full, vit_other = vit_other_ff, habitat = "1-ha", clim = clim),
+  #   ipm_boot_dlnm(data_ff, vit_other = vit_other_ff, clim = clim),
   #   batches = 500,
   #   reps = 1
   # ),
   # 
   # tar_rep(
   #   lambda_bt_dlnm_cf,
-  #   ipm_boot_dlnm(data_full, vit_other = vit_other_cf, habitat = "CF", clim = clim),
+  #   ipm_boot_dlnm(data_cf, vit_other = vit_other_cf, clim = clim),
   #   batches = 500,
   #   reps = 1
   # ),

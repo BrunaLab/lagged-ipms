@@ -1,14 +1,13 @@
 #for checking knots, load data and run k.check() for the models
 # library(mgcv)
 # library(tidyverse)
-# data <- tar_read(data_full)
+# tar_load(data_ff)
+# tar_load(data_cf)
 
-surv_dlnm <- function(data, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
+surv_dlnm <- function(data) {
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == FALSE, habitat == habitat_choice)
+    dplyr::filter(sdlg_prev == FALSE)
   
   bam(
     surv ~ s(log_size_prev, bs = "cr", k = 10) +
@@ -18,16 +17,14 @@ surv_dlnm <- function(data, habitat = c("CF", "1-ha")) {
     method = "fREML"
   )
 }
-# k.check(surv_dlnm(data))
-# k.check(surv_dlnm(data, habitat = "1-ha"))
+# k.check(surv_dlnm(data_ff))
+# k.check(surv_dlnm(data_cf))
 
 
-size_dlnm <- function(data, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
+size_dlnm <- function(data) {
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == FALSE, habitat == habitat_choice) %>% 
+    dplyr::filter(sdlg_prev == FALSE) %>% 
     #only plants that survived get to grow
     dplyr::filter(surv == 1, !is.na(log_size))
   
@@ -39,14 +36,13 @@ size_dlnm <- function(data, habitat = c("CF", "1-ha")) {
     method = "fREML"
   )
 }
-# k.check(size_dlnm(data))
-# k.check(size_dlnm(data, habitat = "1-ha"))
+# k.check(size_dlnm(data_ff))
+# k.check(size_dlnm(data_cf))
 
 
-flwr_dlnm <- function(data, habitat = c("CF", "1-ha")) {
-  habitat_choice <- match.arg(habitat)
+flwr_dlnm <- function(data) {
   df <- data %>% 
-    dplyr::filter(habitat == habitat_choice, sdlg == FALSE) %>% 
+    dplyr::filter(sdlg == FALSE) %>% 
     #current seedlings are excluded, but not plants that were seedlings in the previous year
     dplyr::filter(surv == 1, !is.na(log_size))
   
@@ -58,15 +54,13 @@ flwr_dlnm <- function(data, habitat = c("CF", "1-ha")) {
     method = "fREML"
   )
 }
-# k.check(flwr_dlnm(data))
-# k.check(flwr_dlnm(data, habitat = "1-ha"))
+# k.check(flwr_dlnm(data_ff))
+# k.check(flwr_dlnm(data_cf))
 
-size_sdlg_dlnm <- function(data, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
+size_sdlg_dlnm <- function(data) {
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == TRUE, habitat == habitat_choice) %>% 
+    dplyr::filter(sdlg_prev == TRUE) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
   
   gam(
@@ -77,14 +71,12 @@ size_sdlg_dlnm <- function(data, habitat = c("CF", "1-ha")) {
   )
 }
 #TODO: double-check k for seedling size and survival
-# k.check(size_sdlg_dlnm(data))
+# k.check(size_sdlg_dlnm(data_ff))
 
-surv_sdlg_dlnm <- function(data, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
+surv_sdlg_dlnm <- function(data) {
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == TRUE, habitat == habitat_choice)
+    dplyr::filter(sdlg_prev == TRUE)
   
   gam(
     surv ~ 1 + te(spei_history, L, bs = "cr", k = c(15,15)),
@@ -93,6 +85,6 @@ surv_sdlg_dlnm <- function(data, habitat = c("CF", "1-ha")) {
     method = "REML"
   )
 }
-# k.check(surv_sdlg_dlnm(data))
-# k.check(surv_sdlg_dlnm(data, habitat = "1-ha"))
+# k.check(surv_sdlg_dlnm(data_ff))
+# k.check(surv_sdlg_dlnm(data_cf))
 

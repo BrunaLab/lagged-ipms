@@ -1,14 +1,13 @@
 #for checking knots, load data and run k.check() for the models
 # library(mgcv)
 # library(tidyverse)
-# data <- tar_read(data_full)
+# tar_load(data_ff)
+# tar_load(data_cf)
 
-surv_raneff <- function(data, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
+surv_raneff <- function(data) {
   
   df <- data %>%
-    filter(sdlg_prev == FALSE, habitat == habitat_choice)
+    filter(sdlg_prev == FALSE)
   
   bam(
     surv ~ s(log_size_prev, bs = "cr", k = 20, m = 2) +
@@ -18,16 +17,14 @@ surv_raneff <- function(data, habitat = c("CF", "1-ha")) {
     method = "fREML"
   )
 }
-# k.check(surv_raneff(data))
-# k.check(surv_raneff(data, habitat = "1-ha"))
+# k.check(surv_raneff(data_ff))
+# k.check(surv_raneff(data_cf))
 
 
-size_raneff <- function(data, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
+size_raneff <- function(data) {
   
   df <- data %>%
-    dplyr::filter(sdlg_prev == FALSE, habitat == habitat_choice) %>% 
+    dplyr::filter(sdlg_prev == FALSE) %>% 
     #only plants that survived get to grow
     dplyr::filter(surv == 1, !is.na(log_size))
   
@@ -39,16 +36,14 @@ size_raneff <- function(data, habitat = c("CF", "1-ha")) {
     method = "fREML"
   )
 }
-# k.check(size_raneff(data))
-# k.check(size_raneff(data, habitat = "1-ha")) #no diff between k = 20 and k = 25
+# k.check(size_raneff(data_ff))#no diff between k = 20 and k = 25
+# k.check(size_raneff(data_cf)) 
 
 
-flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
+flwr_raneff <- function(data) {
   
   df <- data %>% 
-    dplyr::filter(habitat == habitat_choice, sdlg == FALSE) %>% 
+    dplyr::filter(sdlg == FALSE) %>% 
     #current seedlings are excluded, but not plants that were seedlings in the previous year
     dplyr::filter(surv == 1, !is.na(log_size))
   
@@ -60,15 +55,13 @@ flwr_raneff <- function(data, habitat = c("CF", "1-ha")) {
     method = "fREML"
   )
 }
-# k.check(flwr_raneff(data))
-# k.check(flwr_raneff(data, habitat = "1-ha"))
+# k.check(flwr_raneff(data_ff))
+# k.check(flwr_raneff(data_cf))
 
-size_sdlg_raneff <- function(data, habitat = c("CF", "1-ha")) {
+size_sdlg_raneff <- function(data) {
   
-  habitat_choice <- match.arg(habitat)
-
   df <- data %>%
-    dplyr::filter(sdlg_prev == TRUE, habitat == habitat_choice) %>% 
+    dplyr::filter(sdlg_prev == TRUE) %>% 
     dplyr::filter(surv == 1, !is.na(log_size))
   
   gam(
@@ -79,12 +72,10 @@ size_sdlg_raneff <- function(data, habitat = c("CF", "1-ha")) {
   )
 }
 
-surv_sdlg_raneff <- function(data, habitat = c("CF", "1-ha")) {
-  
-  habitat_choice <- match.arg(habitat)
+surv_sdlg_raneff <- function(data) {
   
   df <- data %>%
-    filter(sdlg_prev == TRUE, habitat == habitat_choice)
+    filter(sdlg_prev == TRUE)
   
   gam(
     surv ~ 1 + s(year_fct, bs = "re"),
