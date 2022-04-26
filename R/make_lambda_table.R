@@ -1,4 +1,4 @@
-make_lambda_table <- function(ipm_list, bt_list) {
+make_lambda_table <- function(ipm_list, bt_list, alpha = 0.05) {
 
 #not very reusable, but that's fine.
 #ipm_list should look like this:
@@ -17,23 +17,12 @@ make_lambda_table <- function(ipm_list, bt_list) {
   #   # dlnm_ff = lambda_bt_dlnm_ff,
   #   # dlnm_cf = lambda_bt_dlnm_cf
   # )
-
-  
  lambdas <- 
    ipm_list %>% 
-   map_df(~lambda(.x, log = FALSE) %>% set_names("lambda"), .id = "model")
+   map(~lambda(.x, log = FALSE))
   
-  calc_ci <- function(x, alpha = 0.05) {
-    mu <- mean(x)
-    ci <- quantile(x, c(0 + (alpha/2), 1 - (alpha/2)))
-    tibble(mean = mu, lower = ci[1], upper = ci[2])
-  }
-  
-lambdas_bt <-
-  bt_list %>%
-  map_df(calc_ci, .id = "model") #TODO move calc_ci here
-
-full_join(lambdas, lambdas_bt, by = "model") %>%
+ #calc bias-corrected percentile CIs
+  map2_df(lambdas, bt_list, ~bcpi(t0 = .x, t = .y, alpha = alpha), .id = "model") %>%
   separate(model, into = c("ipm", "habitat"))
 
 }
