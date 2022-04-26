@@ -62,14 +62,15 @@ single_years <-
   
 vit_list_yr <- 
   single_years %>% 
+  filter(habitat == "1-ha") %>% 
   map(~{
     vit_list_det_ff = c(
       list(
-        vit_surv = surv_det(.x, habitat = "1-ha"),
-        vit_size = size_det(.x, habitat = "1-ha"),
-        vit_flwr = flwr_det(.x, habitat = "1-ha"),
-        vit_size_sdlg = size_sdlg_det(.x, habitat = "1-ha"),
-        vit_surv_sdlg = surv_sdlg_det(.x, habitat = "1-ha")
+        vit_surv = surv_det(.x),
+        vit_size = size_det(.x),
+        vit_flwr = flwr_det(.x),
+        vit_size_sdlg = size_sdlg_det(.x),
+        vit_surv_sdlg = surv_sdlg_det(.x)
       ),
       vit_other_ff)
     })
@@ -104,11 +105,11 @@ Fit a deterministic IPM with just those two years of data
 ```{r warning=FALSE, class.source = 'fold-hide'}
 vit_list_det_ff = c(
   list(
-    vit_surv = surv_det(two_yrs, habitat = "1-ha"),
-    vit_size = size_det(two_yrs, habitat = "1-ha"),
-    vit_flwr = flwr_det(two_yrs, habitat = "1-ha"),
-    vit_size_sdlg = size_sdlg_det(two_yrs, habitat = "1-ha"),
-    vit_surv_sdlg = surv_sdlg_det(two_yrs, habitat = "1-ha")
+    vit_surv = surv_det(two_yrs),
+    vit_size = size_det(two_yrs),
+    vit_flwr = flwr_det(two_yrs),
+    vit_size_sdlg = size_sdlg_det(two_yrs),
+    vit_surv_sdlg = surv_sdlg_det(two_yrs)
   ),
   vit_other_ff)
 
@@ -128,11 +129,11 @@ This now uses vital rates models where there is a random effect of year fit such
 ## forets fragments
 vit_list_stoch_ff = c(
   list(
-    vit_surv = surv_raneff(two_yrs, habitat = "1-ha"),
-    vit_size = size_raneff(two_yrs, habitat = "1-ha"),
-    vit_flwr = flwr_raneff(two_yrs, habitat = "1-ha"),
-    vit_size_sdlg = size_sdlg_raneff(two_yrs, habitat = "1-ha"),
-    vit_surv_sdlg = surv_sdlg_raneff(two_yrs, habitat = "1-ha")
+    vit_surv = surv_raneff(two_yrs),
+    vit_size = size_raneff(two_yrs),
+    vit_flwr = flwr_raneff(two_yrs),
+    vit_size_sdlg = size_sdlg_raneff(two_yrs),
+    vit_surv_sdlg = surv_sdlg_raneff(two_yrs)
   ), 
   vit_other_ff)
 

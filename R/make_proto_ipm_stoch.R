@@ -1,5 +1,5 @@
 library(ipmr)
-make_proto_ipm_stoch <- function(data_list) {
+make_proto_ipm_stoch <- function(data_list, pop_vec) {
   
   init_ipm(
     sim_gen = "general",
@@ -103,6 +103,6 @@ make_proto_ipm_stoch <- function(data_list) {
     #define lower bound, upper bound, and number of meshpoints for log_size
     define_domains(log_size = c(0, 8.018296, 100)) %>%  
     #arbitrary starting population state
-    define_pop_state(n_log_size = runif(100), n_sdlg = .1)
+    define_pop_state(pop_vectors = pop_vec)
   
 }
