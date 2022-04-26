@@ -1947,15 +1947,11 @@ Deterministic?</h1>
 <div id="todo" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> TODO</h1>
 <ul>
-<li><p>Get code to run</p></li>
 <li><p>Instead of deterministic IPM using different vital rates models,
 use the random effects models, but plug in
 <code>newdata = (log_size_prev = log_size, year = &quot;newlevel&quot;)</code> to
 get mean fitted values.</p></li>
-<li><p>add analysis with CF</p></li>
-<li><p>Don’t normalize population sizes and plot both CF and FF as PVA
-for both models</p></li>
-<li><p>Try year as fixed effect</p></li>
+<li><p>Plot population trajectories for all models</p></li>
 <li><p>Read Rees &amp; Ellner 2009. Consider either fixed effect of year
 + kernel sampling OR random effect of year + parameter sampling. Maybe
 no added value for random effect of year + kernel sampling??</p></li>
@@ -2357,7 +2353,7 @@ wiggliness).</p>
 <h1><span class="header-section-number">6</span> Investigation</h1>
 <p>First, with just the worst and best years, is the stochastic lambda
 still higher than the deterministic?</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>all_lams <span class="ot">&lt;-</span></span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r fold-hide"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>all_lams <span class="ot">&lt;-</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">ff =</span> ipm_stoch_ff, <span class="at">cf =</span> ipm_stoch_cf) <span class="sc">%&gt;%</span> </span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_df</span>(</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span><span class="fu">tibble</span>(<span class="at">year =</span> .x<span class="sc">$</span>env_seq,</span>
@@ -2366,7 +2362,7 @@ still higher than the deterministic?</p>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">101</span><span class="sc">:</span><span class="fu">n</span>()),</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">.id =</span> <span class="st">&quot;habitat&quot;</span></span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tribble</span>(<span class="sc">~</span>model, <span class="sc">~</span>habitat, <span class="sc">~</span>year, <span class="sc">~</span>lambda,</span>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r fold-hide"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tribble</span>(<span class="sc">~</span>model, <span class="sc">~</span>habitat, <span class="sc">~</span>year, <span class="sc">~</span>lambda,</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;det&quot;</span>, <span class="st">&quot;ff&quot;</span>, <span class="st">&quot;both combined&quot;</span>, <span class="fu">lambda</span>(ipm_det_ff),</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;stoch&quot;</span>, <span class="st">&quot;ff&quot;</span>, <span class="st">&quot;both combined&quot;</span>, <span class="fu">lambda</span>(ipm_stoch_ff, <span class="at">log =</span> <span class="cn">FALSE</span>),</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;det&quot;</span>, <span class="st">&quot;cf&quot;</span>, <span class="st">&quot;both combined&quot;</span>, <span class="fu">lambda</span>(ipm_det_cf),</span>

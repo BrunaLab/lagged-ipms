@@ -27,15 +27,9 @@ set.seed(123)
 
 # TODO
 
--   Get code to run
-
 -   Instead of deterministic IPM using different vital rates models, use the random effects models, but plug in `newdata = (log_size_prev = log_size, year = "newlevel")` to get mean fitted values.
 
--   add analysis with CF
-
--   Don't normalize population sizes and plot both CF and FF as PVA for both models
-
--   Try year as fixed effect
+-   Plot population trajectories for all models
 
 -   Read Rees & Ellner 2009.
     Consider either fixed effect of year + kernel sampling OR random effect of year + parameter sampling.
@@ -470,7 +464,7 @@ ipm_stoch_cf <-
 
 First, with just the worst and best years, is the stochastic lambda still higher than the deterministic?
 
-```{r}
+```{r class.source = 'fold-hide'}
 all_lams <-
   list(ff = ipm_stoch_ff, cf = ipm_stoch_cf) %>% 
   map_df(
@@ -483,7 +477,7 @@ all_lams <-
   
 ```
 
-```{r lambdas}
+```{r lambdas, class.source = 'fold-hide'}
 tribble(~model, ~habitat, ~year, ~lambda,
         "det", "ff", "both combined", lambda(ipm_det_ff),
         "stoch", "ff", "both combined", lambda(ipm_stoch_ff, log = FALSE),
