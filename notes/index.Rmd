@@ -14,3 +14,5 @@ base_url <- "https://brunalab.github.io/lagged-ipms/notes/"
 [Why is stochastic lambda \> deterministic?](https://brunalab.github.io/lagged-ipms/notes/understanding-stochastic-lambda.html)
 
 [Optimizing the number of meshpoints](https://brunalab.github.io/lagged-ipms/notes/optimizing-meshpoints.html)
+
+[Optimizing number of bootstraps](https://brunalab.github.io/lagged-ipms/notes/optimizing-bootstrapping.html)

@@ -1,0 +1,98 @@
+---
+title: "Optimizing Bootstrapping"
+author: "Eric R. Scott"
+date: "2022-04-26"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+    highlight: kate
+    theme:
+      version: 4
+      bootswatch: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(conflicted)
+library(targets)
+
+source(here("R", "bcpi.R"))
+
+conflict_prefer("lag", "dplyr")
+conflict_prefer("filter", "dplyr")
+```
+
+*Last compiled: `r Sys.Date()`*
+
+# Purpose
+
+How many bootstraps is enough to estimate CIs around lambda?
+
+# Load Data
+
+```{r data, echo=TRUE}
+withr::with_dir(here::here(), tar_load(c(
+  ipm_det_cf,
+  ipm_det_ff,
+  ipm_stoch_cf,
+  ipm_stoch_ff,
+  lambda_bt_det_cf,
+  lambda_bt_det_ff,
+  lambda_bt_stoch_cf,
+  lambda_bt_stoch_ff
+)))
+
+```
+
+```{r}
+est <- lambda(ipm_det_cf)
+df <- seq_along(lambda_bt_det_cf) %>% 
+  map_df(~bcpi(t0 = est, t = lambda_bt_det_cf[1:.x]), .id = "B") %>% 
+  mutate(B = as.numeric(B))
+
+ggplot(df,aes(x = B)) +
+  geom_line(aes(y = lower), color = "red") +
+  geom_line(aes(y = upper), color = "blue")
+```
+
+Looks like it does converge after like 200 bootstraps
+
+```{r}
+est <- lambda(ipm_det_ff)
+df <- seq_along(lambda_bt_det_ff) %>% 
+  map_df(~bcpi(t0 = est, t = lambda_bt_det_ff[1:.x]), .id = "B") %>% 
+  mutate(B = as.numeric(B))
+
+ggplot(df,aes(x = B)) +
+  geom_line(aes(y = lower), color = "red") +
+  geom_line(aes(y = upper), color = "blue")
+```
+
+```{r}
+est <- lambda(ipm_stoch_cf, log = FALSE)
+df <- seq_along(lambda_bt_stoch_cf) %>% 
+  map_df(~bcpi(t0 = est, t = lambda_bt_stoch_cf[1:.x]), .id = "B") %>% 
+  mutate(B = as.numeric(B))
+
+ggplot(df,aes(x = B)) +
+  geom_line(aes(y = lower), color = "red") +
+  geom_line(aes(y = upper), color = "blue")
+```
+
+For stochastic it does take longer.
+Why the sudden leaps for the upper limit?
+
+```{r}
+est <- lambda(ipm_stoch_ff, log = FALSE)
+df <- seq_along(lambda_bt_stoch_ff) %>% 
+  map_df(~bcpi(t0 = est, t = lambda_bt_stoch_ff[1:.x]), .id = "B") %>% 
+  mutate(B = as.numeric(B))
+
+ggplot(df,aes(x = B)) +
+  geom_line(aes(y = lower), color = "red") +
+  geom_line(aes(y = upper), color = "blue")
+```
