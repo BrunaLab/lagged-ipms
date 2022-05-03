@@ -14,7 +14,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 library(tidyverse)
 library(here)
 library(metRology)
@@ -42,13 +42,14 @@ To figure out the minimum number of meshpoints needed to accurately (precisely?)
 withr::with_dir(here::here(), {
   tar_load(vit_list_det_ff)
   tar_load(vit_list_stoch_ff)
+  tar_load(pop_vec_ff)
 })
 ```
 
 # Make proto IPM
 
 ```{r}
-proto_det <- make_proto_ipm_det(vit_list_det_ff)
+proto_det <- make_proto_ipm_det(vit_list_det_ff, pop_vec = pop_vec_ff)
 ```
 
 # Alter meshpoints
@@ -68,6 +69,7 @@ lambdas_det <- proto_det_list %>%
   map_dbl(~make_ipm(.x, usr_funs = list(get_scat_params = get_scat_params)) %>% lambda())
 
 plot(x =seq(20, 150, 5), y = lambdas_det, ylab = "lambda", xlab = "meshpoints")
+plot(x = seq(20, 150, 5), y = lambdas_det - lag(lambdas_det), ylab = "∆lambda", xlab = "meshpoints")
 ```
 
 Looks like 100 is probably the best.
@@ -78,40 +80,36 @@ Could *maybe* do 80.
 Let's try with stochastic IPM.
 
 ```{r}
-proto_stoch <- make_proto_ipm_stoch(vit_list_stoch_ff)
+proto_stoch <- make_proto_ipm_stoch(vit_list_stoch_ff, pop_vec = pop_vec_ff)
 ```
 
 ```{r}
-year_seq <- sample(2000:2009, 100, replace = TRUE)
-
 proto_stoch_list <- 
-  seq(60, 120, 10) %>%
+  seq(20, 140, 10) %>%
   map(~{
     proto_stoch %>% 
     define_domains(log_size = c(0, 8.018296, .x)) %>%  
-    #arbitrary starting population state
-    define_pop_state(n_log_size = runif(.x), n_sdlg = .1)
+    #replace starting pop vector with uniform one with correct number of meshpts
+    define_pop_state(n_log_size = rep(1/(.x + 1), .x), n_sdlg = 1/.x)
   })
-
-# make_ipm(proto_stoch_list[[1]],
-#          iterations = 100,
-#          kernel_seq = year_seq,
-#          usr_funs = list(get_scat_params = get_scat_params))
 ```
 
-### Note:
+```{r}
+year_seq <- sample(2000:2009, 1000, replace = TRUE)
 
-This currently isn't working because of a bug in `ipmr` that causes `make_ipm()` to hang when `kernel_seq` is supplied <https://github.com/levisc8/ipmr/issues/58>
-
-```{r eval=FALSE}
-lambdas_stoch <-
+ipm_list <-
   proto_stoch_list %>%
-  map_dbl( ~ make_ipm(
+  map( ~ make_ipm(
     .x,
-    iterations = 100,
+    iterations = 1000,
     kernel_seq = year_seq,
-    usr_funs = list(get_scat_params = get_scat_params, coef = coef)
-  ) %>% lambda(log = FALSE))
+    usr_funs = list(get_scat_params = get_scat_params)
+  )) 
+  
+lambdas_stoch <- ipm_list %>% map_dbl(~lambda(.x, log = FALSE))
 
-plot(x = seq(60, 120, 10), y = lambdas_stoch, ylab = "stochastic lambda", xlab = "meshpoints")
+plot(x = seq(20, 140, 10), y = lambdas_stoch, ylab = "stochastic lambda", xlab = "meshpoints")
+plot(x = seq(20, 140, 10), y = lambdas_stoch - lag(lambdas_stoch), ylab = "∆lambda", xlab = "meshpoints")
 ```
+
+Ok, looks about the same for the stochastic model, which makes sense.

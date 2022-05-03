@@ -446,17 +446,23 @@ proto_ipm_stoch_cf <-
 
 Iterate IPM with 1000 iterations
 
+```{r}
+year_seq = sample(c(2001, 2003), size = 1000, replace = TRUE)
+```
+
 ```{r warning=FALSE}
 ipm_stoch_ff <- 
   proto_ipm_stoch_ff %>%
   make_ipm(iterations = 1000,
            normalize_pop_size = FALSE, # to run as PVA
+           kernel_seq = as.character(year_seq),
            usr_funs = list(get_scat_params = get_scat_params))
 
 ipm_stoch_cf <- 
   proto_ipm_stoch_cf %>%
   make_ipm(iterations = 1000,
            normalize_pop_size = FALSE, # to run as PVA
+           kernel_seq = as.character(year_seq),
            usr_funs = list(get_scat_params = get_scat_params))
 ```
 
