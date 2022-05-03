@@ -8,6 +8,12 @@ This repository contains data and code for a manuscript by Eric Scott
 and Emilio Bruna written for submission to The American Naturalist
 tentatively titled: \_\_\_\_\_.
 
+The idea here is to investigate the consequences of including lagged
+effects (such as those modeled by distributed lag non-linear models)
+into population models (integral projection models, IPMs). We’ll compare
+population growth rates (lambda) with deterministic, stochastic (matrix
+shuffling), and lagged effects IPMs.
+
 The most recent draft of the manuscript is available
 [here](https://brunalab.github.io/lagged-ipms/paper.html).
 
@@ -33,5 +39,3 @@ To run the compendium and reproduce all outputs:
 -   Install the [`targets` package](https://docs.ropensci.org/targets/).
 -   Run `targets::tar_make()` or `targets::tar_make_clustermq()` from
     the R console to run all code and produce all outputs.
-
-<!-- Consider using `targets::tar_github_actions()` if targets aren't too big -->
