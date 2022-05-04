@@ -177,31 +177,29 @@ tar_plan(
              usr_funs = list(get_scat_params = get_scat_params)),
   
   ## ├Stochastic, DLNM ------------------------------------------------------
+  # These are set up a little differently since to iterate the IPM I need to
+  # first create the sequence of environments (lagged SPEI history) from year
+  # sequence of years and the climate data.  `make_dlnm_ipm()` does this, then
+  # add the environmental states to the proto IPM, then iterates the IPM.
+  
   #TODO: make this use year_seq
   proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff, pop_vec_ff),
-  tar_target(
-    ipm_dlnm_ff,
-    proto_ipm_dlnm_ff %>%
-      make_dlnm_ipm(
-        clim,
-        seed = 1234,
-        iterations = 1000,
-        usr_funs = list(get_scat_params = get_scat_params)
-      )
-  ),
+  ipm_dlnm_ff = proto_ipm_dlnm_ff %>%
+    make_dlnm_ipm(
+      clim,
+      seed = 1234,
+      iterations = 1000,
+      usr_funs = list(get_scat_params = get_scat_params)
+    ),
  
   proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf, pop_vec_cf),
-  tar_target(
-    ipm_dlnm_cf,
-    proto_ipm_dlnm_cf %>%
-      make_dlnm_ipm(
-        clim,
-        seed = 1234,
-        iterations = 1000,
-        usr_funs = list(get_scat_params = get_scat_params)
-      )
-  ),
-
+  ipm_dlnm_cf = proto_ipm_dlnm_cf %>%
+    make_dlnm_ipm(
+      clim,
+      seed = 1234,
+      iterations = 1000,
+      usr_funs = list(get_scat_params = get_scat_params)
+    ),
  
   # Bootstrapped Lambdas -----------------------------------------------------------------
   # uses tar_rep() target factory to create dynamic branches to do 500
@@ -224,6 +222,7 @@ tar_plan(
   ),
   
   ## ├Stochastic, matrix sampling --------------------------------------------
+  #TODO: also make these use year_seq??
   tar_rep(
     lambda_bt_stoch_ff,
     ipm_boot_stoch(data_ff, vit_other = vit_other_ff),
@@ -242,6 +241,7 @@ tar_plan(
   # For these I use more batches, fewer reps because each rep takes like an hour.
   # That way I can make incremental progress easier.
   
+  #TODO: also make these use year_seq??
   # tar_rep(
   #   lambda_bt_dlnm_ff,
   #   ipm_boot_dlnm(data_ff, vit_other = vit_other_ff, clim = clim),
