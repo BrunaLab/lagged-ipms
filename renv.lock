@@ -1363,10 +1363,10 @@
     },
     "tarchetypes": {
       "Package": "tarchetypes",
-      "Version": "0.5.0",
+      "Version": "0.6.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "69e05d6f7e98f843b1a94266cfd2d2ed",
+      "Hash": "4d76a20b57bc46b0be7ef6ca3cb68e2f",
       "Requirements": [
         "digest",
         "dplyr",
@@ -1381,15 +1381,15 @@
     },
     "targets": {
       "Package": "targets",
-      "Version": "0.11.0.9000",
+      "Version": "0.12.0.9000",
       "Source": "GitHub",
       "RemoteType": "github",
-      "RemoteHost": "api.github.com",
       "RemoteUsername": "ropensci",
       "RemoteRepo": "targets",
       "RemoteRef": "main",
-      "RemoteSha": "3e138e23cf6a843ae589186c07a401240075390f",
-      "Hash": "d66546ece5c9fe7917305d5242ca4985",
+      "RemoteSha": "59edd3846097473d83756b93d312404d4d13373e",
+      "RemoteHost": "api.github.com",
+      "Hash": "192461ab8c0ef6483a0fbe1494e975ac",
       "Requirements": [
         "R6",
         "base64url",
