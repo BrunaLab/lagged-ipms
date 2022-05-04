@@ -123,7 +123,8 @@ The kernel-resampling approach is to generate kernels corresponding to each tran
 This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.
 
 For the third method, we modeled the impacts of drought on vital rates explicitly.
-We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022. We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
+We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022.
+We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
 Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM.
 To iterate such an IPM, a random sequence of SPEI values is created by re-sampling the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
