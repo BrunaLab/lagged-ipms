@@ -7,10 +7,11 @@
 #'
 #' @param data the data_full target
 #' @param n_mesh number of meshpoints to use when discretizing log_size.  Passed to `ipmr::discretize_pop_vector()`.
+#' @param n total individuals. The sum of `n_log_size` and `n_sdlg` will equal this.
 #'
 #' @return a list of two elements, `n_log_size` (length = n_mesh) and `n_sdlg` (length 1)
 #' 
-make_pop_vec <- function(data, n_mesh = 100) {
+make_pop_vec <- function(data, n_mesh = 100, n = 1) {
   
   #filter data to only include years with seedlings
   pop_data <- data %>% filter(year>1999, !is.na(log_size))
@@ -36,5 +37,5 @@ make_pop_vec <- function(data, n_mesh = 100) {
   # sum(prop_established) + prop_sdlg == 1
   
   #return:
-  list(n_log_size = prop_established, n_sdlg = prop_sdlg)
+  list(n_log_size = prop_established * n, n_sdlg = prop_sdlg * n)
 }
