@@ -194,7 +194,7 @@ pandoc.table(
   tar_read(lambda_table),
   digits = 5,
   keep.trailing.zeros = TRUE,
-  justify = c("left", "left", "right", "right", "right", "right"),
+  justify = c("left", "left", "right", "right", "right"),
   full_width = FALSE,
   caption = "(\\#tab:lambda) Population growth rates for continuous forest (cf) and forest fragments (ff) under different kinds of IPMs with bootstrapped 95% confidence intervals."
 )
@@ -204,10 +204,39 @@ pandoc.table(
 # Figures
 
 ```{r}
-#| example-figure,
-#| fig.cap = "A caption for an example figure. It can be long and span mutiple
-#|   lines like this."
-plot(cars)
+#| pva,
+#| fig.cap = "Population trajectories for all three IPMs in both habitats"
+tar_load(c(
+  ipm_det_cf,
+  ipm_det_ff,
+  ipm_stoch_cf,
+  ipm_stoch_ff,
+  ipm_dlnm_cf,
+  ipm_dlnm_ff
+))
+
+ipm_list <- 
+  list(det_cf = ipm_det_cf,
+       det_ff = ipm_det_ff,
+       stoch_cf = ipm_stoch_cf,
+       stoch_ff = ipm_stoch_ff,
+       dlnm_cf = ipm_dlnm_cf,
+       dlnm_ff = ipm_dlnm_ff)
+
+plot_df <- 
+  ipm_list %>% map_df(~{
+  pop_states <- pop_state(.x)
+
+    lapply(pop_states, colSums) %>%
+    as_tibble() %>% 
+    mutate(n = n_log_size + n_sdlg,
+           t = 1:n())
+}, .id = "model") %>% 
+  separate(model, into = c("ipm", "habitat"))
+
+ggplot(plot_df, aes(x = t, y = n, color = habitat)) +
+  geom_line() +
+  facet_wrap(~ipm,ncol = 1)
 ```
 
 Some kind of conceptual diagram of the methods?
