@@ -7,10 +7,11 @@
 #' 
 #' @param data demographic data.  E.g. the data_ff or data_cf targets
 #' @param vit_other a list containing vit_fruits, vit_seeds, and vit_germ_est
-#'
+#' @param ... other arguments passed to `ipmr::make_ipm()`
+#' 
 #' @return lambda
 #' 
-ipm_boot_stoch <- function(data, vit_other) {
+ipm_boot_stoch <- function(data, vit_other, year_seq = NULL, ...) {
   #sample ha_id_numbers with replacement within plots
   boot_ids <-
     data %>% 
@@ -37,7 +38,9 @@ ipm_boot_stoch <- function(data, vit_other) {
   make_proto_ipm_stoch(vit_list_stoch, pop_vec) %>% 
     make_ipm(iterations = 1000,  
              normalize_pop_size = TRUE,
-             usr_funs = list(get_scat_params = get_scat_params)
+             kernel_seq = year_seq,
+             usr_funs = list(get_scat_params = get_scat_params),
+             ...
     ) %>% 
     #calculate lambda
     ipmr::lambda(log = FALSE)
