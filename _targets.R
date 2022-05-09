@@ -191,6 +191,7 @@ tar_plan(
       clim,
       seed = 1234,
       year_seq = year_seq,
+      normalize_pop_size = FALSE,
       usr_funs = list(get_scat_params = get_scat_params)
     ),
  
@@ -200,6 +201,7 @@ tar_plan(
       clim,
       seed = 1234,
       year_seq = year_seq,
+      normalize_pop_size = FALSE,
       usr_funs = list(get_scat_params = get_scat_params)
     ),
  
