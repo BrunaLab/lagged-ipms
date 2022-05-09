@@ -24,12 +24,13 @@ tar_plan(
   
   # Load and wrangle data ---------------------------------------------------
   
-  tar_file(file_demog, here("data", "Ha_survey_pre_submission.csv"), deployment = "main"),
+  tar_file(file_demog, here("data", "HDP_1997_2009.csv"), deployment = "main"),
+  tar_file(file_plots, here("data", "HDP_plots.csv"), deployment = "main"),
   tar_file(file_clim, here("data", "xavier_daily_0.25x0.25.csv"), deployment = "main"),
   tar_file(file_1998, here("data", "ha_size_data_1998_cor.csv"), deployment = "main"),
   tar_file(file_2008, here("data", "Heliconia_acuminata_seedset_2008.csv"), deployment = "main"),
   
-  demog = read_wrangle_demog(file_demog),
+  demog = read_wrangle_demog(file_demog, file_plots),
   clim = read_wrangle_clim(file_clim),
   data_full = join_data(demog, clim),
   data_cf = data_full %>% filter(habitat == "CF"),
