@@ -50,7 +50,7 @@ make_env_states <- function(clim, seed = NULL, maxlag = 36, iterations = NULL, y
     slice(-c(1:burnin)) %>% 
     mutate(t = 1:n()) %>% #add row index
     #return just what's needed to iterate
-    select(year, t, spei_history)
+    select(t, spei_history)
   
   #limit SPEI in randomly sampled data to limits in observed data. Even though
   #its the same data, there might not have been observed data as extreme for
@@ -65,17 +65,14 @@ make_env_states <- function(clim, seed = NULL, maxlag = 36, iterations = NULL, y
     pull(spei_history) %>% 
     apply(MARGIN = 2, FUN = min, na.rm = TRUE)
   
-  crop_extremes <- function(x) {
-    for(i in 1:ncol(x)) {
-      x[,i][x[,i] < spei_min[i]] <- spei_min[i]
-      x[,i][x[,i] > spei_max[i]] <- spei_max[i]
-    }
-    x
+  #crop extremes
+  for(i in 1:ncol(env_states$spei_history)) {
+    env_states$spei_history[,i][env_states$spei_history[,i] < spei_min[i]] <- spei_min[i]
+    env_states$spei_history[,i][env_states$spei_history[,i] > spei_max[i]] <- spei_max[i]
   }
   
-  env_states %>% 
-    mutate(spei_history = crop_extremes(spei_history))
-  
+  #return:
+  env_states
 }
 # x <- make_env_states(clim, seed = 123, iterations = 1000)
 

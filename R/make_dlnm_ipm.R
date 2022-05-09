@@ -26,8 +26,14 @@
 #'   
 #' @return an iterated ipm
 #' 
-make_dlnm_ipm <- function(proto_ipm, clim, year_seq = NULL, seed = NULL, iterations = NULL, ...) {
-  
+make_dlnm_ipm <-
+  function(proto_ipm,
+           clim,
+           year_seq = NULL,
+           seed = NULL,
+           iterations = NULL,
+           ...) {
+    
   if(is.null(year_seq) & is.null(iterations)) {
     stop("One of `year_seq` or `iterations` must be specified")
   }
@@ -37,8 +43,15 @@ make_dlnm_ipm <- function(proto_ipm, clim, year_seq = NULL, seed = NULL, iterati
   }
   
   # if iterations are specified, draw random years with make_env_states()
-  env_states <- make_env_states(clim, seed = seed, maxlag = 36, iterations = iterations, year_seq = year_seq)
-  n_it <- nrow(env_states) #should be the same as iterations, but just in case.
+    env_states <-
+      make_env_states(
+        clim,
+        seed = seed,
+        maxlag = 36,
+        iterations = iterations,
+        year_seq = year_seq
+      )
+    n_it <- nrow(env_states) #should be the same as iterations, but just in case.
   
   # if year_seq is specified, use that instead.
   

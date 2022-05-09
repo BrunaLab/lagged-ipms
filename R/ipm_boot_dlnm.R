@@ -41,7 +41,8 @@ ipm_boot_dlnm_raw <- function(data, vit_other, clim, year_seq = NULL, ...) {
                   return_sub_kernels = FALSE, # don't save every iteration
                   normalize_pop_size = TRUE,
                   year_seq = year_seq,
-                  usr_funs = list(get_scat_params = get_scat_params)) %>% 
+                  usr_funs = list(get_scat_params = get_scat_params),
+                  ...) %>% 
     #calculate lambda
     ipmr::lambda(log = FALSE)
   
