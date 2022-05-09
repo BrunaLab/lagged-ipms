@@ -8,10 +8,11 @@
 #' @param data demographic data.  E.g. the data_ff or data_cf targets
 #' @param vit_other a list containing vit_fruits, vit_seeds, and vit_germ_est
 #' @param clim the clim target.  Full climate timeseries (no lags calculated).
+#' @param ... other arguments passed to `ipmr::make_ipm()`
 #'
 #' @return lambda
 #' 
-ipm_boot_dlnm_raw <- function(data, vit_other, clim) {
+ipm_boot_dlnm_raw <- function(data, vit_other, clim, year_seq = NULL, ...) {
   #sample ha_id_numbers with replacement within plots
   boot_ids <-
     data %>% 
@@ -20,7 +21,7 @@ ipm_boot_dlnm_raw <- function(data, vit_other, clim) {
     #for validation:
     mutate(unique_id = paste(ha_id_number, row_number(), sep = "-"))
   
-  boot <- inner_join(data, boot_ids)
+  boot <- inner_join(data, boot_ids, by = "ha_id_number")
   
   #fit vital rates
   vit_list_dlnm <- c(list(
@@ -39,7 +40,9 @@ ipm_boot_dlnm_raw <- function(data, vit_other, clim) {
     make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
                   return_sub_kernels = FALSE, # don't save every iteration
                   normalize_pop_size = TRUE,
-                  usr_funs = list(get_scat_params = get_scat_params)) %>% 
+                  year_seq = year_seq,
+                  usr_funs = list(get_scat_params = get_scat_params),
+                  ...) %>% 
     #calculate lambda
     ipmr::lambda(log = FALSE)
   

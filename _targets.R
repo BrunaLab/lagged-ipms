@@ -143,8 +143,11 @@ tar_plan(
   
   ## ├Simulation Parameters -------------------------------------------------
   # Starting population for simulations
-  pop_vec_ff = make_pop_vec(data_ff, n_mesh = 100),
-  pop_vec_cf = make_pop_vec(data_cf, n_mesh = 100),
+  
+  # Start with 1000 individuals distributed in size classes in a way that
+  # matches observed data
+  pop_vec_ff = make_pop_vec(data_ff, n_mesh = 100, n = 1000),
+  pop_vec_cf = make_pop_vec(data_cf, n_mesh = 100, n = 1000),
   
   # Sequence of years to use for stochastic simulations
   year_seq = sample(2000:2009, 1000, replace = TRUE),
@@ -182,13 +185,13 @@ tar_plan(
   # sequence of years and the climate data.  `make_dlnm_ipm()` does this, then
   # add the environmental states to the proto IPM, then iterates the IPM.
   
-  #TODO: make this use year_seq
   proto_ipm_dlnm_ff = make_proto_ipm_dlnm(vit_list_dlnm_ff, pop_vec_ff),
   ipm_dlnm_ff = proto_ipm_dlnm_ff %>%
     make_dlnm_ipm(
       clim,
       seed = 1234,
-      iterations = 1000,
+      year_seq = year_seq,
+      normalize_pop_size = FALSE,
       usr_funs = list(get_scat_params = get_scat_params)
     ),
  
@@ -197,7 +200,8 @@ tar_plan(
     make_dlnm_ipm(
       clim,
       seed = 1234,
-      iterations = 1000,
+      year_seq = year_seq,
+      normalize_pop_size = FALSE,
       usr_funs = list(get_scat_params = get_scat_params)
     ),
  
@@ -225,33 +229,32 @@ tar_plan(
   #TODO: also make these use year_seq??
   tar_rep(
     lambda_bt_stoch_ff,
-    ipm_boot_stoch(data_ff, vit_other = vit_other_ff),
+    ipm_boot_stoch(data_ff, vit_other = vit_other_ff, year_seq = year_seq),
     batches = 5,
     reps = 100
   ),
 
   tar_rep(
     lambda_bt_stoch_cf,
-    ipm_boot_stoch(data_cf, vit_other = vit_other_cf),
+    ipm_boot_stoch(data_cf, vit_other = vit_other_cf, year_seq = year_seq),
     batches = 5,
     reps = 100
   ),
 
   ## ├Stochastic, DLNM ------------------------------------------------------
-  # For these I use more batches, fewer reps because each rep takes like an hour.
+  # For these I use more batches, fewer reps because each rep takes about 90 min.
   # That way I can make incremental progress easier.
   
-  #TODO: also make these use year_seq??
   # tar_rep(
   #   lambda_bt_dlnm_ff,
-  #   ipm_boot_dlnm(data_ff, vit_other = vit_other_ff, clim = clim),
+  #   ipm_boot_dlnm(data_ff, vit_other = vit_other_ff, clim = clim, year_seq = year_seq),
   #   batches = 500,
   #   reps = 1
   # ),
   # 
   # tar_rep(
   #   lambda_bt_dlnm_cf,
-  #   ipm_boot_dlnm(data_cf, vit_other = vit_other_cf, clim = clim),
+  #   ipm_boot_dlnm(data_cf, vit_other = vit_other_cf, clim = clim, year_seq = year_seq),
   #   batches = 500,
   #   reps = 1
   # ),
