@@ -13,15 +13,15 @@
 #' @return lambda
 #' 
 ipm_boot_dlnm_raw <- function(data, vit_other, clim, year_seq = NULL, ...) {
-  #sample ha_id_numbers with replacement within plots
+  #sample plant_ids with replacement within plots
   boot_ids <-
     data %>% 
-    summarize(ha_id_number = unique(ha_id_number)) %>% 
+    summarize(plant_id = unique(plant_id)) %>% 
     sample_n(n(), replace = TRUE) %>% 
     #for validation:
-    mutate(unique_id = paste(ha_id_number, row_number(), sep = "-"))
+    mutate(unique_id = paste(plant_id, row_number(), sep = "-"))
   
-  boot <- inner_join(data, boot_ids, by = "ha_id_number")
+  boot <- inner_join(data, boot_ids, by = "plant_id")
   
   #fit vital rates
   vit_list_dlnm <- c(list(
