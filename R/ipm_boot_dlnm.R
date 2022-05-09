@@ -21,7 +21,7 @@ ipm_boot_dlnm_raw <- function(data, vit_other, clim, year_seq = NULL, ...) {
     #for validation:
     mutate(unique_id = paste(ha_id_number, row_number(), sep = "-"))
   
-  boot <- inner_join(data, boot_ids)
+  boot <- inner_join(data, boot_ids, by = "ha_id_number")
   
   #fit vital rates
   vit_list_dlnm <- c(list(
