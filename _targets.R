@@ -242,7 +242,7 @@ tar_plan(
   ),
 
   ## ├Stochastic, DLNM ------------------------------------------------------
-  # For these I use more batches, fewer reps because each rep takes like an hour.
+  # For these I use more batches, fewer reps because each rep takes about 90 min.
   # That way I can make incremental progress easier.
   
   # tar_rep(
