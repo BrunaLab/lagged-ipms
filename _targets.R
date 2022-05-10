@@ -29,15 +29,15 @@ tar_plan(
   tar_file(file_clim, here("data", "xavier_daily_0.25x0.25.csv"), deployment = "main"),
   tar_file(file_1998, here("data", "ha_size_data_1998_cor.csv"), deployment = "main"),
   tar_file(file_2008, here("data", "Heliconia_acuminata_seedset_2008.csv"), deployment = "main"),
+  tar_target(demog, read_wrangle_demog(file_demog, file_plots), deployment = "main"),
+  tar_target(clim, read_wrangle_clim(file_clim), deployment = "main"),
+  tar_target(data_full, join_data(demog, clim), deployment = "main"),
   
-  demog = read_wrangle_demog(file_demog, file_plots),
-  clim = read_wrangle_clim(file_clim),
-  data_full = join_data(demog, clim),
-  data_cf = data_full %>% filter(habitat == "CF"),
-  data_ff = data_full %>% filter(habitat == "1-ha"),
+  tar_target(data_cf, data_full %>% filter(habitat == "CF"), deployment = "main"),
+  tar_target(data_ff, data_full %>% filter(habitat == "1-ha"), deployment = "main"),
   
-  data_1998 = read_wrangle_1998(file_1998),
-  data_2008 = read.csv(file_2008),
+  tar_target(data_1998, read_wrangle_1998(file_1998), deployment = "main"),
+  tar_target(data_2008, read.csv(file_2008), deployment = "main"),
   
 
   # Vital rate models -------------------------------------------------------
@@ -227,7 +227,6 @@ tar_plan(
   ),
   
   ## ├Stochastic, matrix sampling --------------------------------------------
-  #TODO: also make these use year_seq??
   tar_rep(
     lambda_bt_stoch_ff,
     ipm_boot_stoch(data_ff, vit_other = vit_other_ff, year_seq = year_seq),
@@ -246,19 +245,19 @@ tar_plan(
   # For these I use more batches, fewer reps because each rep takes about 90 min.
   # That way I can make incremental progress easier.
   
-  # tar_rep(
-  #   lambda_bt_dlnm_ff,
-  #   ipm_boot_dlnm(data_ff, vit_other = vit_other_ff, clim = clim, year_seq = year_seq),
-  #   batches = 500,
-  #   reps = 1
-  # ),
-  # 
-  # tar_rep(
-  #   lambda_bt_dlnm_cf,
-  #   ipm_boot_dlnm(data_cf, vit_other = vit_other_cf, clim = clim, year_seq = year_seq),
-  #   batches = 500,
-  #   reps = 1
-  # ),
+  tar_rep(
+    lambda_bt_dlnm_ff,
+    ipm_boot_dlnm(data_ff, vit_other = vit_other_ff, clim = clim, year_seq = year_seq),
+    batches = 500,
+    reps = 1
+  ),
+
+  tar_rep(
+    lambda_bt_dlnm_cf,
+    ipm_boot_dlnm(data_cf, vit_other = vit_other_cf, clim = clim, year_seq = year_seq),
+    batches = 500,
+    reps = 1
+  ),
   
   ## ├Lambda table ------------------------------------------------------
   tar_target(
