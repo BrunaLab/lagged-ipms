@@ -1,3 +1,17 @@
+#' Reand and wrangle Heliconia acuminata demographic dataset
+#' 
+#' Reads in the Dryad-archived demographic dataset and does some wrangling: 1)
+#' creates a new binary column for flowering (from nubmer of infloresences), 2)
+#' creates `log_size` variable (`log(ht*shts)`), 3) creates a column for
+#' survival assuming that plants that haven't been found for 3 years were dead
+#' the last time they were seen, 4) does some filtering and selecting to get
+#' just the data we need.
+#'
+#' @param file_demog the demographic dataset
+#' @param file_plots the dataset with plot information
+#'
+#' @return a tibble
+#' 
 read_wrangle_demog <- function(file_demog, file_plots) {
   ha_raw <- read_csv(file_demog)
   ha_plots <- read_csv(file_plots)

@@ -1,3 +1,14 @@
+#' Models for Heliconia vital rates including environmental stochasticity as a
+#' random effect of year
+#'
+#' These functions fit models for survival, growth, flowering, seedling
+#' survival, and seedling recruitment using GAMs.  I've erred on the side of too
+#' many knots so that models have enough knots for both CF and FF data and I
+#' don't have to write separate functions. The random effect of year can be
+#' modeled several ways with GAMs.  These are explored in
+#' notes/environmental-stochasticity.Rmd
+
+
 #for checking knots, load data and run k.check() for the models
 # library(mgcv)
 # library(tidyverse)

@@ -1,13 +1,14 @@
 #' Plot population stage structure over time
-#' 
-#' For a stochastic Heliconia IPM, plots size distribution changes over iterations as a binned area plot.
+#'
+#' For a stochastic Heliconia IPM, plots size distribution changes over
+#' iterations as a binned area plot.
 #'
 #' @param ipm an iterated ipmr ipm
-#' @param bins number of bins to group continuous log_size into (not including seedlings)
-#' @param normalize logical; TRUE plots proportions while FALSE (default) plots actual numbers
-#' 
-#' 
-#' TODO: look at using collapse_pop_state instead.  Might be useful.
+#' @param bins number of bins to group continuous log_size into (not including
+#'   seedlings)
+#' @param normalize logical; TRUE plots proportions while FALSE (default) plots
+#'   actual numbers
+#'
 plot_pop_states <- function(ipm, bins = 6, normalize = FALSE) {
   meshpts <- int_mesh(ipm, full_mesh = FALSE)$log_size_1
   
@@ -15,7 +16,9 @@ plot_pop_states <- function(ipm, bins = 6, normalize = FALSE) {
   rownames(pop_states$n_log_size) <-  meshpts
   
   post_sdlg_df <-
-    as_tibble(pop_states$n_log_size, .name_repair = "unique", rownames = "log_size") %>% 
+    as_tibble(pop_states$n_log_size,
+              .name_repair = "unique",
+              rownames = "log_size") %>%
     mutate(log_size = as.numeric(log_size)) %>% 
     pivot_longer(
       -log_size,
@@ -45,7 +48,7 @@ plot_pop_states <- function(ipm, bins = 6, normalize = FALSE) {
   
   pop_state_tidy <-
     bind_rows(post_sdlg_binned, sdlg_df) %>% 
-    mutate(log_size_bin = fct_relevel(log_size_bin, "seedling", after = 0)) %>% 
+    mutate(log_size_bin = fct_relevel(log_size_bin, "seedling", after = 0)) %>%
     mutate(log_size_bin = fct_rev(log_size_bin)) %>% 
     #calculate proportions
     group_by(iteration) %>% 
@@ -58,7 +61,8 @@ plot_pop_states <- function(ipm, bins = 6, normalize = FALSE) {
   }
   
   p <- 
-    ggplot(pop_state_tidy, aes_string(x = "iteration", y = yvar, fill = "log_size_bin")) +
+    ggplot(pop_state_tidy,
+           aes_string(x = "iteration", y = yvar, fill = "log_size_bin")) +
     geom_area(color = "black", size =.2) +
     scale_fill_viridis_d() +
     coord_cartesian(expand = FALSE)

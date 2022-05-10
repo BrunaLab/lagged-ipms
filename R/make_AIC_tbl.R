@@ -1,3 +1,11 @@
+#' Make model competition table data frame
+#' 
+#' Takes lists of vital rates (e.g. vit_list_det_ff, vit_list_dlnm_cf, etc.), extracts the vital rates models contained within, and returns a table of AIC values.
+#'
+#' @param ... targets following the pattern `vit_list_<det/stoch/dlnm>_<ff/cf>`
+#'
+#' @return a tibble
+#' 
 make_AIC_tbl <- function(...) {
   all_mods <- rlang::list2(...)
   mod_names <- rlang::ensyms(...) %>% as.character() %>% str_remove_all("vit_list_")

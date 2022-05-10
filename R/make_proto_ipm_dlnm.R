@@ -1,4 +1,18 @@
-library(ipmr)
+#' Build general, stochastic, parameter sampled, density-independent proto-IPM
+#' for Heliconia
+#'
+#' This wraps all the `ipmr` functions used to build a general, stochastic,
+#' parameter sampled, density-independent IPM. The vital rates functions are
+#' GAMs that include lagged effects of SPEI. The returned `proto_ipm` contains
+#' everything needed to iterate the IPM except for the environmental states. See
+#' the documentation for `ipmr` for more details.
+#'
+#' @param data_list one of the `vit_list_dlnm_*` targets containing all vital
+#'   rates referenced in the IPM
+#' @param pop_vec an initial population vector such as the `pop_vec_*` targets.
+#'
+#' @return a proto_ipm object
+#' 
 make_proto_ipm_dlnm <- function(data_list, pop_vec) {
   
   init_ipm(

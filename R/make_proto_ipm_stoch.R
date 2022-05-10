@@ -1,4 +1,17 @@
-library(ipmr)
+#' Build general, stochastic, kernel sampled, density-independent proto-IPM
+#' for Heliconia
+#'
+#' This wraps all the `ipmr` functions used to build a general, stochastic,
+#' kernel sampled, density-independent IPM. The vital rates functions are GAMs
+#' that include random effects of year. See the documentation for `ipmr` for
+#' more details.
+#' 
+#' @param data_list one of the `vit_list_stoch_*` targets containing all vital
+#'   rates referenced in the IPM
+#' @param pop_vec an initial population vector such as the `pop_vec_*` targets.
+#'
+#' @return a `proto_ipm` object
+#' 
 make_proto_ipm_stoch <- function(data_list, pop_vec) {
   
   init_ipm(

@@ -1,3 +1,9 @@
+#' Read and wrangle data from 1998 experiment
+#'
+#' @param path path to dataset
+#'
+#' @return a tibble
+#' 
 read_wrangle_1998 <- function(path){
   df_raw <- read_csv(path)
   df_raw %>% 

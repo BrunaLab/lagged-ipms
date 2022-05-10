@@ -1,3 +1,19 @@
+#' Create a data frame of environmental states for use in stochastic IPMs
+#'
+#' Takes the `clim` target and either a specific sequence of years (`year_seq`)
+#' *or* a number of `iterations` and produces a tibble with everything required
+#' to be used for the stochastic, parameter sampled IPMs (the DLNM IPMs).  Used
+#' by `make_dlnm_ipm()`.
+#'
+#' @param clim the `clim` target
+#' @param seed a random seed for reproducibility, optional.
+#' @param maxlag the maximum lag time.  Should be 36 months.
+#' @param iterations a number of iterations if you want years chosen randomly
+#' @param year_seq a vector of years to use to sample from `clim`
+#'
+#' @return a tibble with columns `t` (iteration number, used internally by
+#'   `ipmr`), and `spei_history` (a matrix column with 36 columns)
+#' 
 make_env_states <- function(clim, seed = NULL, maxlag = 36, iterations = NULL, year_seq = NULL) {
   env_df <- 
     clim %>% 
@@ -33,18 +49,21 @@ make_env_states <- function(clim, seed = NULL, maxlag = 36, iterations = NULL, y
     #add burnin years to the beginning
     year_seq <- c(sample(yrs, burnin, replace = TRUE), year_seq)
   } else {
-    #samples n_years years plus necessary "burn-in" years to calculate lags.  These will be removed later.
+    #samples n_years years plus necessary "burn-in" years to calculate lags.
+    #These will be removed later.
     if (is.null(iterations)) {
       iterations <- length(yrs)
     }
     year_seq <- sample(yrs, iterations + burnin, replace = TRUE)
   }
   
-  # pull those random years from the dataset to construct a new dataset in the order of year_seq
+  # pull those random years from the dataset to construct a new dataset in the
+  # order of year_seq
   env_states <- 
     map_dfr(year_seq, ~ env_df %>% 
                dplyr::filter(year == .x)) %>% 
-    # then calculate lagged `spei_history` starting in February of each year going back `maxlag` months
+    # then calculate lagged `spei_history` starting in February of each year
+    # going back `maxlag` months
     mutate(spei_history = tsModel::Lag(spei, 0:maxlag)) %>% 
     dplyr::filter(month == 2) %>%
     slice(-c(1:burnin)) %>% 
@@ -66,9 +85,11 @@ make_env_states <- function(clim, seed = NULL, maxlag = 36, iterations = NULL, y
     apply(MARGIN = 2, FUN = min, na.rm = TRUE)
   
   #crop extremes
-  for(i in 1:ncol(env_states$spei_history)) {
-    env_states$spei_history[,i][env_states$spei_history[,i] < spei_min[i]] <- spei_min[i]
-    env_states$spei_history[,i][env_states$spei_history[,i] > spei_max[i]] <- spei_max[i]
+  for (i in 1:ncol(env_states$spei_history)) {
+    env_states$spei_history[, i][env_states$spei_history[, i] < spei_min[i]] <-
+      spei_min[i]
+    env_states$spei_history[, i][env_states$spei_history[, i] > spei_max[i]] <-
+      spei_max[i]
   }
   
   #return:

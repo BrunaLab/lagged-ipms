@@ -1,4 +1,14 @@
-# library(ipmr)
+#' Build general, deterministic, density-independent proto-IPM for Heliconia
+#'
+#' This wraps all the `ipmr` functions used to build a general, deterministic,
+#' density-independent IPM.  See the documentation for `ipmr` for more details.
+#'
+#' @param data_list one of the `vit_list_det_*` targets containing all vital
+#'   rates referenced in the IPM
+#' @param pop_vec an initial population vector such as the `pop_vec_*` targets.
+#'
+#' @return a proto_ipm object
+#' 
 make_proto_ipm_det <- function(data_list, pop_vec) {
   
   init_ipm(
@@ -87,7 +97,8 @@ make_proto_ipm_det <- function(data_list, pop_vec) {
       evict_fun = truncated_distributions("t.scaled", "G_z2_sdlg")
     ) %>% 
     
-    # define implementation with midpoint rule
+    # define implementation with midpoint rule (only available integration rule
+    # currently)
     define_impl(make_impl_args_list(
       kernel_names = c("P",        "go_sdlg",  "stay_sdlg", "leave_sdlg"),
       int_rule     = c("midpoint", "midpoint", "midpoint",  "midpoint"),
@@ -96,7 +107,6 @@ make_proto_ipm_det <- function(data_list, pop_vec) {
     )) %>% 
     #define lower bound, upper bound, and number of meshpoints for log_size
     define_domains(log_size = c(0, 8.018296, 100)) %>%  
-    #arbitrary starting population state
     define_pop_state(pop_vectors = pop_vec)
   
 }

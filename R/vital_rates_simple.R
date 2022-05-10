@@ -1,3 +1,11 @@
+#' Simple deterministic models for Heliconia vital rates
+#' 
+#' These functions fit models for survival, growth, flowering, seedling
+#' survival, and seedling recruitment using GAMs.  I've erred on the side of too
+#' many knots so that models have enough knots for both CF and FF data and I
+#' don't have to write separate functions.
+
+
 #for checking knots, load data and run k.check() for the models
 # library(mgcv)
 # library(tidyverse)
