@@ -4,7 +4,8 @@
 # )
 
 
-# # Setup SSH connector
+# Or use these options to setup the SSH connector to use hipergator (or another
+# HPC)
 options(
   clustermq.scheduler = "ssh",
   clustermq.template = "ssh_clustermq.tmpl", #custom SSH template to use R 4.0
@@ -23,40 +24,53 @@ lapply(list.files("./R", full.names = TRUE), source)
 tar_plan(
   
   # Load and wrangle data ---------------------------------------------------
-  
+  # All of these targets are run locally (deployment = "main")
+  # Heliconia demographic datset
   tar_file(file_demog, here("data", "HDP_1997_2009.csv"), deployment = "main"),
   tar_file(file_plots, here("data", "HDP_plots.csv"), deployment = "main"),
+  
+  # Climate data from Xavier et al. 2016
   tar_file(file_clim, here("data", "xavier_daily_0.25x0.25.csv"), deployment = "main"),
+  
+  # Other unpublished Heliconia datasets for fruit and seed vital rates
   tar_file(file_1998, here("data", "ha_size_data_1998_cor.csv"), deployment = "main"),
-  tar_file(file_2008, here("data", "Heliconia_acuminata_seedset_2008.csv"), deployment = "main"),
+  tar_file(file_2008, here("data", "Heliconia_acuminata_seedset_2008.csv"),
+           deployment = "main"),
+  tar_target(data_1998, read_wrangle_1998(file_1998), deployment = "main"),
+  tar_target(data_2008, read.csv(file_2008), deployment = "main"),
+  
+  # Wrangle and combine data
   tar_target(demog, read_wrangle_demog(file_demog, file_plots), deployment = "main"),
   tar_target(clim, read_wrangle_clim(file_clim), deployment = "main"),
   tar_target(data_full, join_data(demog, clim), deployment = "main"),
   
+  # Subset data since separate IPMs are fit for continuous forest (cf) and forest
+  # fragments (ff)
   tar_target(data_cf, data_full %>% filter(habitat == "CF"), deployment = "main"),
   tar_target(data_ff, data_full %>% filter(habitat == "1-ha"), deployment = "main"),
-  
-  tar_target(data_1998, read_wrangle_1998(file_1998), deployment = "main"),
-  tar_target(data_2008, read.csv(file_2008), deployment = "main"),
   
 
   # Vital rate models -------------------------------------------------------
 
   ## ├Shared vital rates ----------------------------------------------------
   # Vital rates from other datasets besides the 10 year demographic experiment
+  # that are used in all IPMs
   vit_other_ff = list(
     vit_fruits = fruits_gam(data_1998),
     vit_seeds = seeds_gam(data_1998, data_2008),
-    vit_germ_est = 0.018921527 #germination and establishment
+    vit_germ_est = 0.018921527 #germination and establishment from Bruna 2002. Fig 3
   ),
   
   vit_other_cf = list(
     vit_fruits = fruits_gam(data_1998),
     vit_seeds = seeds_gam(data_1998, data_2008),
-    vit_germ_est = 0.057098765 #germination and establishment
+    vit_germ_est = 0.057098765 #germination and establishment from Bruna 2002. Fig 3
   ),
 
   ## ├Deterministic ---------------------------------------------------------
+  
+  #Deterministic IPMs have vital rates that include a smooth function of
+  #log(size) in the previous timestep only.
   
   ## forests fragments
   vit_list_det_ff = c(
@@ -82,6 +96,9 @@ tar_plan(
   
   ## ├Stochastic (random effect of year) ------------------------------------
   
+  # For more on how environmental stochasticity was modeled, see
+  # notes/environmental-stochasticity.Rmd
+  
   ## forest fragments
   vit_list_stoch_ff = c(
     list(
@@ -105,6 +122,10 @@ tar_plan(
     vit_other_cf),
   
   ## ├DLNMs -----------------------------------------------------------------
+  
+  # Vital rates for these IPMs are similar to those fit in Scott et al. 2022
+  # (distributed lag non-linear models that model lagged effecst of SPEI
+  # explicitly)
   
   # forest fragments
   vit_list_dlnm_ff = c(
@@ -130,7 +151,8 @@ tar_plan(
   
   
   ## ├Model Selection Table ---------------------------------------------------
-  
+  #Within each habitat type and vital rate, which type of model fits the data
+  #best?
   aic_tbl_df = make_AIC_tbl(
     vit_list_det_cf,
     vit_list_det_ff,
@@ -141,6 +163,8 @@ tar_plan(
   ),
   
   # IPMs --------------------------------------------------------------------
+  # IPMs are constructed and iterated using functions that wrap functions from
+  # the `ipmr` package.
   
   ## ├Simulation Parameters -------------------------------------------------
   # Starting population for simulations
@@ -167,7 +191,8 @@ tar_plan(
   
   
   ## ├Stochastic, matrix sampling --------------------------------------------
-  
+  # year_seq ensures that all IPMs use the same sequence of years so that
+  # comparisons between habitats and between these and DLNM IPMs are fair.
   ipm_stoch_ff = make_proto_ipm_stoch(vit_list_stoch_ff, pop_vec_ff) %>%
     make_ipm(iterations = 1000,
              kernel_seq = year_seq,
@@ -289,5 +314,6 @@ tar_plan(
   
   
 ) %>% 
+  #always use dplyr::filter() and dplyr::lag()
   tar_hook_before(hook = conflicted::conflict_prefer("filter", "dplyr")) %>% 
   tar_hook_before(hook = conflicted::conflict_prefer("lag", "dplyr"))
