@@ -37,10 +37,12 @@ ipm_boot_dlnm_raw <- function(data, vit_other, clim, year_seq = NULL, ...) {
   
   #make IPM
   make_proto_ipm_dlnm(vit_list_dlnm, pop_vec) %>% 
-    make_dlnm_ipm(clim, seed = 1234, iterations = 1000,
+    make_dlnm_ipm(clim, 
+                  year_seq = year_seq,
+                  seed = 1234, 
+                  # iterations = 1000,
                   return_sub_kernels = FALSE, # don't save every iteration
                   normalize_pop_size = TRUE,
-                  year_seq = year_seq,
                   usr_funs = list(get_scat_params = get_scat_params),
                   ...) %>% 
     #calculate lambda
