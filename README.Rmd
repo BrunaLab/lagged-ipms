@@ -55,3 +55,8 @@ To run the compendium and reproduce all outputs:
 -   Install packages listed in `packages.R` (if this compendium uses `renv`, this may happen automatically or with `renv::restore()`).
 -   Install the [`targets` package](https://docs.ropensci.org/targets/).
 -   Run `targets::tar_make()` or `targets::tar_make_clustermq()` from the R console to run all code and produce all outputs.
+
+### NOTES:
+
+-   The targets `lambda_bt_dlnm_ff` and `lambda_bt_dlnm_cf` will take a very long time to run (days), so you may want to comment those out before attempting to reproduce results.
+-   If you want to make use of HPC, follow instructions [here](https://github.com/BrunaLab/hipergator-targets-ssh) to customize templates and options.
