@@ -26,6 +26,22 @@ The most recent draft of the manuscript is available [here](https://brunalab.git
 
 [Notes for collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
 
+# Roadmap
+
+Before June 3:
+
+-   [x] Finish building all IPMs
+-   [x] Document functions and \_targets.R
+-   [ ] Calculate bootstrapped 95% CIs around all lambdas
+-   [ ] Finish writing methods section
+-   [ ] Draft tables & figures
+-   [ ] Archive draft of code in Zenodo
+
+Future:
+
+-   [ ] Finish writing and revising
+-   [ ] Submit
+
 # Reproducibility
 
 This research compendium has been developed using the statistical programming language R.
