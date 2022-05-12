@@ -96,7 +96,8 @@ make_proto_ipm_dlnm <- function(data_list, pop_vec) {
       s_sdlg = predict(vit_surv_sdlg,
                        newdata = tibble(L = matrix(0:36, nrow = 1),
                                         spei_history = spei_history),
-                       newdata.guaranteed = TRUE),
+                       newdata.guaranteed = TRUE,
+                       type = "response"),
       G_z2_sdlg = dt.scaled(
         x    = log_size_2,
         df   = size_sdlg_nu,
@@ -106,7 +107,8 @@ make_proto_ipm_dlnm <- function(data_list, pop_vec) {
       size_sdlg_mu = predict(vit_size_sdlg,
                              newdata = tibble(L = matrix(0:36, nrow = 1),
                                               spei_history = spei_history),
-                             newdata.guaranteed = TRUE), 
+                             newdata.guaranteed = TRUE,
+                             type = "response"), 
       size_sdlg_nu = get_scat_params(vit_size_sdlg)["nu"],
       size_sdlg_sd = get_scat_params(vit_size_sdlg)["sd"],
       
