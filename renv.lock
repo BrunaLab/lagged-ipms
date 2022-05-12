@@ -789,26 +789,6 @@
       "Hash": "7ab57a6de7f48a8dc84910d1eca42883",
       "Requirements": []
     },
-    "janitor": {
-      "Package": "janitor",
-      "Version": "2.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "6de84a8c67fb247e721166049c84695f",
-      "Requirements": [
-        "dplyr",
-        "lifecycle",
-        "lubridate",
-        "magrittr",
-        "purrr",
-        "rlang",
-        "snakecase",
-        "stringi",
-        "stringr",
-        "tidyr",
-        "tidyselect"
-      ]
-    },
     "jquerylib": {
       "Package": "jquerylib",
       "Version": "0.1.4",
@@ -1322,17 +1302,6 @@
         "stringr"
       ]
     },
-    "snakecase": {
-      "Package": "snakecase",
-      "Version": "0.11.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "4079070fc210c7901c0832a3aeab894f",
-      "Requirements": [
-        "stringi",
-        "stringr"
-      ]
-    },
     "stringi": {
       "Package": "stringi",
       "Version": "1.7.6",
@@ -1384,12 +1353,12 @@
       "Version": "0.12.0.9000",
       "Source": "GitHub",
       "RemoteType": "github",
+      "RemoteHost": "api.github.com",
       "RemoteUsername": "ropensci",
       "RemoteRepo": "targets",
       "RemoteRef": "main",
-      "RemoteSha": "59edd3846097473d83756b93d312404d4d13373e",
-      "RemoteHost": "api.github.com",
-      "Hash": "192461ab8c0ef6483a0fbe1494e975ac",
+      "RemoteSha": "279011ddcd54860a6384d98bcba13a380cb8abba",
+      "Hash": "3af75c57111994fe3ca8b6fd78cb07d2",
       "Requirements": [
         "R6",
         "base64url",
