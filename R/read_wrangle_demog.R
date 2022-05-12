@@ -1,4 +1,4 @@
-#' Reand and wrangle Heliconia acuminata demographic dataset
+#' Read and wrangle Heliconia acuminata demographic dataset
 #' 
 #' Reads in the Dryad-archived demographic dataset and does some wrangling: 1)
 #' creates a new binary column for flowering (from nubmer of infloresences), 2)
