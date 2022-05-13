@@ -94,10 +94,6 @@ Abstract text.
 \<!-
 -# TODO:
 
--   Mention number of meshpoints
-
--   Add info about starting pop vector for IPMs
-
 -   Add equations / figures
 
 -   Add info about additional datasets (Emilio)
@@ -114,30 +110,30 @@ For growth models, a scaled t family distribution provided a better fit to the d
 To estimate reproduction we drew on additional data sources to estimate the number of fruits per flowering plant as a function of plant size, the number of seeds per fruit, and germination and establishment rates in continuous forest and forest fragments.
 <!--# Emilio: add more info here -->
 
-These models were used to build a general, density-independent, deterministic IPM with four sub-kernels: growth and survival, reproduction, probability of staying a seedling (always = 0), and seedling survival and establishment.
-<!--# include equation --> The seedling bank, or probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.
+These models were used to build a general, density-independent, deterministic IPM with four sub-kernels: growth and survival, reproduction, probability of staying a seedling, and seedling survival and establishment.
+<!--# include equation --> The probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.
 
-For the second approach, we included environmental stochasticity by adding a random intercept <!--# or intercept and slope or factor-smooth interaction -->for year to all vital rate models built with the long term demographic dataset.
+For the second approach, we included environmental stochasticity by adding a random effect of year to all vital rate models built with the long term demographic dataset.
+The random effect of year was fit using a factor--smooth interaction which allowed the relationship between plant size and vital rates to vary in functional form among transition years.
 Then, we used these models to build general, density independent, stochastic, kernel-resampled IPMs.
-The kernel-resampling approach is to generate kernels corresponding to each transition year in the demographic dataset using the random intercepts for year, and to iterate the IPM by drawing from these randomly.
+The kernel-resampling approach is to generate kernels corresponding to each transition year in the demographic dataset using the random smooths for year, and to iterate the IPM by drawing from these randomly.
 This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.
 
 For the third method, we modeled the impacts of drought on vital rates explicitly.
-We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022.
-We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
-Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM.
+We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022. We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
+Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM (*sensu* @metcalfStatisticalModellingAnnual2015).
 To iterate such an IPM, a random sequence of SPEI values is created by re-sampling the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
 These values are then used to predict fitted values from the vital rates models, generating different kernels at each iteration of the IPM.
 With this method, these kernels are not entirely independent because the SPEI from the previous two iterations is included in the vital rates underlying each kernel.
 
-All IPMs were constructed and iterated with the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
+All IPMs were constructed and iterated with 100 meshpoints <!--# optimized in notes/optimizing-meshpoints.Rmd which could be turned into supplemental -->using the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
 For each type of IPM we iterated the model for 1000 time steps, discarding the first 100 time steps to omit transient effects.
 Stochastic growth rates ($\lambda_s$) were calculated as the average $ln(\lambda)$ from each time step [@caswell2001] and back-transformed to be on the same scale as deterministic lambdas for comparison.
 We used the distribution of established plant sizes and proportion of seedlings from the full dataset as a starting population vector.
 While other starting population vectors were possible, the choice is of little importance as it will only impact transient dynamics, which we aren't interested in for this study.
 
-To calculate 95% confidence intervals around the per-capita growth rates (lambdas), we created 1000 bootstraps of the demographic dataset by sampling individual plants with replacement within each habitat.
+To calculate 95% confidence intervals around the per-capita growth rates (lambdas), we created 500 bootstraps of the demographic dataset by sampling individual plants with replacement within each habitat.
 For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and calculated a value for lambda as described above.
 
 This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.
