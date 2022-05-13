@@ -122,12 +122,13 @@ This is equivalent to the matrix selection approach for matrix population models
 For the third method, we modeled the impacts of drought on vital rates explicitly.
 We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022. We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
 Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM (*sensu* @metcalfStatisticalModellingAnnual2015).
-To iterate such an IPM, a random sequence of SPEI values is created by re-sampling the observed monthly SPEI data.
+To iterate such an IPM, a random sequence of SPEI values is created by sampling years of the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
 These values are then used to predict fitted values from the vital rates models, generating different kernels at each iteration of the IPM.
-With this method, these kernels are not entirely independent because the SPEI from the previous two iterations is included in the vital rates underlying each kernel.
+With this method, the kernels of successive iterations are not entirely independent because the SPEI values used in calculating vital rates include values used in the previous two iterations.
 
-All IPMs were constructed and iterated with 100 meshpoints <!--# optimized in notes/optimizing-meshpoints.Rmd which could be turned into supplemental -->using the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
+All IPMs were constructed and iterated <!--# optimized in notes/optimizing-meshpoints.Rmd which could be turned into supplemental -->using the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
+The IPMs used 100 meshpoints and the midpoint rule for calculating kernels <!--# citation? -->.
 For each type of IPM we iterated the model for 1000 time steps, discarding the first 100 time steps to omit transient effects.
 Stochastic growth rates ($\lambda_s$) were calculated as the average $ln(\lambda)$ from each time step [@caswell2001] and back-transformed to be on the same scale as deterministic lambdas for comparison.
 We used the distribution of established plant sizes and proportion of seedlings from the full dataset as a starting population vector.
