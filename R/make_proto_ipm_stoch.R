@@ -87,14 +87,16 @@ make_proto_ipm_stoch <- function(data_list, pop_vec) {
       family = "DC",
       s_sdlg = predict(vit_surv_sdlg,
                        newdata = tibble(year_fct = yr),
-                       type = 'response'), #intercept from intercept-only glm
+                       type = 'response'),
       G_z2_sdlg = dt.scaled(
         x    = log_size_2,
         df   = size_sdlg_nu,
         mean = size_sdlg_mu,
         sd   = size_sdlg_sd
       ),
-      size_sdlg_mu = coef(vit_size_sdlg)[1], #intercept from intercept-only glm
+      size_sdlg_mu = predict(vit_size_sdlg,
+                             newdata = tibble(year_fct = yr),
+                             type = 'response'),
       size_sdlg_nu = get_scat_params(vit_size_sdlg)["nu"],
       size_sdlg_sd = get_scat_params(vit_size_sdlg)["sd"],
       
