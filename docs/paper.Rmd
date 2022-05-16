@@ -95,8 +95,6 @@ Abstract text.
 \<!-
 -# TODO:
 
--   Add figures
-
 -   Add paragraph about why we used IPMs or why a General IPM---depends on what goes in introduction maybe?
 
 -   Add info about additional datasets (Emilio)
@@ -139,7 +137,7 @@ Those seeds then germinate and establish as seedlings with probability $g$.
 
 ------------------------------------------------------------------------
 
-Ultimately, we built and iterated three types of IPMs which each required different underlying vital rate model structure.
+Ultimately, we built and iterated three types of IPMs which each required different underlying vital rate model structure (Figure \@ref(fig:lifecycle)).
 For all models, we used the long term demographic dataset for modeling survival, growth, and flowering.
 For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020].
 Seedlings were considered a separate discrete class not structured by size.
@@ -159,7 +157,8 @@ The kernel-resampling approach is to generate kernels corresponding to each tran
 This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.
 
 For the third method, we modeled the impacts of drought on vital rates explicitly.
-We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022. We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
+We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022.
+We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
 Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM (*sensu* @metcalfStatisticalModellingAnnual2015).
 To iterate such an IPM, a random sequence of SPEI values is created by sampling years of the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
@@ -247,8 +246,23 @@ pandoc.table(
 #| fig.cap = "Diagram of IPMs with equations"
 
 # Draft of this figure is in docs/figures/Heliconia lifecycle DAG.key
+knitr::include_graphics(here::here("docs", "figures", "lifecycle.png"))
 ```
 
+Combine above figure with this table:
+
+| Description                                  | Deterministic    | Stochastic, kernel-resampled | Stochastic, parameter-resampled (DLNM) |
+|----------------------------------------------|------------------|------------------------------|----------------------------------------|
+| Mature plant survival                        | $s(z)$           | $s_y(z)$                     | $s(z;\theta_{0-36})$                   |
+| Seedling survival                            | $s_0$            | $s_{0_y}$                    | $s_0(\theta_{0-36})$                   |
+| Mature plant growth or regression            | $G(z^\prime, z)$ | $G_y(z^\prime,z)$            | $G(z^\prime,z;\theta_{0-36})$          |
+| Seedling growth into mature plant            | $G_0(z^\prime)$  | $G_{0_y}(z^\prime)$          | $G(z^\prime;\theta_{0-36})$            |
+| Probability of flowering                     | $p_f(z)$         | $p_{f_y}(z)$                 | $p_f(z;\theta_{0-36})$                 |
+| Size-specific fecundity                      | $f(z)$           | $f(z)$                       | $f(z)$                                 |
+| Probability of germination and establishment | $g$              | $g$                          | $g$                                    |
+
+<!--# probably can't make the figure with the table in it in R easily. -->\
+\
 Just playing with something here.
 This is the population trajectories from the iterated IPMs with `normalize_pop_size=FALSE`.
 I thought maybe I'd be able to see some (lagged) similarities between the kernel sampled and DLNM IPMs because they are run with the same sequence of years.
