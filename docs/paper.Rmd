@@ -64,6 +64,7 @@ knitr::opts_chunk$set(
 	comment = "#>"
 )
 library(targets)
+library(tidyverse)
 ```
 
 <!-- The actual document text starts here: -->
@@ -94,11 +95,49 @@ Abstract text.
 \<!-
 -# TODO:
 
--   Add equations / figures
+-   Add figures
+
+-   Add paragraph about why we used IPMs or why a General IPM---depends on what goes in introduction maybe?
 
 -   Add info about additional datasets (Emilio)
 
 --\>
+
+Why general IPM necessary?
+
+-   Seedlings physiologically different from 1-shoot small plants because of lack of underground reserves (of carbs and meristems)
+
+-   Seedling survival not well predicted when included with mature plants.
+
+------------------------------------------------------------------------
+
+### Kernel equation and description
+
+Below is a description of the *basic*, deterministic IPM.
+This maybe goes in a supplement?
+These vital rates get swapped out for ones that vary by year (for the stochastic, kernel resampled IPMs) or ones that include lagged effects of SPEI (for the stochastic, parameter resampled IPMs).
+See Figure \@ref(fig:lifecycle).
+
+For mature plants:
+
+$$
+n(z^{\prime},t+1) = s_s G_s(z^\prime)n_s(t) + \int_L^U s(z) G(z^{\prime}, z) n(z,t)\;dz
+$$
+
+The number and size of mature plants in the next census is determined by seedlings entering the mature plant population (i.e. recruitment <!--# *Is* this recruitment? -->) and survival and growth (or regression) of mature plants.
+Seedlings survive ($s_s$) and grow into mature plants of a particular size ($G_s(z^\prime)$).
+Mature plants survive as a function of size ($s(z)$), and grow (or regress) to a new size as a function of their previous size ($G(z^\prime, z)$).
+
+For seedlings:
+
+$$
+n_s(t+1) = \int_L^U p_f(z)f(z)g n(z,t) \; dz
+$$
+
+Mature plants flower with a probability that is a function of size ($p_f(z)$) and produce a number of seeds as a function of size ($f(z)$).
+Those seeds then germinate and establish as seedlings with probability $g$.
+
+------------------------------------------------------------------------
 
 Ultimately, we built and iterated three types of IPMs which each required different underlying vital rate model structure.
 For all models, we used the long term demographic dataset for modeling survival, growth, and flowering.
@@ -136,6 +175,7 @@ While other starting population vectors were possible, the choice is of little i
 
 To calculate 95% confidence intervals around the per-capita growth rates (lambdas), we created 500 bootstraps of the demographic dataset by sampling individual plants with replacement within each habitat.
 For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and calculated a value for lambda as described above.
+<!--# then calculated bias corrected 95% CIs -->
 
 This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.
 
@@ -177,6 +217,8 @@ Data and R code used in this study are archived with Zenodo at <doi url>.
 library(pander)
 ```
 
+<!--# Note: The old version of this table where "random effect of year" only meant a random intercept has DLNM *always* winning as best fit model.  Should other ways of fitting random effects be included for this table (even if not in the IPMs)?  Could add simple GLMMs, for example. -->
+
 ```{r aic, results='asis'}
 pandoc.table(
   tar_read(aic_tbl_df),
@@ -193,12 +235,25 @@ pandoc.table(
   keep.trailing.zeros = TRUE,
   justify = c("left", "left", "right", "right", "right"),
   full_width = FALSE,
-  caption = "(\\#tab:lambda) Population growth rates for continuous forest (cf) and forest fragments (ff) under different kinds of IPMs with bootstrapped 95% confidence intervals."
+  caption = "(\\#tab:lambda) Population growth rates for continuous forest (cf) and forest fragments (ff) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
 )
 
 ```
 
 # Figures
+
+```{r}
+#| lifecycle
+#| fig.cap = "Diagram of IPMs with equations"
+
+# Draft of this figure is in docs/figures/Heliconia lifecycle DAG.key
+```
+
+Just playing with something here.
+This is the population trajectories from the iterated IPMs with `normalize_pop_size=FALSE`.
+I thought maybe I'd be able to see some (lagged) similarities between the kernel sampled and DLNM IPMs because they are run with the same sequence of years.
+Nothing obvious pops out.
+Not sure this figure is worth including.
 
 ```{r}
 #| pva,
@@ -231,13 +286,16 @@ plot_df <-
 }, .id = "model") %>% 
   separate(model, into = c("ipm", "habitat"))
 
-ggplot(plot_df, aes(x = t, y = n, color = habitat)) +
+p <- ggplot(plot_df, aes(x = t, y = n, color = ipm)) +
   geom_line() +
-  facet_wrap(~ipm,ncol = 1)
-```
+  facet_wrap(~habitat, ncol = 1)
 
-Some kind of conceptual diagram of the methods?
-The life cycle diagram with equations on it?
+p + xlim(10, 250)
+
+p+ scale_y_log10() + labs(y = "log10(n)")
+
+
+```
 
 # References
 
