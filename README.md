@@ -6,7 +6,8 @@
 
 This repository contains data and code for a manuscript by Eric Scott
 and Emilio Bruna written for submission to The American Naturalist
-tentatively titled: \_\_\_\_\_.
+tentatively titled: *Context-dependent consequences of including lagged
+effects in demographic models*.
 
 The idea here is to investigate the consequences of including lagged
 effects (such as those modeled by distributed lag non-linear models)
@@ -27,8 +28,8 @@ Before June 3:
 -   [x] Finish building all IPMs
 -   [x] Document functions and \_targets.R
 -   [ ] Calculate bootstrapped 95% CIs around all lambdas
--   [ ] Finish writing methods section
--   [ ] Draft tables & figures
+-   [x] Finish draft of methods section
+-   [x] Draft tables & figures
 -   [ ] Archive draft of code in Zenodo
 
 Future:
@@ -50,9 +51,9 @@ You can download the compendium as a zip file from from this URL:
 To run the compendium and reproduce all outputs:
 
 -   Open the project in RStudio by double-clicking the `.Rproj` file.
--   Install packages listed in `packages.R` (if this compendium uses
-    `renv`, this may happen automatically or with `renv::restore()`).
--   Install the [`targets` package](https://docs.ropensci.org/targets/).
+-   This project uses `renv` for package management, which should be
+    installed automatically when opening the project. Run
+    `renv::restore()` to install all required packages.
 -   Run `targets::tar_make()` or `targets::tar_make_clustermq()` from
     the R console to run all code and produce all outputs.
 
