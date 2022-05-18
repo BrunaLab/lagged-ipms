@@ -24,7 +24,6 @@ read_wrangle_demog <- function(file_demog, file_plots) {
       -bdffp_no,
       -yr_isolated,
       -subplot,
-      -check_pre_dryad,
       -found_without_tag,
       -treefall_status,
       -condition
