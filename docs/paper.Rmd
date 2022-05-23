@@ -251,7 +251,7 @@ knitr::include_graphics(here::here("docs", "figures", "lifecycle.png"))
 Combine above figure with this table:
 
 | Description                                  | Deterministic    | Stochastic, kernel-resampled | Stochastic, parameter-resampled (DLNM) |
-|----------------------------------------------|------------------|------------------------------|----------------------------------------|
+|----------------------|----------------|----------------|-------------------|
 | Mature plant survival                        | $s(z)$           | $s_y(z)$                     | $s(z;\theta_{0-36})$                   |
 | Seedling survival                            | $s_0$            | $s_{0_y}$                    | $s_0(\theta_{0-36})$                   |
 | Mature plant growth or regression            | $G(z^\prime, z)$ | $G_y(z^\prime,z)$            | $G(z^\prime,z;\theta_{0-36})$          |
@@ -270,7 +270,7 @@ I thought maybe I'd be able to see some (lagged) similarities between the kernel
 Nothing obvious pops out.
 Not sure this figure is worth including.
 
-```{r}
+```{r eval=FALSE}
 #| pva,
 #| fig.cap = "Population trajectories for all three IPMs in both habitats"
 tar_load(c(
