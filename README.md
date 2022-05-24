@@ -16,7 +16,7 @@ population growth rates (lambda) with deterministic, stochastic (matrix
 shuffling), and lagged effects IPMs.
 
 The most recent draft of the manuscript is available
-[here](https://brunalab.github.io/lagged-ipms/paper.html).
+[here](https://brunalab.github.io/lagged-ipms/docs/paper.html).
 
 [Notes for
 collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)

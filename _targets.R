@@ -274,19 +274,19 @@ tar_plan(
   # For these I use more batches, fewer reps because each rep takes about 90 min.
   # That way I can make incremental progress easier.
   # 
-  # tar_rep(
-  #   lambda_bt_dlnm_ff,
-  #   ipm_boot_dlnm(data_ff, vit_other = vit_other_ff, clim = clim, year_seq = year_seq),
-  #   batches = 500,
-  #   reps = 1
-  # ),
-  # 
-  # tar_rep(
-  #   lambda_bt_dlnm_cf,
-  #   ipm_boot_dlnm(data_cf, vit_other = vit_other_cf, clim = clim, year_seq = year_seq),
-  #   batches = 500,
-  #   reps = 1
-  # ),
+  tar_rep(
+    lambda_bt_dlnm_ff,
+    ipm_boot_dlnm(data_ff, vit_other = vit_other_ff, clim = clim, year_seq = year_seq),
+    batches = 500,
+    reps = 1
+  ),
+
+  tar_rep(
+    lambda_bt_dlnm_cf,
+    ipm_boot_dlnm(data_cf, vit_other = vit_other_cf, clim = clim, year_seq = year_seq),
+    batches = 500,
+    reps = 1
+  ),
   
   ## ├Lambda table ------------------------------------------------------
   tar_target(
@@ -314,7 +314,7 @@ tar_plan(
 
 
   # Manuscript --------------------------------------------------------------
-  tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown")
+  tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown", output_format = "all")
   
   
 ) %>% 

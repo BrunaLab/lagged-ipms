@@ -22,7 +22,7 @@ This repository contains data and code for a manuscript by Eric Scott and Emilio
 The idea here is to investigate the consequences of including lagged effects (such as those modeled by distributed lag non-linear models) into population models (integral projection models, IPMs).
 We'll compare population growth rates (lambda) with deterministic, stochastic (matrix shuffling), and lagged effects IPMs.
 
-The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/paper.html).
+The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/paper.html).
 
 [Notes for collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
 
