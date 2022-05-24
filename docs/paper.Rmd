@@ -251,7 +251,7 @@ knitr::include_graphics(here::here("docs", "figures", "lifecycle.png"))
 Combine above figure with this table:
 
 | Description                                  | Deterministic    | Stochastic, kernel-resampled | Stochastic, parameter-resampled (DLNM) |
-|----------------------|----------------|----------------|-------------------|
+|----------------------------------------------|------------------|------------------------------|----------------------------------------|
 | Mature plant survival                        | $s(z)$           | $s_y(z)$                     | $s(z;\theta_{0-36})$                   |
 | Seedling survival                            | $s_0$            | $s_{0_y}$                    | $s_0(\theta_{0-36})$                   |
 | Mature plant growth or regression            | $G(z^\prime, z)$ | $G_y(z^\prime,z)$            | $G(z^\prime,z;\theta_{0-36})$          |
