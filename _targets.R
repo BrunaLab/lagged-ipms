@@ -48,6 +48,8 @@ tar_plan(
   # fragments (ff)
   tar_target(data_cf, data_full %>% filter(habitat == "CF"), deployment = "main"),
   tar_target(data_ff, data_full %>% filter(habitat == "1-ha"), deployment = "main"),
+  tar_target(data_cf_low, data_full %>% filter(plot %in% c("CF-4", "CF-5", "CF-6")),
+             deployment = "main"),
   
 
   # Vital rate models -------------------------------------------------------
@@ -94,6 +96,17 @@ tar_plan(
     ),
     vit_other_cf),
   
+  ## continuous forest
+  vit_list_det_cf_low = c(
+    list(
+      vit_surv = surv_det(data_cf_low),
+      vit_size = size_det(data_cf_low),
+      vit_flwr = flwr_det(data_cf_low),
+      vit_size_sdlg = size_sdlg_det(data_cf_low),
+      vit_surv_sdlg = surv_sdlg_det(data_cf_low)
+    ),
+    vit_other_cf),
+  
   ## ├Stochastic (random effect of year) ------------------------------------
   
   # For more on how environmental stochasticity was modeled, see
@@ -118,6 +131,17 @@ tar_plan(
       vit_flwr = flwr_raneff(data_cf),
       vit_size_sdlg = size_sdlg_raneff(data_cf),
       vit_surv_sdlg = surv_sdlg_raneff(data_cf)
+    ),
+    vit_other_cf),
+  
+  ## continuous forest low density plots only
+  vit_list_stoch_cf_low = c(
+    list(
+      vit_surv = surv_raneff(data_cf_low),
+      vit_size = size_raneff(data_cf_low),
+      vit_flwr = flwr_raneff(data_cf_low),
+      vit_size_sdlg = size_sdlg_raneff(data_cf_low),
+      vit_surv_sdlg = surv_sdlg_raneff(data_cf_low)
     ),
     vit_other_cf),
   
@@ -146,6 +170,17 @@ tar_plan(
       vit_flwr = flwr_dlnm(data_cf),
       vit_size_sdlg = size_sdlg_dlnm(data_cf),
       vit_surv_sdlg = surv_sdlg_dlnm(data_cf)
+    ),
+    vit_other_cf),
+  
+  # continuous forest low density plots only
+  vit_list_dlnm_cf_low = c(
+    list(
+      vit_surv = surv_dlnm(data_cf_low),
+      vit_size = size_dlnm(data_cf_low),
+      vit_flwr = flwr_dlnm(data_cf_low),
+      vit_size_sdlg = size_sdlg_dlnm(data_cf_low),
+      vit_surv_sdlg = surv_sdlg_dlnm(data_cf_low)
     ),
     vit_other_cf),
   
@@ -189,6 +224,11 @@ tar_plan(
              normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
   
+  ipm_det_cf_low = make_proto_ipm_det(vit_list_det_cf_low, pop_vec_cf) %>% 
+    make_ipm(iterations = 1000, #only needs 100 to converge
+             normalize_pop_size = FALSE, # to run as PVA
+             usr_funs = list(get_scat_params = get_scat_params)),
+  
   
   ## ├Stochastic, matrix sampling --------------------------------------------
   # year_seq ensures that all IPMs use the same sequence of years so that
@@ -202,6 +242,12 @@ tar_plan(
   ipm_stoch_cf = make_proto_ipm_stoch(vit_list_stoch_cf, pop_vec_cf) %>%
     make_ipm(iterations = 1000,
              kernel_seq = year_seq,
+             normalize_pop_size = FALSE, # to run as PVA
+             usr_funs = list(get_scat_params = get_scat_params)),
+  
+  ipm_stoch_cf_low = make_proto_ipm_stoch(vit_list_stoch_cf_low, pop_vec_cf, years = 2002:2009) %>%
+    make_ipm(iterations = 1000,
+             # kernel_seq = year_seq, #can't use full year_seq because 2000 and 2001 dont' have data for low-density CF plots
              normalize_pop_size = FALSE, # to run as PVA
              usr_funs = list(get_scat_params = get_scat_params)),
   
@@ -226,6 +272,18 @@ tar_plan(
   proto_ipm_dlnm_cf = make_proto_ipm_dlnm(vit_list_dlnm_cf, pop_vec_cf),
   
   ipm_dlnm_cf = proto_ipm_dlnm_cf %>%
+    make_dlnm_ipm(
+      clim,
+      seed = 1234,
+      year_seq = year_seq,
+      normalize_pop_size = FALSE,
+      return_sub_kernels = TRUE,
+      usr_funs = list(get_scat_params = get_scat_params)
+    ),
+  
+  proto_ipm_dlnm_cf_low = make_proto_ipm_dlnm(vit_list_dlnm_cf_low, pop_vec_cf),
+  
+  ipm_dlnm_cf_low = proto_ipm_dlnm_cf_low %>%
     make_dlnm_ipm(
       clim,
       seed = 1234,

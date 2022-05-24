@@ -12,7 +12,7 @@
 #'
 #' @return a `proto_ipm` object
 #' 
-make_proto_ipm_stoch <- function(data_list, pop_vec) {
+make_proto_ipm_stoch <- function(data_list, pop_vec, years = 2000:2009) {
   
   init_ipm(
     sim_gen = "general",
@@ -46,7 +46,7 @@ make_proto_ipm_stoch <- function(data_list, pop_vec) {
       data_list = data_list,
       states          = list(c('log_size')),
       uses_par_sets   = TRUE,
-      par_set_indices = list(yr = 2000:2009),
+      par_set_indices = list(yr = years),
       evict_cor       = TRUE,
       evict_fun       = truncated_distributions("t.scaled", "G_z1z")
     ) %>% 
@@ -69,7 +69,7 @@ make_proto_ipm_stoch <- function(data_list, pop_vec) {
       data_list     = data_list,
       states        = list(c('log_size', 'sdlg')),
       uses_par_sets = TRUE,
-      par_set_indices = list(yr = 2000:2009)
+      par_set_indices = list(yr = years)
     ) %>% 
     
     define_kernel(
@@ -103,7 +103,7 @@ make_proto_ipm_stoch <- function(data_list, pop_vec) {
       data_list = data_list,
       states = list(c("sdlg", "log_size")),
       uses_par_sets = TRUE,
-      par_set_indices = list(yr = 2000:2009),
+      par_set_indices = list(yr = years),
       evict_cor = TRUE,
       evict_fun = truncated_distributions("t.scaled", "G_z2_sdlg")
     ) %>% 
