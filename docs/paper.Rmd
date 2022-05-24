@@ -27,7 +27,9 @@ output:
       - --lua-filter=templates/author-info-blocks.lua
       #- -Fpandoc-crossref #required for cross-ref equations
     bookdown::html_document2: 
-      linenumbers: yes
+      theme: 
+        version: 4
+        bootswatch: journal
       number_sections: no
       fig_caption: yes
       pandoc_args:
