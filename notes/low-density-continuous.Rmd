@@ -1,0 +1,204 @@
+---
+title: "Is plot density important?"
+author: "Eric R. Scott"
+date: "2022-05-24"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+    highlight: kate
+    theme:
+      version: 4
+      bootswatch: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(conflicted)
+library(targets)
+library(mgcv)
+library(gratia)
+library(ipmr)
+library(marginaleffects)
+
+conflict_prefer("lag", "dplyr")
+conflict_prefer("filter", "dplyr")
+```
+
+*Last compiled: `r Sys.Date()`*
+
+# Purpose
+
+The continuous forest plots are not sampled randomly.
+The first three plots (CF-1--3) have a much higher density of plants than the 1-ha fragments.
+Emilio then purposefully saught out low-density continuous forest plots with numbers of plants comparable to the plots in 1-ha fragments (CF-4--6).
+Some preliminary investigation leads me to believe the high and low density plots may be different in terms of observed population growth, vital rates, and lambda.
+I've fit the vital rates models and ran the IPMs using only low-density CF plots for comparison.
+
+# Load Data
+
+```{r data, echo=TRUE}
+withr::with_dir(here::here(), {
+  tar_load(c(
+    lambda_table,
+    ipm_det_cf_low,
+    ipm_stoch_cf_low,
+    ipm_dlnm_cf_low,
+    data_full
+  ))
+})
+```
+
+# Vital rates
+
+One simple way to look for differences is to fit vital rates models with different smooths for 1-ha, CF-low density, and cf-high density.
+The `by = hab_dens` argument in `s()` generates a different smooth for each level of habitat/density
+
+#### NOTE:
+
+One important confounding factor here is that there is missing data for the year 2000 for all low-density CF plots and missing data for 2003 for one of the plots.
+So differences between low and high density or between low density and 1-ha could be due to the year 2000.
+To be "fair" I'm going to filter out 2000 (and 2001, since we need the size in the previous year) for all plots.
+
+```{r}
+# data_full$habitat %>% unique()
+df <-
+  data_full %>% 
+  select(-L, -spei_history) %>% 
+  filter(year != 2000) %>% 
+  mutate(hab_dens = case_when(
+    habitat == "1-ha" ~ "1-ha",
+    plot %in% c("CF-1", "CF-2", "CF-3") ~ "CF-high",
+    plot %in% c("CF-4", "CF-5", "CF-6") ~ "CF-low",
+    TRUE ~ NA_character_
+  ), .after = habitat) %>% 
+  mutate(hab_dens = as.factor(hab_dens))
+  
+```
+
+## Survival
+
+Fit the model with different intercepts and smooths for the three habitat:density combos
+
+```{r}
+m_surv <- bam(
+    surv ~ hab_dens + s(log_size_prev, bs = "cr", k = 20, by = hab_dens),
+    family = binomial,
+    data = df %>% filter(sdlg_prev == FALSE),
+    method = "fREML"
+)
+draw(m_surv)
+```
+
+Look at the pairwise differences in these smooths:
+
+```{r}
+diff_surv <- difference_smooths(m_surv, "s(log_size_prev)")
+ggplot(diff_surv, aes(x = log_size_prev, y = diff)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.4) +
+  geom_line() +
+  facet_wrap(level_1 ~ level_2) +
+  labs(title = "Difference smooths for survival")
+```
+
+Calculate contrast, the mean difference between adjusted predictions (See [vignette](https://vincentarelbundock.github.io/marginaleffects/articles/mfx02_contrasts.html)).
+The important thing to get about how these work is they evaluate the model at values in the actual dataset, then average the differences.
+
+```{r}
+cmp_surv <- comparisons(m_surv, variables = list(hab_dens = "pairwise"))
+summary(cmp_surv)
+```
+
+The mean difference in survival between low and high density CF is significant, and the mean difference between low density CF and 1-ha is not significant.
+
+## Size
+
+Fit the model with different intercepts and smooths for the three habitat:density combos
+
+```{r}
+m_size <- bam(
+    log_size ~ hab_dens + s(log_size_prev, bs = "cr", k = 20, by = hab_dens),
+    family = scat,
+    data = df %>% filter(sdlg_prev == FALSE, surv == 1, !is.na(log_size)),
+    method = "fREML"
+)
+draw(m_size)
+```
+
+Look at the pairwise differences in these smooths:
+
+```{r}
+diff_size <- difference_smooths(m_size, "s(log_size_prev)")
+ggplot(diff_size, aes(x = log_size_prev, y = diff)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.4) +
+  geom_line() +
+  facet_wrap(level_1 ~ level_2) +
+  labs(title = "Difference smooths for size")
+```
+
+differences are very minor
+
+Contrasts:
+
+```{r}
+cmp_size <- comparisons(m_size, variables = list(hab_dens = "pairwise"))
+summary(cmp_size)
+```
+
+Here the CF high and 1-ha are not significantly different but other comparisons are.
+The smooths for CF-high and 1-ha look really different for small plants, but because there are few small plants the comparison above shows a small effect.
+
+## Flowering
+
+```{r}
+m_flwr <- bam(
+    flwr ~ hab_dens + s(log_size_prev, bs = "cr", k = 20, by = hab_dens),
+    family = binomial, 
+    data = df %>% filter(sdlg == FALSE, surv == 1, !is.na(log_size)),
+    method = "fREML"
+  )
+draw(m_flwr)
+```
+
+The smooth for high density CF looks differen than the other two.
+
+Look at the pairwise differences in these smooths:
+
+```{r}
+diff_flwr <- difference_smooths(m_flwr, "s(log_size_prev)")
+ggplot(diff_flwr, aes(x = log_size_prev, y = diff)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.4) +
+  geom_line() +
+  facet_wrap(level_1 ~ level_2) +
+  labs(title = "Difference smooths for size")
+```
+
+Contrasts:
+
+```{r}
+cmp_flwr <- comparisons(m_flwr, variables = list(hab_dens = "pairwise"))
+summary(cmp_flwr)
+```
+
+all pairwise comparisons are significantly different and the biggest difference is actually between CF-low and 1-ha
+
+#IPMs
+
+We can also look at the level of the IPMs
+
+```{r}
+lambda_table %>% 
+  add_row(ipm = "det", habitat = "cf_low", est = lambda(ipm_det_cf_low)) %>% 
+  add_row(ipm = "stoch", habitat = "cf_low", est = lambda(ipm_stoch_cf_low, log = FALSE)) %>% 
+  add_row(ipm = "dlnm", habitat = "cf_low", est = lambda(ipm_dlnm_cf_low, log = FALSE)) %>% 
+  add_row(ipm = "dlnm", habitat = "ff", est = lambda(tar_read(ipm_dlnm_ff), log = FALSE)) %>% 
+  add_row(ipm = "dlnm", habitat = "cf", est = lambda(tar_read(ipm_dlnm_cf), log = FALSE)) %>% 
+  arrange(ipm, habitat)
+```
+
+For the deterministic and stochastic, kernel-resampled (random effect of year) models, CF low density plots have the lowest lambda.
+For the DLNM IPM, CF and CF low density are comparable and FF has the lowest lambda.
+The caveat is that the stochastic, kernel-resampled IPM for cf_low is iterated using a different sequence of years since it doesn't have data for 2000 or 2001.
