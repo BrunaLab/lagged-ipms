@@ -296,17 +296,17 @@ tar_plan(
         det_ff = ipm_det_ff,
         det_cf = ipm_det_cf,
         stoch_ff = ipm_stoch_ff,
-        stoch_cf = ipm_stoch_cf#,
-        # dlnm_ff = ipm_dlnm_ff,
-        # dlnm_cf = ipm_dlnm_cf
+        stoch_cf = ipm_stoch_cf,
+        dlnm_ff = ipm_dlnm_ff,
+        dlnm_cf = ipm_dlnm_cf
       ),
       bt_list = list(
         det_ff = lambda_bt_det_ff,
         det_cf = lambda_bt_det_cf,
         stoch_ff = lambda_bt_stoch_ff,
-        stoch_cf = lambda_bt_stoch_cf#,
-        # dlnm_ff = lambda_bt_dlnm_ff,
-        # dlnm_cf = lambda_bt_dlnm_cf
+        stoch_cf = lambda_bt_stoch_cf,
+        dlnm_ff = lambda_bt_dlnm_ff,
+        dlnm_cf = lambda_bt_dlnm_cf
       )
     ),
     deployment = "main" #data limited, not computation limited
