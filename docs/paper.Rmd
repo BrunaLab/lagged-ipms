@@ -193,6 +193,26 @@ For all vital rates estimated using the long term demographic dataset, the DLNM 
 
 Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (Table \@ref(tab:lambdas)).
 
+The time to iterate the DLNM models is much higher than than deterministic and kernel-resampled.
+The greater use of computational resources is likely a result of `predict()` being much slower for GAMs with 2D smooths because the number of knots is much higher compared to the GAMs used for the vital rates models in the determinsitic and kernel-resampled IPMs.
+<!--# also note that this can't really be paralellized because each iteration depends on the previous one.  There's *maybe* some potential speed gains in using multiple cores with predict.bam(), but unlikely to be substantial. -->
+
+```{r}
+meta_df <- 
+  tar_meta() %>% 
+  select(name, size, bytes, time, seconds) %>% 
+  filter(str_detect(name, "^ipm_\\w+_[cf]{2}$")) %>% 
+  mutate(minutes = seconds / 60,
+         hours = minutes / 60)
+
+meta_df %>% 
+  separate(name, into = c("trash", "IPM", "Habitat")) %>% 
+  select(-trash) %>% 
+  select(IPM, Habitat, minutes) %>% 
+  group_by(IPM) %>% 
+  summarize(mean_time_min = round(mean(minutes), 2))
+```
+
 # Discussion
 
 -   Our finding that the choice of IPM didn't change the relative ranking of CF and FF is consistent with @kayeEffectStochasticTechnique2003 finding that method effected stochastic lambda, but relative ranking of populations was consistent.
@@ -260,7 +280,7 @@ knitr::include_graphics(here::here("docs", "figures", "lifecycle.png"))
 Combine above figure with this table:
 
 | Description                                  | Deterministic    | Stochastic, kernel-resampled | Stochastic, parameter-resampled (DLNM) |
-|----------------------------------------------|------------------|------------------------------|----------------------------------------|
+|----------------------|----------------|----------------|-------------------|
 | Mature plant survival                        | $s(z)$           | $s_y(z)$                     | $s(z;\theta_{0-36})$                   |
 | Seedling survival                            | $s_0$            | $s_{0_y}$                    | $s_0(\theta_{0-36})$                   |
 | Mature plant growth or regression            | $G(z^\prime, z)$ | $G_y(z^\prime,z)$            | $G(z^\prime,z;\theta_{0-36})$          |
