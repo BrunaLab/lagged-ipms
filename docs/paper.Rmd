@@ -25,7 +25,7 @@ output:
       pandoc_args:
       - --lua-filter=templates/scholarly-metadata.lua
       - --lua-filter=templates/author-info-blocks.lua
-      #- -Fpandoc-crossref #required for cross-ref equations
+      - -Fpandoc-crossref #required for cross-ref equations
     bookdown::html_document2: 
       theme: 
         version: 4
@@ -35,6 +35,7 @@ output:
       pandoc_args:
       - --lua-filter=templates/scholarly-metadata.lua
       - --lua-filter=templates/author-info-blocks.lua
+      - -Fpandoc-crossref #required for cross-ref equations
 linkcolor: blue
 bibliography: references.bib
 csl: "templates/the-american-naturalist.csl" # Insert path for the bib-style
@@ -99,7 +100,9 @@ Abstract text.
 
 ## Demographic Data
 
-## Modeling vital rates
+<!--# Emilio will fill this section -->
+
+## IPMs
 
 \<!-
 -# TODO:
@@ -110,68 +113,58 @@ Abstract text.
 
 --\>
 
-Why general IPM necessary?
+In preliminary investigation we found that the survival and growth of plants was better explained by treating seedlings and mature plants separately.
+Seedlings are physiologically different from small plants because they necessarily lack the underground reserves (of carbohydrates and meristems) that a small, mature plant may have.
+Therefore, we used general IPMs to model population dynamics with seedlings treated as a separate discreet class not structured by size.
+General IPMs allow for combinations of continuous and discrete states and transitions between them [@ellnerDatadrivenModellingStructured2016].
 
--   Seedlings physiologically different from 1-shoot small plants because of lack of underground reserves (of carbs and meristems)
-
--   Seedling survival not well predicted when included with mature plants.
-
-------------------------------------------------------------------------
-
-### Kernel equation and description
-
-Below is a description of the *basic*, deterministic IPM.
-This maybe goes in a supplement?
-These vital rates get swapped out for ones that vary by year (for the stochastic, kernel resampled IPMs) or ones that include lagged effects of SPEI (for the stochastic, parameter resampled IPMs).
-See Figure \@ref(fig:lifecycle).
-
-For mature plants:
+We built three classes of IPMs for comparison which each required different functional forms of their underlying vital rates models.
+The simplest IPM was a general, density-independent, deterministic IPM with four sub-kernels: growth and survival ($P$, @eq:P), fecundity ($F$, i.e. production of new seedlings, @eq:F), probability of staying a seedling (always 0), and recruitment ($R$, i.e. seedling survival and establishment, @eq:R) ([@eq:mature; @eq:sdlg], Figure \@ref(fig:lifecycle)).
+The probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.
 
 $$
-n(z^{\prime},t+1) = s_s G_s(z^\prime)n_s(t) + \int_L^U s(z) G(z^{\prime}, z) n(z,t)\;dz
-$$
-
-The number and size of mature plants in the next census is determined by seedlings entering the mature plant population (i.e. recruitment <!--# *Is* this recruitment? -->) and survival and growth (or regression) of mature plants.
-Seedlings survive ($s_s$) and grow into mature plants of a particular size ($G_s(z^\prime)$).
-Mature plants survive as a function of size ($s(z)$), and grow (or regress) to a new size as a function of their previous size ($G(z^\prime, z)$).
-
-For seedlings:
+n(z^{\prime},t+1) = R(z^\prime)n_s(t) + \int_L^U P(z^\prime,z) n(z,t)\;dz
+$${#eq:mature}
 
 $$
-n_s(t+1) = \int_L^U p_f(z)f(z)g n(z,t) \; dz
+n_s(t+1) = \int_L^U F(z) n(z,t) \; dz
+$${#eq:sdlg}
+
 $$
+R(z^\prime) = s_sG_s(z^\prime)
+$${#eq:R}
 
-Mature plants flower with a probability that is a function of size ($p_f(z)$) and produce a number of seeds as a function of size ($f(z)$).
-Those seeds then germinate and establish as seedlings with probability $g$.
+$$
+P(z^\prime, z) = s(z)G(z^\prime, z)
+$${#eq:P}
 
-------------------------------------------------------------------------
+$$
+F(z) = p_f(z)f(z)g
+$${#eq:F}
 
-Ultimately, we built and iterated three types of IPMs which each required different underlying vital rate model structure (Figure \@ref(fig:lifecycle)).
-For all models, we used the long term demographic dataset for modeling survival, growth, and flowering.
-For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020].
-Seedlings were considered a separate discrete class not structured by size.
+The number and size of mature plants in the next census is determined by seedlings entering the mature plant population (i.e. recruitment <!--# *Is* this recruitment? -->) and survival and growth (or regression) of mature plants [@eq:mature]. Seedlings survive ($s_s$) and grow into mature plants of a particular size ($G_s(z^\prime)$) [@eq:R]. Mature plants survive as a function of size ($s(z)$), and grow (or regress) to a new size as a function of their previous size ($G(z^\prime, z)$) [@eq:P]. Mature plants flower with a probability that is a function of size ($p_f(z)$) and produce a number of seeds as a function of size ($f(z)$), which germinate and establish as seedlings with probability $g$ [@eq:F].
+
+Vital rate models for growth ($G_s(z^\prime)$ and $G(z^\prime, z)$) , survival ($s_s$ and $s(z)$), and flowering ($p_f(z)$) were fit using the long term demographic dataset.
+For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020] <!--# probably include a supplement with detail on things like basis, number of knots, etc. -->.
 For consistency, seedling survival and growth were also modeled using GAMs, but without size in the previous census as a predictor (i.e. intercept only models).
-For growth models, a scaled t family distribution provided a better fit to the data than a gaussian fit as the residuals were leptokurtic with a simple gaussian model.
+For growth models ($G_s(z^\prime)$ and $G(z^\prime, z)$) a scaled t family distribution provided a better fit to the data than a gaussian fit as the residuals were leptokurtic with a simple gaussian model.
 
-To estimate reproduction we drew on additional data sources to estimate the number of fruits per flowering plant as a function of plant size, the number of seeds per fruit, and germination and establishment rates in continuous forest and forest fragments.
+To estimate reproduction we drew on additional data sources to estimate the number of fruits per flowering plant as a function of plant size and the number of seeds per fruit (together $f(z)$).
+Germination and establishment rates in continuous forest and forest fragments were estimated using data from ....
 <!--# Emilio: add more info here -->
 
-These models were used to build a general, density-independent, deterministic IPM with four sub-kernels: growth and survival, reproduction, probability of staying a seedling, and seedling survival and establishment.
-<!--# include equation --> The probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.
-
-For the second approach, we included environmental stochasticity by adding a random effect of year to all vital rate models built with the long term demographic dataset.
-The random effect of year was fit using a factor--smooth interaction which allowed the relationship between plant size and vital rates to vary in functional form among transition years.
-Then, we used these models to build general, density independent, stochastic, kernel-resampled IPMs.
+To build the general, density-independent, stochastic, kernel-resampled IPMs, we included environmental stochasticity in all vital rate models built using the long term demographic datset by adding a random effect of year (Figure \@ref(fig:lifecycle)).
+The random effect of year was included using a factor--smooth interaction which allowed the relationship between plant size and vital rates to vary in functional form among transition years.
 The kernel-resampling approach is to generate kernels corresponding to each transition year in the demographic dataset using the random smooths for year, and to iterate the IPM by drawing from these randomly.
 This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.
 
-For the third method, we modeled the impacts of drought on vital rates explicitly.
-We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022. We modeled delayed effects of SPEI on survival, growth, and flowering probability using distributed lag non-linear models fit as two dimensional tensor product splines, with a maximum lag of 36 months [@scottDelayedEffectsClimate2022].
-Then these models were incorporated into a general, density independent, stochastic, parameter-resampled IPM (*sensu* @metcalfStatisticalModellingAnnual2015).
-To iterate such an IPM, a random sequence of SPEI values is created by sampling years of the observed monthly SPEI data.
+For the third method, we modeled the impacts of drought on vital rates explicitly and created general, density-independent, stochastic, parameter-resampled IPMs (*sensu* @metcalfStatisticalModellingAnnual2015).
+We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022. For all vital rate models fit using the long term demographic dataset, we modeled delayed effects of SPEI using distributed lag non-linear models with a maximum lag of 36 months[@scottDelayedEffectsClimate2022] (Figure \@ref(fig:lifecycle)).
+To iterate these parameter-resampled IPMs, a random sequence of SPEI values was created by sampling years of the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
 These values are then used to predict fitted values from the vital rates models, generating different kernels at each iteration of the IPM.
-With this method, the kernels of successive iterations are not entirely independent because the SPEI values used in calculating vital rates include values used in the previous two iterations.
+With this method, the kernels of successive iterations are not entirely independent because the SPEI values used in calculating vital rates include values used in the previous two iterations, but they are ergodic.
+<!--# ergodicity is somethign discussed in the Caswell book.  Basically, kernels eventually "forget" previous states.  I don't know if this last sentence really needs to be included, or if we are just inviting criticism from reviewers. -->
 
 All IPMs were constructed and iterated <!--# optimized in notes/optimizing-meshpoints.Rmd which could be turned into supplemental -->using the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
 The IPMs used 100 meshpoints and the midpoint rule for calculating kernels <!--# citation? -->.
@@ -180,9 +173,9 @@ Stochastic growth rates ($\lambda_s$) were calculated as the average $ln(\lambda
 We used the distribution of established plant sizes and proportion of seedlings from the full dataset as a starting population vector.
 While other starting population vectors were possible, the choice is of little importance as it will only impact transient dynamics, which we aren't interested in for this study.
 
-To calculate 95% confidence intervals around the per-capita growth rates (lambdas), we created 500 bootstraps of the demographic dataset by sampling individual plants with replacement within each habitat.
+To estimate uncertainty around the per-capita growth rates (lambdas), we created 500 bootstraps of the demographic dataset by sampling individual plants with replacement within each habitat.
 For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and calculated a value for lambda as described above.
-<!--# then calculated bias corrected 95% CIs -->
+We then used these bootstraped estimates of lambda to calculate bias corrected 95% confidence intervals [@ellnerDatadrivenModellingStructured2016].
 
 This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.
 
@@ -269,8 +262,7 @@ pandoc.table(
 
 # Figures
 
-```{r}
-#| lifecycle
+```{r lifecycle}
 #| fig.cap = "Diagram of IPMs with equations"
 
 # Draft of this figure is in docs/figures/Heliconia lifecycle DAG.key
@@ -280,7 +272,7 @@ knitr::include_graphics(here::here("docs", "figures", "lifecycle.png"))
 Combine above figure with this table:
 
 | Description                                  | Deterministic    | Stochastic, kernel-resampled | Stochastic, parameter-resampled (DLNM) |
-|----------------------|----------------|----------------|-------------------|
+|--------------------|------------------|------------------|------------------|
 | Mature plant survival                        | $s(z)$           | $s_y(z)$                     | $s(z;\theta_{0-36})$                   |
 | Seedling survival                            | $s_0$            | $s_{0_y}$                    | $s_0(\theta_{0-36})$                   |
 | Mature plant growth or regression            | $G(z^\prime, z)$ | $G_y(z^\prime,z)$            | $G(z^\prime,z;\theta_{0-36})$          |
