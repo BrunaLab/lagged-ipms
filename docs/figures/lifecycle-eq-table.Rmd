@@ -1,35 +1,25 @@
 ---
-title: "Untitled"
-author: "Eric Scott"
-date: '2022-05-23'
 output:
   pdf_document: default
-  html_document: default
 ---
 
-```{r setup}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
 library(knitr)
 library(tidyverse)
-library(kableExtra)
 ```
 
 ```{r}
 df <- tribble(
-  ~Description, ~`Deterministic $\\hat{P}$`, ~`Stochastic, kernel-resampled`, ~ `Stochastic, parameter-resampled`,
-  "Mature plant survival", "$s(z)$", "$s_y(z)$", "$s(z;\\theta_{0-36})$",
+  ~Description, ~`Deterministic`, ~`Stochastic, kernel-resampled`, ~ `Stochastic, parameter-resampled`,
+  "Mature plant survival", "$$s(z)$$", "$$s_y(z)$$", "$$s(z;\\theta_{0-36})$$",
   "Seedling survival", "$s_0$", "$s_{0_y}$", "$s_0(\\theta_{0-36})$",
   "Mature plant growth or regression", "$G(z^\\prime;z)$", "$G_y(z^\\prime;z)$", "$G(z^\\prime, z;\\theta_{0-36})$",
   "Seedling growth into mature plant", "$G_0(z^\\prime)$", "$G_{0_y}(z^\\prime)$", "$G_0(z^\\prime;\\theta_{0-36})$",
   "Probability of flowering", "$p_f(z)$", "$p_{f_y}(z)$", "$p_f(z;\\theta_{0-36})$",
   "Size-specific fecundity", "$f(z)$", "$f(z)$","$f(z)$",
-  "Probability of germination and establishment", "$g$", "$g$", "$\\hat{P}$"
+  "Probability of germination and establishment", "$g$", "$g$", "$g$"
 )
 
-df_kabled <- kable(df, format = "latex", escape = TRUE, booktabs = T)
-
-df_kabled %>%
-  save_kable("docs/figures/lifecycle-eq-table.pdf")
-# 
-df_kabled %>% as_image()
 kable(df)
 ```
