@@ -235,6 +235,22 @@ tar_plan(
       usr_funs = list(get_scat_params = get_scat_params)
     ),
  
+
+  ## ├Plot population states --------------------------------------------------
+
+  tar_target(
+    "plot_pop_states",
+    list(
+      det_cf = ipm_det_cf,
+      det_ff = ipm_det_ff,
+      stoch_cf = ipm_stoch_cf,
+      stoch_ff = ipm_stoch_ff,
+      dlnm_cf = ipm_dlnm_cf,
+      dlnm_ff = ipm_dlnm_ff
+    ) %>%
+      plot_pop_states(bins = 7, save_path = "docs/figures/pop_states.png")
+  ),
+  
   # Bootstrapped Lambdas -----------------------------------------------------------------
   # uses tar_rep() target factory to create dynamic branches to do 500
   # bootstraps of data, then use all-in-one functions to fit vital rate models,
