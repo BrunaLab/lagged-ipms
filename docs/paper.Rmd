@@ -243,6 +243,7 @@ library(snakecase)
 
 ```{r aic, results='asis'}
 #TODO: only show first instance of habitat and vital rate columns, not on every row.  Alternatively do something fancy with flextable or gt.
+
 tar_read(aic_tbl_df) %>%
   group_by(habitat, model) %>% 
   # mutate(rank = row_number()) %>% 
@@ -269,7 +270,7 @@ tar_read(aic_tbl_df) %>%
     )
   ) %>% 
 
-   #another option is to use psuedo model notation
+   #another option is to use psuedo model notation.  Can't fit both unless I remove the "habitat" column or something.
   mutate(RHS = str_replace_all(
     env_effect_incl,
     c(
@@ -283,14 +284,14 @@ tar_read(aic_tbl_df) %>%
   select(
     "Habitat" = "habitat",
     "Vital Rate" = "model",
-   "Effect of Environment" = "env_effect_incl",
-   #"Model" = "RHS",
+    "Effect of Environment" = "env_effect_incl",
+    #"Model" = "RHS",
     "edf" = "df",
     "∆AIC" = "dAIC"
   ) %>% 
   
 pandoc.table(
-  justify = c("left", "left", "left", "right",  "right"),
+  justify = c( "left", "left","left", "right",  "right"),
   full_width = FALSE,
   caption = "(\\#tab:aic) Comparison of vital rate models used to build IPM.  The 'Effect of Environment' column describes how environmental effects were included in models. Those with 'none' were used to build deterministic IPMs; those with a random effect of year were used to build stochastic, kernel-resampled IPMs; and those with a distributed lag non-linear model (DLNM) were used to build stochastic, parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM. ∆AIC is calculated within each habitat and vital rate combination.  ∆AIC within 2 indicates models are equivalent."
 )
@@ -315,7 +316,7 @@ pandoc.table(
   keep.trailing.zeros = TRUE,
   justify = c("left", "left", "right"),
   full_width = FALSE,
-  caption = "(\\#tab:lambda) Population growth rates for continuous forest (cf) and forest fragments (ff) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
+  caption = "(\\#tab:lambda) Population growth rates for continuous forest (CF) and forest fragments (FF) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
 )
 
 ```

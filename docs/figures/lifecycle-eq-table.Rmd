@@ -11,7 +11,7 @@ library(tidyverse)
 
 ```{r}
 df <- tribble(
-  ~Description, ~`Deterministic`, ~"Stochastic,\nkernel-resampled", ~ `Stochastic,\nparameter-resampled`,
+  ~Description, ~Deterministic, ~"Stochastic,\\\nkernel-resampled", ~"Stochastic,\\\nparameter-resampled",
   
   "Survival",       "$$s(z)$$", "$$s_y(z)$$", "$$s(z;\\theta_{0-36})$$",
   "Growth",         "$G(z^\\prime;z)$", "$G_y(z^\\prime;z)$", "$G(z^\\prime, z;\\theta_{0-36})$",
@@ -33,6 +33,6 @@ pandoc.table(
   justify = c("left", "left", "left", "left"),
   #supposed to allow manual line breaks with \n, but not working.
   keep.line.breaks = TRUE,
-  style = "multiline"
+  style = "grid", split.tables = Inf
 )
 ```
