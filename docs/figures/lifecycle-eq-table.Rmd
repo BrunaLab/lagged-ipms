@@ -5,21 +5,34 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE)
-library(knitr)
+library(pander)
 library(tidyverse)
 ```
 
 ```{r}
 df <- tribble(
-  ~Description, ~`Deterministic`, ~`Stochastic, kernel-resampled`, ~ `Stochastic, parameter-resampled`,
-  "Mature plant survival", "$$s(z)$$", "$$s_y(z)$$", "$$s(z;\\theta_{0-36})$$",
-  "Seedling survival", "$s_0$", "$s_{0_y}$", "$s_0(\\theta_{0-36})$",
-  "Mature plant growth or regression", "$G(z^\\prime;z)$", "$G_y(z^\\prime;z)$", "$G(z^\\prime, z;\\theta_{0-36})$",
-  "Seedling growth into mature plant", "$G_0(z^\\prime)$", "$G_{0_y}(z^\\prime)$", "$G_0(z^\\prime;\\theta_{0-36})$",
-  "Probability of flowering", "$p_f(z)$", "$p_{f_y}(z)$", "$p_f(z;\\theta_{0-36})$",
-  "Size-specific fecundity", "$f(z)$", "$f(z)$","$f(z)$",
-  "Probability of germination and establishment", "$g$", "$g$", "$g$"
+  ~Description, ~`Deterministic`, ~"Stochastic,\nkernel-resampled", ~ `Stochastic,\nparameter-resampled`,
+  
+  "Survival",       "$$s(z)$$", "$$s_y(z)$$", "$$s(z;\\theta_{0-36})$$",
+  "Growth",         "$G(z^\\prime;z)$", "$G_y(z^\\prime;z)$", "$G(z^\\prime, z;\\theta_{0-36})$",
+  
+  "Flowering",                     "$p_f(z)$", "$p_{f_y}(z)$", "$p_f(z;\\theta_{0-36})$",
+  "Size-specific fecundity",       "$f(z)$", "$f(z)$","$f(z)$",
+  "Germination & establishment", "$g$", "$g$", "$g$",
+  
+  "Seedling survival",              "$s_0$", "$s_{0_y}$", "$s_0(\\theta_{0-36})$",
+  "Seedling growth", "$G_0(z^\\prime)$", "$G_{0_y}(z^\\prime)$", "$G_0(z^\\prime;\\theta_{0-36})$",
 )
 
-kable(df)
+# df
+```
+
+```{r results='asis'}
+pandoc.table(
+  df,
+  justify = c("left", "left", "left", "left"),
+  #supposed to allow manual line breaks with \n, but not working.
+  keep.line.breaks = TRUE,
+  style = "multiline"
+)
 ```

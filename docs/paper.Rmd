@@ -104,15 +104,14 @@ Abstract text.
 
 ## IPMs
 
-\<!-
--# TODO:
+```{=html}
+<!-- TODO:
 
 -   Add paragraph about why we used IPMs or why a General IPM---depends on what goes in introduction maybe?
 
 -   Add info about additional datasets (Emilio)
-
---\>
-
+-->
+```
 In preliminary investigation we found that the survival and growth of plants was better explained by treating seedlings and mature plants separately.
 Seedlings are physiologically different from small plants because they necessarily lack the underground reserves (of carbohydrates and meristems) that a small, mature plant may have.
 Therefore, we used general IPMs to model population dynamics with seedlings treated as a separate discreet class not structured by size.
@@ -238,25 +237,83 @@ Data and R code used in this study are archived with Zenodo at <doi url>.
 
 ```{r}
 library(pander)
+library(glue)
+library(snakecase)
 ```
 
-<!--# Note: The old version of this table where "random effect of year" only meant a random intercept has DLNM *always* winning as best fit model.  Should other ways of fitting random effects be included for this table (even if not in the IPMs)?  Could add simple GLMMs, for example. -->
-
 ```{r aic, results='asis'}
+#TODO: only show first instance of habitat and vital rate columns, not on every row.  Alternatively do something fancy with flextable or gt.
+tar_read(aic_tbl_df) %>%
+  group_by(habitat, model) %>% 
+  # mutate(rank = row_number()) %>% 
+  ungroup() %>% 
+  mutate(habitat = toupper(habitat),
+         env_effect_incl = ifelse(
+           env_effect_incl != "DLNM",
+           to_sentence_case(as.character(env_effect_incl)),
+           as.character(env_effect_incl)
+         )
+  )%>% 
+  mutate(
+    model = fct_relevel(
+      model,
+      c("surv", "size", "flwr", "surv_sdlg", "size_sdlg")
+    ),
+    model = fct_recode(
+      model,
+      "Survival"          = "surv",
+      "Growth"            = "size",
+      "Flowering"         = "flwr",
+      "Seedling survival" = "surv_sdlg",
+      "Seedling growth"   = "size_sdlg"
+    )
+  ) %>% 
+
+   #another option is to use psuedo model notation
+  mutate(RHS = str_replace_all(
+    env_effect_incl,
+    c(
+      "None" = "~s(z)",
+      "Random effect of year" = "~s(z, by = 'year')",
+      "DLNM" = "~s(z) + te(spei, lag)"
+    )
+  )) %>% 
+  
+  arrange(habitat, model) %>% 
+  select(
+    "Habitat" = "habitat",
+    "Vital Rate" = "model",
+   "Effect of Environment" = "env_effect_incl",
+   #"Model" = "RHS",
+    "edf" = "df",
+    "∆AIC" = "dAIC"
+  ) %>% 
+  
 pandoc.table(
-  tar_read(aic_tbl_df) %>% rename("edf" = "df"),
-  justify = c("left", "left", "left", "right", "right", "right"),
+  justify = c("left", "left", "left", "right",  "right"),
   full_width = FALSE,
-  caption = "(\\#tab:aic) Comparison of vital rate models for deterministic, stochastic kernel-resampled, and stochastic parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM."
+  caption = "(\\#tab:aic) Comparison of vital rate models used to build IPM.  The 'Effect of Environment' column describes how environmental effects were included in models. Those with 'none' were used to build deterministic IPMs; those with a random effect of year were used to build stochastic, kernel-resampled IPMs; and those with a distributed lag non-linear model (DLNM) were used to build stochastic, parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM. ∆AIC is calculated within each habitat and vital rate combination.  ∆AIC within 2 indicates models are equivalent."
 )
 ```
 
 ```{r lambdas, results='asis'}
+tar_read(lambda_table) %>% 
+  mutate(habitat = toupper(habitat)) %>% 
+  mutate(across(c(est, lower, upper), ~format(round(.,4)))) %>% 
+  mutate(lambda = glue::glue("{est} ({lower}, {upper})")) %>%
+  mutate(ipm = str_replace_all(
+    ipm,
+    c(
+      "det" = "Deterministic",
+      "stoch" = "Stochastic, kernel-resampled",
+      "DLNM" = "Stochastic, parameter-resampled"
+    )
+  )) %>% 
+  select(IPM = ipm, Habitat = habitat, "$\\lambda$" = lambda) %>% 
 pandoc.table(
-  tar_read(lambda_table),
   digits = 5,
   keep.trailing.zeros = TRUE,
-  justify = c("left", "left", "right", "right", "right"),
+  justify = c("left", "left", "right"),
   full_width = FALSE,
   caption = "(\\#tab:lambda) Population growth rates for continuous forest (cf) and forest fragments (ff) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
 )
@@ -266,8 +323,9 @@ pandoc.table(
 # Figures
 
 ```{r lifecycle}
-#| fig.cap = "Lifecycle diagram of IPMs with equations.  Diagram shows equations for the deterministic IPM and the table shows how the equations differ in the other two IPM types."
+#| fig.cap = "Lifecycle diagram of *Heliconia acuminata*. Each transition is associated with an equation for a vital rate function.  The functions shown on the diagram correspond to those used to construct a general, density-independent, deterministic IPM. The table below shows the equivalent equations for stochastic, kernel-resampled IPMs and stochastic, parameter-resampled IPMs."
 
+#TODO: update table on figure once you figure out multi-line tables in lifecycle-eq-table.Rmd
 # Draft of this figure is in docs/figures/Heliconia lifecycle DAG.key
 knitr::include_graphics(here::here("docs", "figures", "lifecycle.pdf"))
 ```
