@@ -248,7 +248,9 @@ tar_plan(
       dlnm_cf = ipm_dlnm_cf,
       dlnm_ff = ipm_dlnm_ff
     ) %>%
-      plot_pop_states(bins = 7, save_path = "docs/figures/pop_states.png")
+      plot_pop_states(bins = 7, save_path = "docs/figures/pop_states.png"),
+    deployment = "main",
+    format = "file"
   ),
   
   # Bootstrapped Lambdas -----------------------------------------------------------------

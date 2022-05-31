@@ -64,8 +64,10 @@ plot_pop_states <- function(ipm_list, bins = 7, save_path = NULL, ...) {
   
   if(!is.null(save_path)) {
     ggsave(save_path, p, ...)
-  } 
-  invisible(p)
+    return(save_path)
+  } else {
+    return(invisible(p))
+  }
 }
 
 
