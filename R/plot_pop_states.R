@@ -60,7 +60,8 @@ plot_pop_states <- function(ipm_list, bins = 7, save_path = NULL, ...) {
     coord_cartesian(expand = FALSE) +
     facet_grid(Habitat ~ IPM, labeller = label_both) +
     labs(y = "Proportion", x = "Iteration") + 
-    theme_bw()
+    theme_bw() +
+    theme(panel.spacing.y = unit(1, "lines")) #increases spacing between top and bottom row so axis labels don't overlap
   
   if(!is.null(save_path)) {
     ggsave(save_path, p, ...)
