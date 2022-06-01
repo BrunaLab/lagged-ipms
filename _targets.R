@@ -248,7 +248,8 @@ tar_plan(
       dlnm_cf = ipm_dlnm_cf,
       dlnm_ff = ipm_dlnm_ff
     ) %>%
-      plot_pop_states(bins = 7, save_path = "docs/figures/pop_states.png", height = 5, width = 7),
+      plot_pop_states(save_path = "docs/figures/pop_states.png",
+                      height = 7.5, width = 8.5),
     deployment = "main",
     format = "file"
   ),

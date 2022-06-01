@@ -16,5 +16,6 @@ suppressPackageStartupMessages({
   library(metRology)
   library(clustermq)
   library(ipmr)
+  library(patchwork)
 })
 
