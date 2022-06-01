@@ -208,6 +208,19 @@ meta_df %>%
   summarize(mean_time_min = round(mean(minutes), 2))
 ```
 
+Figure \@ref(fig:pop-states) has some interesting things in it:
+
+-   for the deterministic IPM (and the kernel-resampled IPM?) there are slightly more of the smallest plants and the largest plants in CF compared to FF (i.e. more medium sized plants in FF).
+
+-   For the kernel-resampled IPM (random effect of year), the fluctuations are extremely similar between CF and FF
+
+-   For the parameter-resampled IPM (DLNM) the size structure of the population is a LOT more variable in FF.
+    This makes sense as we know lagged effects are more important in fragments.
+
+-   Also, the fluctuations in size structure in CF do not match the fluctuations in FF as well (can see this by the increased spread of points in Figure \@ref(fig:pop-states)B)
+
+-   Also, in the parameter-resampled IPM (and only in this one), we see a shift toward smaller plants in FF compared to CF
+
 # Discussion
 
 -   Our finding that the choice of IPM didn't change the relative ranking of CF and FF is consistent with @kayeEffectStochasticTechnique2003 finding that method effected stochastic lambda, but relative ranking of populations was consistent.
@@ -326,52 +339,14 @@ pandoc.table(
 ```{r lifecycle}
 #| fig.cap = "Lifecycle diagram of *Heliconia acuminata*. Each transition is associated with an equation for a vital rate function.  The functions shown on the diagram correspond to those used to construct a general, density-independent, deterministic IPM. The table below shows the equivalent equations for stochastic, kernel-resampled IPMs and stochastic, parameter-resampled IPMs."
 
-#TODO: update table on figure once you figure out multi-line tables in lifecycle-eq-table.Rmd
 # Draft of this figure is in docs/figures/Heliconia lifecycle DAG.key
 knitr::include_graphics(here::here("docs", "figures", "lifecycle.pdf"))
 ```
 
-<!-- Just playing with something here. This is the population trajectories from the iterated IPMs with `normalize_pop_size=FALSE`. I thought maybe I'd be able to see some (lagged) similarities between the kernel sampled and DLNM IPMs because they are run with the same sequence of years. Nothing obvious pops out. Not sure this figure is worth including. -->
+```{r pop-states}
+#| fig.cap = "Relative proportions of plant sizes in the first 250 iterations of the IPM simulations. Stacked area charts (A) show the relative size/stage distribution of plants in continuous forest (CF, top row) and forest fragments (FF, bottom row) in each of the three IPMs (columns). The proportion of each size class in CF and FF for each iteration is shown in B with the first 30 iterations removed to not include transient dynamics.  A 1:1 line is plotted in black.  Size categories include seedlings (a discrete category in the IPMs), pre-reproductive 1 (log(size) 0–2.5) that have low average survival (< 0.9) and a near 0 probability of flowering, pre-reproductive 2 (log(size) 2.5–4.5) that have a higher average survival probabilty (> 0.8) and a near 0 probability of flowering, reproductive 1 (log(size) 4.5–6) that have a high average survival probability (>0.95) and a lower flowering probability (< 0.25), and reproductive 2 (log(size) 6+) that have a high average survival probability (>0.95) and higher flowering proability (> 0.2)."
 
-```{r eval=FALSE}
-#| pva,
-#| fig.cap = "Population trajectories for all three IPMs in both habitats"
-tar_load(c(
-  ipm_det_cf,
-  ipm_det_ff,
-  ipm_stoch_cf,
-  ipm_stoch_ff,
-  ipm_dlnm_cf,
-  ipm_dlnm_ff
-))
-
-ipm_list <- 
-  list(det_cf = ipm_det_cf,
-       det_ff = ipm_det_ff,
-       stoch_cf = ipm_stoch_cf,
-       stoch_ff = ipm_stoch_ff,
-       dlnm_cf = ipm_dlnm_cf,
-       dlnm_ff = ipm_dlnm_ff)
-
-plot_df <- 
-  ipm_list %>% map_df(~{
-  pop_states <- pop_state(.x)
-
-    lapply(pop_states, colSums) %>%
-    as_tibble() %>% 
-    mutate(n = n_log_size + n_sdlg,
-           t = 1:n())
-}, .id = "model") %>% 
-  separate(model, into = c("ipm", "habitat"))
-
-p <- ggplot(plot_df, aes(x = t, y = n, color = ipm)) +
-  geom_line() +
-  facet_wrap(~habitat, ncol = 1)
-
-p + xlim(10, 250)
-
-p+ scale_y_log10() + labs(y = "log10(n)")
-
+knitr::include_graphics(tar_read(fig_pop_states))
 
 ```
 

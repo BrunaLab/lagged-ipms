@@ -239,7 +239,7 @@ tar_plan(
   ## ├Plot population states --------------------------------------------------
 
   tar_target(
-    "pop_states_figure",
+    "fig_pop_states",
     list(
       det_cf = ipm_det_cf,
       det_ff = ipm_det_ff,
