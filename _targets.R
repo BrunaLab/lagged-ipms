@@ -331,8 +331,9 @@ tar_plan(
   ),
 
 
-  # Manuscript --------------------------------------------------------------
-  tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown", output_format = "all")
+  # Outputs --------------------------------------------------------------
+  tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown", output_format = "all"),
+  tar_render(readme, "README.Rmd")
   
   
 ) %>% 
