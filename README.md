@@ -91,6 +91,12 @@ graph LR
     x0da14f72b4678693(["clim"]):::uptodate --> xe3bb960370d9434e(["data_full"]):::uptodate
     x39bf1b937dd4e8d7(["demog"]):::uptodate --> xe3bb960370d9434e(["data_full"]):::uptodate
     xe3bb960370d9434e(["data_full"]):::uptodate --> x0aed4093939f76f0(["data_cf"]):::uptodate
+    xd33e1ebf0b9525d1(["ipm_det_cf"]):::uptodate --> xb6337e8a83553fe6(["fig_pop_states"]):::uptodate
+    xc40105c4aa648483(["ipm_det_ff"]):::uptodate --> xb6337e8a83553fe6(["fig_pop_states"]):::uptodate
+    xad111d9a6de9849e(["ipm_dlnm_cf"]):::uptodate --> xb6337e8a83553fe6(["fig_pop_states"]):::uptodate
+    x1d8bc3cd0f5951b5(["ipm_dlnm_ff"]):::uptodate --> xb6337e8a83553fe6(["fig_pop_states"]):::uptodate
+    xf695dbbabfccbc3d(["ipm_stoch_cf"]):::uptodate --> xb6337e8a83553fe6(["fig_pop_states"]):::uptodate
+    x29f5ff631139793b(["ipm_stoch_ff"]):::uptodate --> xb6337e8a83553fe6(["fig_pop_states"]):::uptodate
     x0aed4093939f76f0(["data_cf"]):::uptodate --> xdd4240eae739d5a0(["vit_list_det_cf"]):::uptodate
     x35acd3e9ec909b35(["vit_other_cf"]):::uptodate --> xdd4240eae739d5a0(["vit_list_det_cf"]):::uptodate
     x0da14f72b4678693(["clim"]):::uptodate --> x7bcacb1ba5f87767["lambda_bt_dlnm_ff"]:::outdated
@@ -102,11 +108,11 @@ graph LR
     x2bc7a3254fee9de8(["vit_other_ff"]):::uptodate --> x3f5dae9caaa8de3d(["vit_list_det_ff"]):::uptodate
     x29048af5562090f1(["data_ff"]):::uptodate --> x334e385c160dc2b0(["vit_list_stoch_ff"]):::uptodate
     x2bc7a3254fee9de8(["vit_other_ff"]):::uptodate --> x334e385c160dc2b0(["vit_list_stoch_ff"]):::uptodate
-    x0da14f72b4678693(["clim"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::started
-    x0aed4093939f76f0(["data_cf"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::started
-    xd21a6a19ee553edf(["lambda_bt_dlnm_cf_batch"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::started
-    x35acd3e9ec909b35(["vit_other_cf"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::started
-    x30536edc201e3ffd(["year_seq"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::started
+    x0da14f72b4678693(["clim"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::outdated
+    x0aed4093939f76f0(["data_cf"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::outdated
+    xd21a6a19ee553edf(["lambda_bt_dlnm_cf_batch"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::outdated
+    x35acd3e9ec909b35(["vit_other_cf"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::outdated
+    x30536edc201e3ffd(["year_seq"]):::uptodate --> xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::outdated
     x0aed4093939f76f0(["data_cf"]):::uptodate --> xad89e792bf5290ce["lambda_bt_stoch_cf"]:::uptodate
     x678be229f95ec9d0(["lambda_bt_stoch_cf_batch"]):::uptodate --> xad89e792bf5290ce["lambda_bt_stoch_cf"]:::uptodate
     x35acd3e9ec909b35(["vit_other_cf"]):::uptodate --> xad89e792bf5290ce["lambda_bt_stoch_cf"]:::uptodate
@@ -117,16 +123,11 @@ graph LR
     x30536edc201e3ffd(["year_seq"]):::uptodate --> x01cf57b49afd9c4e["lambda_bt_stoch_ff"]:::uptodate
     x0aed4093939f76f0(["data_cf"]):::uptodate --> xd8d8a97005a4f298(["vit_list_stoch_cf"]):::uptodate
     x35acd3e9ec909b35(["vit_other_cf"]):::uptodate --> xd8d8a97005a4f298(["vit_list_stoch_cf"]):::uptodate
-    xd33e1ebf0b9525d1(["ipm_det_cf"]):::uptodate --> x12b2b35737be04a7(["pop_states_figure"]):::uptodate
-    xc40105c4aa648483(["ipm_det_ff"]):::uptodate --> x12b2b35737be04a7(["pop_states_figure"]):::uptodate
-    xad111d9a6de9849e(["ipm_dlnm_cf"]):::uptodate --> x12b2b35737be04a7(["pop_states_figure"]):::uptodate
-    x1d8bc3cd0f5951b5(["ipm_dlnm_ff"]):::uptodate --> x12b2b35737be04a7(["pop_states_figure"]):::uptodate
-    xf695dbbabfccbc3d(["ipm_stoch_cf"]):::uptodate --> x12b2b35737be04a7(["pop_states_figure"]):::uptodate
-    x29f5ff631139793b(["ipm_stoch_ff"]):::uptodate --> x12b2b35737be04a7(["pop_states_figure"]):::uptodate
     xe928672abb7e71b0(["file_clim"]):::uptodate --> x0da14f72b4678693(["clim"]):::uptodate
     xe26f190063fc1e58(["data_1998"]):::uptodate --> x2bc7a3254fee9de8(["vit_other_ff"]):::uptodate
     xc95612f17d7e9c7f(["data_2008"]):::uptodate --> x2bc7a3254fee9de8(["vit_other_ff"]):::uptodate
     x40af609b921b83c4(["aic_tbl_df"]):::uptodate --> xc57125fbb988ce68(["paper"]):::outdated
+    xb6337e8a83553fe6(["fig_pop_states"]):::uptodate --> xc57125fbb988ce68(["paper"]):::outdated
     x45cf3d9da0bb10ef(["lambda_table"]):::outdated --> xc57125fbb988ce68(["paper"]):::outdated
     xe26f190063fc1e58(["data_1998"]):::uptodate --> x35acd3e9ec909b35(["vit_other_cf"]):::uptodate
     xc95612f17d7e9c7f(["data_2008"]):::uptodate --> x35acd3e9ec909b35(["vit_other_cf"]):::uptodate
@@ -148,7 +149,7 @@ graph LR
     x29f5ff631139793b(["ipm_stoch_ff"]):::uptodate --> x45cf3d9da0bb10ef(["lambda_table"]):::outdated
     x4453e3f37167c52e["lambda_bt_det_cf"]:::uptodate --> x45cf3d9da0bb10ef(["lambda_table"]):::outdated
     xa66f96c499139e98["lambda_bt_det_ff"]:::uptodate --> x45cf3d9da0bb10ef(["lambda_table"]):::outdated
-    xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::started --> x45cf3d9da0bb10ef(["lambda_table"]):::outdated
+    xa9bca3978adf202f["lambda_bt_dlnm_cf"]:::outdated --> x45cf3d9da0bb10ef(["lambda_table"]):::outdated
     x7bcacb1ba5f87767["lambda_bt_dlnm_ff"]:::outdated --> x45cf3d9da0bb10ef(["lambda_table"]):::outdated
     xad89e792bf5290ce["lambda_bt_stoch_cf"]:::uptodate --> x45cf3d9da0bb10ef(["lambda_table"]):::outdated
     x01cf57b49afd9c4e["lambda_bt_stoch_ff"]:::uptodate --> x45cf3d9da0bb10ef(["lambda_table"]):::outdated
@@ -169,7 +170,7 @@ graph LR
     x0da14f72b4678693(["clim"]):::uptodate --> x1d8bc3cd0f5951b5(["ipm_dlnm_ff"]):::uptodate
     x3ec8f593bd525990(["proto_ipm_dlnm_ff"]):::uptodate --> x1d8bc3cd0f5951b5(["ipm_dlnm_ff"]):::uptodate
     x30536edc201e3ffd(["year_seq"]):::uptodate --> x1d8bc3cd0f5951b5(["ipm_dlnm_ff"]):::uptodate
-    x6e52cb0f1668cc22(["readme"]):::outdated --> x6e52cb0f1668cc22(["readme"]):::outdated
+    x6e52cb0f1668cc22(["readme"]):::started --> x6e52cb0f1668cc22(["readme"]):::started
   end
   classDef uptodate stroke:#000000,color:#ffffff,fill:#354823;
   classDef outdated stroke:#000000,color:#000000,fill:#78B7C5;
@@ -179,7 +180,7 @@ graph LR
   linkStyle 1 stroke-width:0px;
   linkStyle 2 stroke-width:0px;
   linkStyle 3 stroke-width:0px;
-  linkStyle 101 stroke-width:0px;
+  linkStyle 102 stroke-width:0px;
 ```
 
 ### NOTES:

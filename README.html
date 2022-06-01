@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+  padding-top: 0px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- badges: start -->
+
+<p><a href="https://github.com/BrunaLab/lagged-ipms/actions/workflows/pages/pages-build-deployment"><img src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDQiIGhlaWdodD0iMjAiPgogIDx0aXRsZT5wYWdlcy1idWlsZC1kZXBsb3ltZW50IC0gZmFpbGluZzwvdGl0bGU+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9IndvcmtmbG93LWZpbGwiIHgxPSI1MCUiIHkxPSIwJSIgeDI9IjUwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjNDQ0RDU2IiBvZmZzZXQ9IjAlIj48L3N0b3A+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiMyNDI5MkUiIG9mZnNldD0iMTAwJSI+PC9zdG9wPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic3RhdGUtZmlsbCIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNENzNBNDkiIG9mZnNldD0iMCUiPjwvc3RvcD4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0NCMjQzMSIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgPGcgZm9udC1mYW1pbHk9IiYjMzk7RGVqYVZ1IFNhbnMmIzM5OyxWZXJkYW5hLEdlbmV2YSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIj4KICAgICAgPHBhdGggaWQ9IndvcmtmbG93LWJnIiBkPSJNMCwzIEMwLDEuMzQzMSAxLjM1NTIsMCAzLjAyNzAyNzAzLDAgTDE2MSwwIEwxNjEsMjAgTDMuMDI3MDI3MDMsMjAgQzEuMzU1MiwyMCAwLDE4LjY1NjkgMCwxNyBMMCwzIFoiIGZpbGw9InVybCgjd29ya2Zsb3ctZmlsbCkiIGZpbGwtcnVsZT0ibm9uemVybyI+PC9wYXRoPgogICAgICA8dGV4dCBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj4KICAgICAgICA8dHNwYW4geD0iMjIuMTk4MTk4MiIgeT0iMTUiIGFyaWEtaGlkZGVuPSJ0cnVlIj5wYWdlcy1idWlsZC1kZXBsb3ltZW50PC90c3Bhbj4KICAgICAgPC90ZXh0PgogICAgICA8dGV4dCBmaWxsPSIjRkZGRkZGIj4KICAgICAgICA8dHNwYW4geD0iMjIuMTk4MTk4MiIgeT0iMTQiPnBhZ2VzLWJ1aWxkLWRlcGxveW1lbnQ8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICA8L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjEpIiBmb250LWZhbWlseT0iJiMzOTtEZWphVnUgU2FucyYjMzk7LFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgICA8cGF0aCBkPSJNMCAwaDQwLjQ3QzQxLjg2OSAwIDQzIDEuMzQzIDQzIDN2MTRjMCAxLjY1Ny0xLjEzMiAzLTIuNTMgM0gwVjB6IiBpZD0ic3RhdGUtYmciIGZpbGw9InVybCgjc3RhdGUtZmlsbCkiIGZpbGwtcnVsZT0ibm9uemVybyI+PC9wYXRoPgogICAgICA8dGV4dCBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICAgICAgPHRzcGFuIHg9IjUiIHk9IjE1Ij5mYWlsaW5nPC90c3Bhbj4KICAgICAgPC90ZXh0PgogICAgICA8dGV4dCBmaWxsPSIjRkZGRkZGIj4KICAgICAgICA8dHNwYW4geD0iNSIgeT0iMTQiPmZhaWxpbmc8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICA8L2c+CiAgICA8cGF0aCBmaWxsPSIjOTU5REE1IiBkPSJNMTEgM2MtMy44NjggMC03IDMuMTMyLTcgN2E2Ljk5NiA2Ljk5NiAwIDAgMCA0Ljc4NiA2LjY0MWMuMzUuMDYyLjQ4Mi0uMTQ4LjQ4Mi0uMzMyIDAtLjE2Ni0uMDEtLjcxOC0uMDEtMS4zMDQtMS43NTguMzI0LTIuMjEzLS40MjktMi4zNTMtLjgyMi0uMDc5LS4yMDItLjQyLS44MjMtLjcxNy0uOTktLjI0NS0uMTMtLjU5NS0uNDU0LS4wMS0uNDYzLjU1Mi0uMDA5Ljk0Ni41MDggMS4wNzcuNzE4LjYzIDEuMDU4IDEuNjM2Ljc2IDIuMDM5LjU3Ny4wNjEtLjQ1NS4yNDUtLjc2MS40NDYtLjkzNi0xLjU1Ny0uMTc1LTMuMTg1LS43NzktMy4xODUtMy40NTYgMC0uNzYyLjI3MS0xLjM5Mi43MTgtMS44ODItLjA3LS4xNzUtLjMxNS0uODkyLjA3LTEuODU1IDAgMCAuNTg2LS4xODMgMS45MjUuNzE4YTYuNSA2LjUgMCAwIDEgMS43NS0uMjM2IDYuNSA2LjUgMCAwIDEgMS43NS4yMzZjMS4zMzgtLjkxIDEuOTI1LS43MTggMS45MjUtLjcxOC4zODUuOTYzLjE0IDEuNjguMDcgMS44NTUuNDQ2LjQ5LjcxNyAxLjExMi43MTcgMS44ODIgMCAyLjY4Ni0xLjYzNiAzLjI4LTMuMTk0IDMuNDU2LjI1NC4yMTkuNDczLjYzOS40NzMgMS4yOTUgMCAuOTM2LS4wMDkgMS42ODktLjAwOSAxLjkyNSAwIC4xODQuMTMxLjQwMi40ODEuMzMyQTcuMDExIDcuMDExIDAgMCAwIDE4IDEwYzAtMy44NjctMy4xMzMtNy03LTd6Ij48L3BhdGg+CiAgPC9nPgo8L3N2Zz4KCg==" alt="pages-build-deployment" /></a></p>
+<!-- DOI badges go here -->
+
+<!-- badges: end -->
+
+<p>This repository contains data and code for a manuscript by Eric Scott
+and Emilio Bruna written for submission to The American Naturalist
+tentatively titled: <em>Context-dependent consequences of including
+lagged effects in demographic models</em>.</p>
+<p>The idea here is to investigate the consequences of including lagged
+effects (such as those modeled by distributed lag non-linear models)
+into population models (integral projection models, IPMs). We’ll compare
+population growth rates (lambda) with deterministic, stochastic (matrix
+shuffling), and lagged effects IPMs.</p>
+<p>The most recent draft of the manuscript is available <a href="https://brunalab.github.io/lagged-ipms/docs/paper.html">here</a>.</p>
+<p><a href="https://brunalab.github.io/lagged-ipms/notes/index.html">Notes for
+collaborators</a></p>
+<h1 id="roadmap">Roadmap</h1>
+<p>Before June 3:</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled checked></input>
+Finish building all IPMs</li>
+<li><input type="checkbox" disabled checked></input>
+Document functions and _targets.R</li>
+<li><input type="checkbox" disabled></input>
+Calculate bootstrapped 95% CIs around all lambdas</li>
+<li><input type="checkbox" disabled checked></input>
+Finish draft of methods section</li>
+<li><input type="checkbox" disabled checked></input>
+Draft tables &amp; figures</li>
+<li><input type="checkbox" disabled></input>
+Archive draft of code in Zenodo</li>
+</ul>
+<p>Future:</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled></input>
+Finish writing and revising</li>
+<li><input type="checkbox" disabled></input>
+Submit</li>
+</ul>
+<h1 id="reproducibility">Reproducibility</h1>
+<p>This research compendium has been developed using the statistical
+programming language R. To work with the compendium, you will need
+installed on your computer the <a href="https://cloud.r-project.org/">R
+software</a> itself and <a href="https://rstudio.com/products/rstudio/download/">RStudio
+Desktop</a>.</p>
+<p>You can download the compendium as a zip file from from this URL: <a href="/archive/master.zip">master.zip</a>.</p>
+<p>To run the compendium and reproduce all outputs:</p>
+<ul>
+<li>Open the project in RStudio by double-clicking the
+<code>.Rproj</code> file.</li>
+<li>This project uses <code>renv</code> for package management, which
+should be installed automatically when opening the project. Run
+<code>renv::restore()</code> to install all required packages.</li>
+<li>This project uses <code>targets</code> for workflow management. The
+functions used in the project are defined in <code>R/</code> and the
+steps are defined in <code>_targets.R</code> and summarized in the
+schematic below. Run <code>targets::tar_make()</code> or
+<code>targets::tar_make_clustermq()</code> from the R console to run all
+code and produce all outputs.</li>
+</ul>
+<pre class="mermaid"><code>graph LR
+  subgraph Legend
+    x7420bd9270f8d27d([&quot;&quot;Up to date&quot;&quot;]):::uptodate --- x0a52b03877696646([&quot;&quot;Outdated&quot;&quot;]):::outdated
+    x0a52b03877696646([&quot;&quot;Outdated&quot;&quot;]):::outdated --- x5b3426b4c7fa7dbc([&quot;&quot;Started&quot;&quot;]):::started
+    x5b3426b4c7fa7dbc([&quot;&quot;Started&quot;&quot;]):::started --- xbf4603d6c2c2ad6b([&quot;&quot;Stem&quot;&quot;]):::none
+    xbf4603d6c2c2ad6b([&quot;&quot;Stem&quot;&quot;]):::none --- x70a5fa6bea6f298d[&quot;&quot;Pattern&quot;&quot;]:::none
+  end
+  subgraph Graph
+    x0da14f72b4678693([&quot;clim&quot;]):::uptodate --&gt; xad111d9a6de9849e([&quot;ipm_dlnm_cf&quot;]):::uptodate
+    x2d3035f88bd10bcd([&quot;proto_ipm_dlnm_cf&quot;]):::uptodate --&gt; xad111d9a6de9849e([&quot;ipm_dlnm_cf&quot;]):::uptodate
+    x30536edc201e3ffd([&quot;year_seq&quot;]):::uptodate --&gt; xad111d9a6de9849e([&quot;ipm_dlnm_cf&quot;]):::uptodate
+    x0aed4093939f76f0([&quot;data_cf&quot;]):::uptodate --&gt; x4453e3f37167c52e[&quot;lambda_bt_det_cf&quot;]:::uptodate
+    x192af290b35c0804([&quot;lambda_bt_det_cf_batch&quot;]):::uptodate --&gt; x4453e3f37167c52e[&quot;lambda_bt_det_cf&quot;]:::uptodate
+    x35acd3e9ec909b35([&quot;vit_other_cf&quot;]):::uptodate --&gt; x4453e3f37167c52e[&quot;lambda_bt_det_cf&quot;]:::uptodate
+    x29048af5562090f1([&quot;data_ff&quot;]):::uptodate --&gt; xa66f96c499139e98[&quot;lambda_bt_det_ff&quot;]:::uptodate
+    xf6ff88faae11e235([&quot;lambda_bt_det_ff_batch&quot;]):::uptodate --&gt; xa66f96c499139e98[&quot;lambda_bt_det_ff&quot;]:::uptodate
+    x2bc7a3254fee9de8([&quot;vit_other_ff&quot;]):::uptodate --&gt; xa66f96c499139e98[&quot;lambda_bt_det_ff&quot;]:::uptodate
+    xbc9b1e1f391d5dc4([&quot;pop_vec_cf&quot;]):::uptodate --&gt; xd33e1ebf0b9525d1([&quot;ipm_det_cf&quot;]):::uptodate
+    xdd4240eae739d5a0([&quot;vit_list_det_cf&quot;]):::uptodate --&gt; xd33e1ebf0b9525d1([&quot;ipm_det_cf&quot;]):::uptodate
+    xe3bb960370d9434e([&quot;data_full&quot;]):::uptodate --&gt; x29048af5562090f1([&quot;data_ff&quot;]):::uptodate
+    x7134afe7f02e398f([&quot;file_demog&quot;]):::uptodate --&gt; x39bf1b937dd4e8d7([&quot;demog&quot;]):::uptodate
+    xe90b608731259390([&quot;file_plots&quot;]):::uptodate --&gt; x39bf1b937dd4e8d7([&quot;demog&quot;]):::uptodate
+    x66b84036e0b3f448([&quot;pop_vec_ff&quot;]):::uptodate --&gt; xc40105c4aa648483([&quot;ipm_det_ff&quot;]):::uptodate
+    x3f5dae9caaa8de3d([&quot;vit_list_det_ff&quot;]):::uptodate --&gt; xc40105c4aa648483([&quot;ipm_det_ff&quot;]):::uptodate
+    x0da14f72b4678693([&quot;clim&quot;]):::uptodate --&gt; xe3bb960370d9434e([&quot;data_full&quot;]):::uptodate
+    x39bf1b937dd4e8d7([&quot;demog&quot;]):::uptodate --&gt; xe3bb960370d9434e([&quot;data_full&quot;]):::uptodate
+    xe3bb960370d9434e([&quot;data_full&quot;]):::uptodate --&gt; x0aed4093939f76f0([&quot;data_cf&quot;]):::uptodate
+    xd33e1ebf0b9525d1([&quot;ipm_det_cf&quot;]):::uptodate --&gt; xb6337e8a83553fe6([&quot;fig_pop_states&quot;]):::uptodate
+    xc40105c4aa648483([&quot;ipm_det_ff&quot;]):::uptodate --&gt; xb6337e8a83553fe6([&quot;fig_pop_states&quot;]):::uptodate
+    xad111d9a6de9849e([&quot;ipm_dlnm_cf&quot;]):::uptodate --&gt; xb6337e8a83553fe6([&quot;fig_pop_states&quot;]):::uptodate
+    x1d8bc3cd0f5951b5([&quot;ipm_dlnm_ff&quot;]):::uptodate --&gt; xb6337e8a83553fe6([&quot;fig_pop_states&quot;]):::uptodate
+    xf695dbbabfccbc3d([&quot;ipm_stoch_cf&quot;]):::uptodate --&gt; xb6337e8a83553fe6([&quot;fig_pop_states&quot;]):::uptodate
+    x29f5ff631139793b([&quot;ipm_stoch_ff&quot;]):::uptodate --&gt; xb6337e8a83553fe6([&quot;fig_pop_states&quot;]):::uptodate
+    x0aed4093939f76f0([&quot;data_cf&quot;]):::uptodate --&gt; xdd4240eae739d5a0([&quot;vit_list_det_cf&quot;]):::uptodate
+    x35acd3e9ec909b35([&quot;vit_other_cf&quot;]):::uptodate --&gt; xdd4240eae739d5a0([&quot;vit_list_det_cf&quot;]):::uptodate
+    x0da14f72b4678693([&quot;clim&quot;]):::uptodate --&gt; x7bcacb1ba5f87767[&quot;lambda_bt_dlnm_ff&quot;]:::outdated
+    x29048af5562090f1([&quot;data_ff&quot;]):::uptodate --&gt; x7bcacb1ba5f87767[&quot;lambda_bt_dlnm_ff&quot;]:::outdated
+    x49b27c873c2f8dac([&quot;lambda_bt_dlnm_ff_batch&quot;]):::uptodate --&gt; x7bcacb1ba5f87767[&quot;lambda_bt_dlnm_ff&quot;]:::outdated
+    x2bc7a3254fee9de8([&quot;vit_other_ff&quot;]):::uptodate --&gt; x7bcacb1ba5f87767[&quot;lambda_bt_dlnm_ff&quot;]:::outdated
+    x30536edc201e3ffd([&quot;year_seq&quot;]):::uptodate --&gt; x7bcacb1ba5f87767[&quot;lambda_bt_dlnm_ff&quot;]:::outdated
+    x29048af5562090f1([&quot;data_ff&quot;]):::uptodate --&gt; x3f5dae9caaa8de3d([&quot;vit_list_det_ff&quot;]):::uptodate
+    x2bc7a3254fee9de8([&quot;vit_other_ff&quot;]):::uptodate --&gt; x3f5dae9caaa8de3d([&quot;vit_list_det_ff&quot;]):::uptodate
+    x29048af5562090f1([&quot;data_ff&quot;]):::uptodate --&gt; x334e385c160dc2b0([&quot;vit_list_stoch_ff&quot;]):::uptodate
+    x2bc7a3254fee9de8([&quot;vit_other_ff&quot;]):::uptodate --&gt; x334e385c160dc2b0([&quot;vit_list_stoch_ff&quot;]):::uptodate
+    x0da14f72b4678693([&quot;clim&quot;]):::uptodate --&gt; xa9bca3978adf202f[&quot;lambda_bt_dlnm_cf&quot;]:::outdated
+    x0aed4093939f76f0([&quot;data_cf&quot;]):::uptodate --&gt; xa9bca3978adf202f[&quot;lambda_bt_dlnm_cf&quot;]:::outdated
+    xd21a6a19ee553edf([&quot;lambda_bt_dlnm_cf_batch&quot;]):::uptodate --&gt; xa9bca3978adf202f[&quot;lambda_bt_dlnm_cf&quot;]:::outdated
+    x35acd3e9ec909b35([&quot;vit_other_cf&quot;]):::uptodate --&gt; xa9bca3978adf202f[&quot;lambda_bt_dlnm_cf&quot;]:::outdated
+    x30536edc201e3ffd([&quot;year_seq&quot;]):::uptodate --&gt; xa9bca3978adf202f[&quot;lambda_bt_dlnm_cf&quot;]:::outdated
+    x0aed4093939f76f0([&quot;data_cf&quot;]):::uptodate --&gt; xad89e792bf5290ce[&quot;lambda_bt_stoch_cf&quot;]:::uptodate
+    x678be229f95ec9d0([&quot;lambda_bt_stoch_cf_batch&quot;]):::uptodate --&gt; xad89e792bf5290ce[&quot;lambda_bt_stoch_cf&quot;]:::uptodate
+    x35acd3e9ec909b35([&quot;vit_other_cf&quot;]):::uptodate --&gt; xad89e792bf5290ce[&quot;lambda_bt_stoch_cf&quot;]:::uptodate
+    x30536edc201e3ffd([&quot;year_seq&quot;]):::uptodate --&gt; xad89e792bf5290ce[&quot;lambda_bt_stoch_cf&quot;]:::uptodate
+    x29048af5562090f1([&quot;data_ff&quot;]):::uptodate --&gt; x01cf57b49afd9c4e[&quot;lambda_bt_stoch_ff&quot;]:::uptodate
+    xee6ffe53df5db6e0([&quot;lambda_bt_stoch_ff_batch&quot;]):::uptodate --&gt; x01cf57b49afd9c4e[&quot;lambda_bt_stoch_ff&quot;]:::uptodate
+    x2bc7a3254fee9de8([&quot;vit_other_ff&quot;]):::uptodate --&gt; x01cf57b49afd9c4e[&quot;lambda_bt_stoch_ff&quot;]:::uptodate
+    x30536edc201e3ffd([&quot;year_seq&quot;]):::uptodate --&gt; x01cf57b49afd9c4e[&quot;lambda_bt_stoch_ff&quot;]:::uptodate
+    x0aed4093939f76f0([&quot;data_cf&quot;]):::uptodate --&gt; xd8d8a97005a4f298([&quot;vit_list_stoch_cf&quot;]):::uptodate
+    x35acd3e9ec909b35([&quot;vit_other_cf&quot;]):::uptodate --&gt; xd8d8a97005a4f298([&quot;vit_list_stoch_cf&quot;]):::uptodate
+    xe928672abb7e71b0([&quot;file_clim&quot;]):::uptodate --&gt; x0da14f72b4678693([&quot;clim&quot;]):::uptodate
+    xe26f190063fc1e58([&quot;data_1998&quot;]):::uptodate --&gt; x2bc7a3254fee9de8([&quot;vit_other_ff&quot;]):::uptodate
+    xc95612f17d7e9c7f([&quot;data_2008&quot;]):::uptodate --&gt; x2bc7a3254fee9de8([&quot;vit_other_ff&quot;]):::uptodate
+    x40af609b921b83c4([&quot;aic_tbl_df&quot;]):::uptodate --&gt; xc57125fbb988ce68([&quot;paper&quot;]):::outdated
+    xb6337e8a83553fe6([&quot;fig_pop_states&quot;]):::uptodate --&gt; xc57125fbb988ce68([&quot;paper&quot;]):::outdated
+    x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated --&gt; xc57125fbb988ce68([&quot;paper&quot;]):::outdated
+    xe26f190063fc1e58([&quot;data_1998&quot;]):::uptodate --&gt; x35acd3e9ec909b35([&quot;vit_other_cf&quot;]):::uptodate
+    xc95612f17d7e9c7f([&quot;data_2008&quot;]):::uptodate --&gt; x35acd3e9ec909b35([&quot;vit_other_cf&quot;]):::uptodate
+    x66b84036e0b3f448([&quot;pop_vec_ff&quot;]):::uptodate --&gt; x3ec8f593bd525990([&quot;proto_ipm_dlnm_ff&quot;]):::uptodate
+    x3a51b9522ce608f3([&quot;vit_list_dlnm_ff&quot;]):::uptodate --&gt; x3ec8f593bd525990([&quot;proto_ipm_dlnm_ff&quot;]):::uptodate
+    xbc9b1e1f391d5dc4([&quot;pop_vec_cf&quot;]):::uptodate --&gt; xf695dbbabfccbc3d([&quot;ipm_stoch_cf&quot;]):::uptodate
+    xd8d8a97005a4f298([&quot;vit_list_stoch_cf&quot;]):::uptodate --&gt; xf695dbbabfccbc3d([&quot;ipm_stoch_cf&quot;]):::uptodate
+    x30536edc201e3ffd([&quot;year_seq&quot;]):::uptodate --&gt; xf695dbbabfccbc3d([&quot;ipm_stoch_cf&quot;]):::uptodate
+    xbc9b1e1f391d5dc4([&quot;pop_vec_cf&quot;]):::uptodate --&gt; x2d3035f88bd10bcd([&quot;proto_ipm_dlnm_cf&quot;]):::uptodate
+    xe43dbf59794f4013([&quot;vit_list_dlnm_cf&quot;]):::uptodate --&gt; x2d3035f88bd10bcd([&quot;proto_ipm_dlnm_cf&quot;]):::uptodate
+    x66b84036e0b3f448([&quot;pop_vec_ff&quot;]):::uptodate --&gt; x29f5ff631139793b([&quot;ipm_stoch_ff&quot;]):::uptodate
+    x334e385c160dc2b0([&quot;vit_list_stoch_ff&quot;]):::uptodate --&gt; x29f5ff631139793b([&quot;ipm_stoch_ff&quot;]):::uptodate
+    x30536edc201e3ffd([&quot;year_seq&quot;]):::uptodate --&gt; x29f5ff631139793b([&quot;ipm_stoch_ff&quot;]):::uptodate
+    xd33e1ebf0b9525d1([&quot;ipm_det_cf&quot;]):::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    xc40105c4aa648483([&quot;ipm_det_ff&quot;]):::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    xad111d9a6de9849e([&quot;ipm_dlnm_cf&quot;]):::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    x1d8bc3cd0f5951b5([&quot;ipm_dlnm_ff&quot;]):::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    xf695dbbabfccbc3d([&quot;ipm_stoch_cf&quot;]):::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    x29f5ff631139793b([&quot;ipm_stoch_ff&quot;]):::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    x4453e3f37167c52e[&quot;lambda_bt_det_cf&quot;]:::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    xa66f96c499139e98[&quot;lambda_bt_det_ff&quot;]:::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    xa9bca3978adf202f[&quot;lambda_bt_dlnm_cf&quot;]:::outdated --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    x7bcacb1ba5f87767[&quot;lambda_bt_dlnm_ff&quot;]:::outdated --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    xad89e792bf5290ce[&quot;lambda_bt_stoch_cf&quot;]:::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    x01cf57b49afd9c4e[&quot;lambda_bt_stoch_ff&quot;]:::uptodate --&gt; x45cf3d9da0bb10ef([&quot;lambda_table&quot;]):::outdated
+    xdd4240eae739d5a0([&quot;vit_list_det_cf&quot;]):::uptodate --&gt; x40af609b921b83c4([&quot;aic_tbl_df&quot;]):::uptodate
+    x3f5dae9caaa8de3d([&quot;vit_list_det_ff&quot;]):::uptodate --&gt; x40af609b921b83c4([&quot;aic_tbl_df&quot;]):::uptodate
+    xe43dbf59794f4013([&quot;vit_list_dlnm_cf&quot;]):::uptodate --&gt; x40af609b921b83c4([&quot;aic_tbl_df&quot;]):::uptodate
+    x3a51b9522ce608f3([&quot;vit_list_dlnm_ff&quot;]):::uptodate --&gt; x40af609b921b83c4([&quot;aic_tbl_df&quot;]):::uptodate
+    xd8d8a97005a4f298([&quot;vit_list_stoch_cf&quot;]):::uptodate --&gt; x40af609b921b83c4([&quot;aic_tbl_df&quot;]):::uptodate
+    x334e385c160dc2b0([&quot;vit_list_stoch_ff&quot;]):::uptodate --&gt; x40af609b921b83c4([&quot;aic_tbl_df&quot;]):::uptodate
+    x336c9aae0b515bb1([&quot;file_2008&quot;]):::uptodate --&gt; xc95612f17d7e9c7f([&quot;data_2008&quot;]):::uptodate
+    x29048af5562090f1([&quot;data_ff&quot;]):::uptodate --&gt; x66b84036e0b3f448([&quot;pop_vec_ff&quot;]):::uptodate
+    x29048af5562090f1([&quot;data_ff&quot;]):::uptodate --&gt; x3a51b9522ce608f3([&quot;vit_list_dlnm_ff&quot;]):::uptodate
+    x2bc7a3254fee9de8([&quot;vit_other_ff&quot;]):::uptodate --&gt; x3a51b9522ce608f3([&quot;vit_list_dlnm_ff&quot;]):::uptodate
+    x0aed4093939f76f0([&quot;data_cf&quot;]):::uptodate --&gt; xbc9b1e1f391d5dc4([&quot;pop_vec_cf&quot;]):::uptodate
+    x0aed4093939f76f0([&quot;data_cf&quot;]):::uptodate --&gt; xe43dbf59794f4013([&quot;vit_list_dlnm_cf&quot;]):::uptodate
+    x35acd3e9ec909b35([&quot;vit_other_cf&quot;]):::uptodate --&gt; xe43dbf59794f4013([&quot;vit_list_dlnm_cf&quot;]):::uptodate
+    xba761c5e0ff843b6([&quot;file_1998&quot;]):::uptodate --&gt; xe26f190063fc1e58([&quot;data_1998&quot;]):::uptodate
+    x0da14f72b4678693([&quot;clim&quot;]):::uptodate --&gt; x1d8bc3cd0f5951b5([&quot;ipm_dlnm_ff&quot;]):::uptodate
+    x3ec8f593bd525990([&quot;proto_ipm_dlnm_ff&quot;]):::uptodate --&gt; x1d8bc3cd0f5951b5([&quot;ipm_dlnm_ff&quot;]):::uptodate
+    x30536edc201e3ffd([&quot;year_seq&quot;]):::uptodate --&gt; x1d8bc3cd0f5951b5([&quot;ipm_dlnm_ff&quot;]):::uptodate
+    x6e52cb0f1668cc22([&quot;readme&quot;]):::started --&gt; x6e52cb0f1668cc22([&quot;readme&quot;]):::started
+  end
+  classDef uptodate stroke:#000000,color:#ffffff,fill:#354823;
+  classDef outdated stroke:#000000,color:#000000,fill:#78B7C5;
+  classDef started stroke:#000000,color:#000000,fill:#DC863B;
+  classDef none stroke:#000000,color:#000000,fill:#94a4ac;
+  linkStyle 0 stroke-width:0px;
+  linkStyle 1 stroke-width:0px;
+  linkStyle 2 stroke-width:0px;
+  linkStyle 3 stroke-width:0px;
+  linkStyle 102 stroke-width:0px;</code></pre>
+<h3 id="notes">NOTES:</h3>
+<ul>
+<li>The targets <code>lambda_bt_dlnm_ff</code> and
+<code>lambda_bt_dlnm_cf</code> will take a very long time to run (days),
+so you may want to comment those out before attempting to reproduce
+results.</li>
+<li>If you want to make use of HPC, follow instructions <a href="https://github.com/BrunaLab/hipergator-targets-ssh">here</a> to
+customize templates and options.</li>
+</ul>
+
+</body>
+</html>
