@@ -1,6 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
+
+[![pages-build-deployment](https://github.com/BrunaLab/lagged-ipms/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/BrunaLab/lagged-ipms/actions/workflows/pages/pages-build-deployment)
+
 <!-- DOI badges go here -->
 <!-- badges: end -->
 
