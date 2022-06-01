@@ -55,7 +55,7 @@ To run the compendium and reproduce all outputs:
 -   This project uses `renv` for package management, which should be installed automatically when opening the project. Run `renv::restore()` to install all required packages.
 -   This project uses `targets` for workflow management. The functions used in the project are defined in `R/` and the steps are defined in `_targets.R` and summarized in the schematic below. Run `targets::tar_make()` or `targets::tar_make_clustermq()` from the R console to run all code and produce all outputs.
 
-```{r, echo=FALSE, message=FALSE, results='asis'}
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 cat(
   "```mermaid",
   targets::tar_mermaid(targets_only = TRUE),

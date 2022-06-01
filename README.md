@@ -60,22 +60,6 @@ To run the compendium and reproduce all outputs:
     `targets::tar_make()` or `targets::tar_make_clustermq()` from the R
     console to run all code and produce all outputs.
 
-── Attaching packages ─────────────────────────────────────── tidyverse
-1.3.1 ── ✓ ggplot2 3.3.5 ✓ purrr 0.3.4 ✓ tibble 3.1.6 ✓ dplyr 1.0.9 ✓
-tidyr 1.2.0 ✓ stringr 1.4.0 ✓ readr 2.1.2 ✓ forcats 0.5.1 here() starts
-at /Users/scottericr/Documents/GitHub/lagged-ipms Loading required
-package: lmomco Loading required package: parallel \# Package SPEI (1.7)
-loaded \[try SPEINews()\]. Time Series Modeling for Air Pollution and
-Health (0.6) Loading required package: nlme
-
-Attaching package: ‘nlme’
-
-The following object is masked from ‘package:dplyr’:
-
-    collapse
-
-This is mgcv 1.8-39. For overview type ‘help(“mgcv-package”)’.
-
 ``` mermaid
 graph LR
   subgraph Legend
