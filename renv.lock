@@ -297,6 +297,16 @@
         "tibble"
       ]
     },
+    "checkmate": {
+      "Package": "checkmate",
+      "Version": "2.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "147e4db6909d8814bb30f671b49d7e06",
+      "Requirements": [
+        "backports"
+      ]
+    },
     "cli": {
       "Package": "cli",
       "Version": "3.3.0",
@@ -770,6 +780,19 @@
         "pkgconfig"
       ]
     },
+    "insight": {
+      "Package": "insight",
+      "Version": "0.17.1.7",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "easystats",
+      "RemoteRepo": "insight",
+      "RemoteRef": "master",
+      "RemoteSha": "a4442622bb9fd0a4ed0aae48c301ac81137a648c",
+      "Hash": "ac8c3b69f56b203d7c778ba711462fa3",
+      "Requirements": []
+    },
     "ipmr": {
       "Package": "ipmr",
       "Version": "0.0.5",
@@ -880,6 +903,25 @@
       "Repository": "CRAN",
       "Hash": "7ce2733a9826b3aeb1775d56fd305472",
       "Requirements": []
+    },
+    "marginaleffects": {
+      "Package": "marginaleffects",
+      "Version": "0.5.0.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "vincentarelbundock",
+      "RemoteRepo": "marginaleffects",
+      "RemoteRef": "main",
+      "RemoteSha": "95294075d984be10af30c95456dcaf29af8a1ff9",
+      "Remotes": "vincentarelbundock/tinyviztest, vincentarelbundock/modelsummary",
+      "Hash": "8d645d53f72e2338a27c060cd219a554",
+      "Requirements": [
+        "checkmate",
+        "data.table",
+        "generics",
+        "insight"
+      ]
     },
     "memoise": {
       "Package": "memoise",
