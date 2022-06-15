@@ -75,6 +75,18 @@ knitr::opts_chunk$set(
 )
 library(targets)
 library(tidyverse)
+library(here)
+```
+
+```{r}
+#load targets
+withr::with_dir(here(), {
+  tar_load(c(
+    aic_tbl_df,
+    lambda_table,
+    fig_pop_states
+  ))
+})
 ```
 
 <!-- The actual document text starts here: -->
@@ -194,7 +206,7 @@ The greater use of computational resources is likely a result of `predict()` bei
 
 ```{r}
 meta_df <- 
-  tar_meta() %>% 
+  tar_meta(store = here("_targets")) %>% 
   select(name, size, bytes, time, seconds) %>% 
   filter(str_detect(name, "^ipm_\\w+_[cf]{2}$")) %>% 
   mutate(minutes = seconds / 60,
@@ -257,7 +269,7 @@ library(snakecase)
 ```{r aic, results='asis'}
 #TODO: only show first instance of habitat and vital rate columns, not on every row.  Alternatively do something fancy with flextable or gt.
 
-tar_read(aic_tbl_df) %>%
+aic_tbl_df %>%
   group_by(habitat, model) %>% 
   # mutate(rank = row_number()) %>% 
   ungroup() %>% 
@@ -311,7 +323,7 @@ pandoc.table(
 ```
 
 ```{r lambdas, results='asis'}
-tar_read(lambda_table) %>% 
+lambda_table %>% 
   mutate(habitat = toupper(habitat)) %>% 
   mutate(across(c(est, lower, upper), ~format(round(.,4)))) %>% 
   mutate(lambda = glue::glue("{est} ({lower}, {upper})")) %>%
@@ -340,13 +352,14 @@ pandoc.table(
 #| fig.cap = "Lifecycle diagram of *Heliconia acuminata*. Each transition is associated with an equation for a vital rate function.  The functions shown on the diagram correspond to those used to construct a general, density-independent, deterministic IPM. The table below shows the equivalent equations for stochastic, kernel-resampled IPMs and stochastic, parameter-resampled IPMs."
 
 # Draft of this figure is in docs/figures/Heliconia lifecycle DAG.key
-knitr::include_graphics(here::here("docs", "figures", "lifecycle.pdf"))
+path <- here("docs/figures/lifecycle.png")
+knitr::include_graphics(path, rel_path = FALSE)
 ```
 
 ```{r pop-states}
 #| fig.cap = "Relative proportions of plant sizes in the first 250 iterations of the IPM simulations. Stacked area charts (A) show the relative size/stage distribution of plants in continuous forest (CF, top row) and forest fragments (FF, bottom row) in each of the three IPMs (columns). The proportion of each size class in CF and FF for each iteration is shown in B with the first 30 iterations removed to not include transient dynamics.  A 1:1 line is plotted in black.  Size categories include seedlings (a discrete category in the IPMs), pre-reproductive 1 (log(size) 0–2.5) that have low average survival (< 0.9) and a near 0 probability of flowering, pre-reproductive 2 (log(size) 2.5–4.5) that have a higher average survival probabilty (> 0.8) and a near 0 probability of flowering, reproductive 1 (log(size) 4.5–6) that have a high average survival probability (>0.95) and a lower flowering probability (< 0.25), and reproductive 2 (log(size) 6+) that have a high average survival probability (>0.95) and higher flowering proability (> 0.2)."
 
-knitr::include_graphics(here::here(tar_read(fig_pop_states)))
+knitr::include_graphics(here(fig_pop_states), rel_path = FALSE)
 
 ```
 
