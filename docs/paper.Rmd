@@ -134,11 +134,11 @@ The simplest IPM was a general, density-independent, deterministic IPM with four
 The probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.
 
 $$
-n(z^{\prime},t+1) = R(z^\prime)n_s(t) + \int_L^U P(z^\prime,z) n(z,t)\;dz
+n(z^{\prime},t+1) = R(z^\prime)n_s(t) + \int_L^U P(z^\prime,z) n(z,t)\;\textrm{d}z
 $${#eq:mature}
 
 $$
-n_s(t+1) = \int_L^U F(z) n(z,t) \; dz
+n_s(t+1) = \int_L^U F(z) n(z,t) \; \textrm{d}z
 $${#eq:sdlg}
 
 $$
