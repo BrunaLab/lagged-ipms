@@ -243,6 +243,7 @@ We thank **,** \_, \_\_\_ and \_\_\_ anonymous reviewers for helpful discussions
 We thank Sam Levin for his help with the `ipmr` package.
 Financial support was provided by the U.S.
 National Science Foundation (awards \_\_\_\_, and \_\_\_\_).
+This article is publication no. -- -- in the BDFFP Technical series.
 The authors declare no conflicts of interest.
 
 # CRediT Statement
