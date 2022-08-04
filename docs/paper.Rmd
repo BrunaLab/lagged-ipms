@@ -333,18 +333,20 @@ lambda_table %>%
     c(
       "det" = "Deterministic",
       "stoch" = "Stochastic, kernel-resampled",
-      "DLNM" = "Stochastic, parameter-resampled"
+      "dlnm" = "Stochastic, DLNM"
     )
   )) %>% 
-  select(IPM = ipm, Habitat = habitat, "$\\lambda$" = lambda) %>% 
+  select(IPM = ipm, habitat, lambda) %>% 
+  pivot_wider(names_from = "habitat", values_from = lambda) %>% 
+
 pandoc.table(
   digits = 5,
   keep.trailing.zeros = TRUE,
-  justify = c("left", "left", "right"),
+  justify = c("left", "right", "right"),
   full_width = FALSE,
-  caption = "(\\#tab:lambdas) Population growth rates for continuous forest (CF) and forest fragments (FF) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
+  caption = "(\\#tab:lambdas) Population growth rates (lambda) for continuous forest (CF) and forest fragments (FF) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
 )
-
+#TODO: in caption possibly explain that lambdas are calculated differently for deterministic and stochastic models
 ```
 
 # Figures
@@ -359,6 +361,7 @@ knitr::include_graphics(path, rel_path = FALSE)
 
 ```{r pop-states}
 #| fig.cap = "Relative proportions of plant sizes in the first 250 iterations of the IPM simulations. Stacked area charts (A) show the relative size/stage distribution of plants in continuous forest (CF, top row) and forest fragments (FF, bottom row) in each of the three IPMs (columns). The proportion of each size class in CF and FF for each iteration is shown in B with the first 30 iterations removed to not include transient dynamics.  A 1:1 line is plotted in black.  Size categories include seedlings (a discrete category in the IPMs), pre-reproductive 1 (log(size) 0–2.5) that have low average survival (< 0.9) and a near 0 probability of flowering, pre-reproductive 2 (log(size) 2.5–4.5) that have a higher average survival probabilty (> 0.8) and a near 0 probability of flowering, reproductive 1 (log(size) 4.5–6) that have a high average survival probability (>0.95) and a lower flowering probability (< 0.25), and reproductive 2 (log(size) 6+) that have a high average survival probability (>0.95) and higher flowering proability (> 0.2)."
+
 
 knitr::include_graphics(here(fig_pop_states), rel_path = FALSE)
 
