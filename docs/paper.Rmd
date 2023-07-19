@@ -17,37 +17,40 @@ institute:
   - BDFFP: Biological Dynamics of Forest Fragments Project, INPA-PDBFF, CP 478, Manaus, Amazonas 69011-970 Brazil
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-    # bookdown::pdf_document2:
-    #   floatsintext: no
-    #   linenumbers: yes
-    #   draft: yes
-    #   mask: no
-    #   figurelist: no
-    #   tablelist: no
-    #   footnotelist: no
-    #   fontsize: 12pt
-    #   toc: false
+    # bookdown::html_document2:
+    #   theme:
+    #     version: 4
+    #     bootswatch: journal
     #   number_sections: no
     #   fig_caption: yes
-    bookdown::html_document2: 
-      theme: 
-        version: 4
-        bootswatch: journal
-      number_sections: no
-      fig_caption: yes
-      pandoc_args:
-      - --lua-filter=templates/scholarly-metadata.lua
-      - --lua-filter=templates/author-info-blocks.lua
-      - -Fpandoc-crossref #required for cross-ref equations
-    bookdown::word_document2:
+    #   pandoc_args:
+    #   - --lua-filter=templates/scholarly-metadata.lua
+    #   - --lua-filter=templates/author-info-blocks.lua
+      # - -Fpandoc-crossref #required for cross-ref equations
+    bookdown::pdf_document2:
+      floatsintext: no
       linenumbers: yes
+      draft: yes
+      mask: no
+      figurelist: no
+      tablelist: no
+      footnotelist: no
+      fontsize: 12pt
+      toc: false
       number_sections: no
       fig_caption: yes
-      reference_docx: "templates/template.docx" # Insert path for the DOCX file
       pandoc_args:
       - --lua-filter=templates/scholarly-metadata.lua
       - --lua-filter=templates/author-info-blocks.lua
-      - -Fpandoc-crossref #required for cross-ref equations
+    # bookdown::word_document2:
+    #   linenumbers: yes
+    #   number_sections: no
+    #   fig_caption: yes
+    #   reference_docx: "templates/template.docx" # Insert path for the DOCX file
+    #   pandoc_args:
+    #   - --lua-filter=templates/scholarly-metadata.lua
+    #   - --lua-filter=templates/author-info-blocks.lua
+    #   - -Fpandoc-crossref #required for cross-ref equations
 linkcolor: blue
 bibliography: references.bib
 csl: "templates/the-american-naturalist.csl" # Insert path for the bib-style
@@ -71,7 +74,8 @@ header-includes:
   - \fancyhead[R]{p. \thepage}
   - \fancyhead[L]{Draft - `r format(Sys.time(), '%d %B %Y')`}
   - \usepackage{sectsty} \sectionfont{\centering}
-  - \DeclareUnicodeCharacter{U+2206}{$\delta$}
+  - \usepackage[utf8]{inputenc} # This loads package to convert unicode 
+  - \DeclareUnicodeCharacter{394}{$\Delta$} # convert unicode \u0394 to Delta
   # - \usepackage{sectsty} \subsectionfont{\centering}
   # - \AtBeginDocument{\let\maketitle\relax}
  #  - \usepackage{float} #to keep figure in the location placed instead of end
@@ -144,10 +148,11 @@ Abstract text.
 
 <!-- AmNat Notes: communicate concise points, using either data or theory. Like Major Articles, they present insights of broad general significance and interest. Notes, on average, should be no more than 3000 words of text (not including the Literature Cited) and have no more than three figures and/or tables in print. -->
 
-1.  Demographic models are widely used for all kinds of stuff
+1.  Demographic models, such as IPMs and matrix models, are widely used for all kinds of stuff.
 
 2.  It has long been recognized that there is the potential for lagged effects.
-    Now there's evidence for that [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022].
+    Including lagged effects in models has been a major technical challenge, but there are now multiple approaches for doing so.
+    The studies assessing the potential for lagged effects on vital rates find that they indeed appear to be prevalent [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022].
 
 3.  Lagged effects could be different in different habitat types (and this could be a big reason for differences between habitats)
 
@@ -303,7 +308,7 @@ Data and R code used in this study are archived with Zenodo at <doi url>.
 
 \pagebreak
 
-# Tables
+<!-- # Tables -->
 
 ```{r}
 library(pander)
@@ -357,15 +362,17 @@ aic_tbl_df %>%
     "Effect of Environment" = "env_effect_incl",
     #"Model" = "RHS",
     "edf" = "df",
-    "∆AIC" = "dAIC"
+    "\u0394AIC" = "dAIC"
   ) %>% 
   
 pandoc.table(
   justify = c( "left", "left","left", "right",  "right"),
   full_width = FALSE,
-  caption = "(\\#tab:aic) Comparison of vital rate models used to build IPM.  The 'Effect of Environment' column describes how environmental effects were included in models. Those with 'none' were used to build deterministic IPMs; those with a random effect of year were used to build stochastic, kernel-resampled IPMs; and those with a distributed lag non-linear model (DLNM) were used to build stochastic, parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM. ∆AIC is calculated within each habitat and vital rate combination.  ∆AIC within 2 indicates models are equivalent."
+  caption = "(\\#tab:aic) Comparison of vital rate models used to build IPM.  The 'Effect of Environment' column describes how environmental effects were included in models. Those with 'none' were used to build deterministic IPMs; those with a random effect of year were used to build stochastic, kernel-resampled IPMs; and those with a distributed lag non-linear model (DLNM) were used to build stochastic, parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM. \u0394AIC is calculated within each habitat and vital rate combination.  \u0394AIC within 2 indicates models are equivalent."
 )
 ```
+
+\newpage
 
 ```{r lambdas, results='asis'}
 lambda_table %>% 
@@ -391,9 +398,11 @@ pandoc.table(
 
 ```
 
-# Figures
+\newpage
 
-```{r lifecycle}
+<!-- # Figures -->
+
+```{r lifecycle,  echo=FALSE, out.width="85%",fig.align='center'}
 #| fig.cap = "Lifecycle diagram of *Heliconia acuminata*. Each transition is associated with an equation for a vital rate function.  The functions shown on the diagram correspond to those used to construct a general, density-independent, deterministic IPM. The table below shows the equivalent equations for stochastic, kernel-resampled IPMs and stochastic, parameter-resampled IPMs."
 
 # Draft of this figure is in docs/figures/Heliconia lifecycle DAG.key
@@ -401,12 +410,16 @@ path <- here("docs/figures/lifecycle.png")
 knitr::include_graphics(path, rel_path = FALSE)
 ```
 
-```{r pop-states}
+\newpage
+
+```{r pop-states,  echo=FALSE, out.width="85%",fig.align='center'}
 #| fig.cap = "Relative proportions of plant sizes in the first 250 iterations of the IPM simulations. Stacked area charts (A) show the relative size/stage distribution of plants in continuous forest (CF, top row) and forest fragments (FF, bottom row) in each of the three IPMs (columns). The proportion of each size class in CF and FF for each iteration is shown in B with the first 30 iterations removed to not include transient dynamics.  A 1:1 line is plotted in black.  Size categories include seedlings (a discrete category in the IPMs), pre-reproductive 1 (log(size) 0–2.5) that have low average survival (< 0.9) and a near 0 probability of flowering, pre-reproductive 2 (log(size) 2.5–4.5) that have a higher average survival probabilty (> 0.8) and a near 0 probability of flowering, reproductive 1 (log(size) 4.5–6) that have a high average survival probability (>0.95) and a lower flowering probability (< 0.25), and reproductive 2 (log(size) 6+) that have a high average survival probability (>0.95) and higher flowering proability (> 0.2)."
 
 knitr::include_graphics(here(fig_pop_states), rel_path = FALSE)
 
 ```
+
+\newpage
 
 # References
 
