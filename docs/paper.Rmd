@@ -76,6 +76,11 @@ header-includes:
   - \usepackage{sectsty} \sectionfont{\centering}
   - \usepackage[utf8]{inputenc} # This loads package to convert unicode 
   - \DeclareUnicodeCharacter{394}{$\Delta$} # convert unicode \u0394 to Delta
+  # more info # https://www.ctan.org/pkg/sectsty
+  - \usepackage{sectsty} \sectionfont{\centering}
+  # to center to sub-sub-headings (###) and change color of font
+  - \usepackage{sectsty} \subsectionfont{\centering}
+  # - \usepackage{sectsty} \subsubsectionfont{\centering}
   # - \usepackage{sectsty} \subsectionfont{\centering}
   # - \AtBeginDocument{\let\maketitle\relax}
  #  - \usepackage{float} #to keep figure in the location placed instead of end
@@ -118,6 +123,7 @@ knitr::opts_chunk$set(
 )
 library(targets)
 library(tidyverse)
+library(kableExtra)
 library(here)
 ```
 
@@ -140,36 +146,50 @@ withr::with_dir(here(), {
 
 <!-- AmNat Note Abstracts are no longer than 150 words. -->
 
-Abstract text.
+Text of 150 words max summarizing this amazing paper.
 
 \pagebreak
 
-# Introduction
+## Introduction
 
 <!-- AmNat Notes: communicate concise points, using either data or theory. Like Major Articles, they present insights of broad general significance and interest. Notes, on average, should be no more than 3000 words of text (not including the Literature Cited) and have no more than three figures and/or tables in print. -->
 
-1.  Demographic models, such as IPMs and matrix models, are widely used for all kinds of stuff.
+1.  **Paragraph 1**
 
-2.  It has long been recognized that there is the potential for lagged effects.
-    Including lagged effects in models has been a major technical challenge, but there are now multiple approaches for doing so.
-    The studies assessing the potential for lagged effects on vital rates find that they indeed appear to be prevalent [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022].
+    1.  Demographic models, such as IPMs and matrix models, are widely used for all kinds of stuff.
 
-3.  Lagged effects could be different in different habitat types (and this could be a big reason for differences between habitats)
+2.  **Paragraph 2**
 
-# Methods
+    1.  It has long been recognized that there is the potential for lagged effects.\
+    2.  Including lagged effects in models has been a major technical challenge, but there are now multiple approaches for doing so.\
+    3.  The studies assessing the potential for lagged effects on vital rates find that they indeed appear to be prevalent [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022].
 
-## Demographic Data
+3.  **Paragraph 3**
 
-<!--# Emilio will fill this section -->
+    1.  Lagged effects could be different in different habitat types.\
+    2.  This could be a big reason for differences between habitats.
 
-## IPMs
+4.  **Paragraph 4**
+
+    1.  Here we...
+    2.  We conducted these analyses with both deterministic and stochastic IPMs.
+
+## Methods
+
+### Demographic methods and data
+
+Overviw of <!--# Emilio will fill this section -->
+
+<!-- Add info about additional datasets (Emilio) -->
+
+### Construction of Integral Projection Models
 
 ```{=html}
 <!-- TODO:
 
 -   Add paragraph about why we used IPMs or why a General IPM---depends on what goes in introduction maybe?
 
--   Add info about additional datasets (Emilio)
+
 -->
 ```
 In preliminary investigation we found that the survival and growth of plants was better explained by treating seedlings and mature plants separately.
@@ -242,32 +262,21 @@ We then used these bootstraped estimates of lambda to calculate bias corrected 9
 
 This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.
 
-# Results
+### Statistical analyses
 
-For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (Table \@ref(tab:aic)).
+All about the stats.
+
+## Results
+
+For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (Table \@ref(tab:aic)).\
 <!--# No longer true if random effect = different smooth for each year -->
 
 Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (Table \@ref(tab:lambdas)).
 
 The time to iterate the DLNM models is much higher than than deterministic and kernel-resampled.
+
 The greater use of computational resources is likely a result of `predict()` being much slower for GAMs with 2D smooths because the number of knots is much higher compared to the GAMs used for the vital rates models in the determinsitic and kernel-resampled IPMs.
 <!--# also note that this can't really be paralellized because each iteration depends on the previous one.  There's *maybe* some potential speed gains in using multiple cores with predict.bam(), but unlikely to be substantial. -->
-
-```{r}
-meta_df <- 
-  tar_meta(store = here("_targets")) %>% 
-  select(name, size, bytes, time, seconds) %>% 
-  filter(str_detect(name, "^ipm_\\w+_[cf]{2}$")) %>% 
-  mutate(minutes = seconds / 60,
-         hours = minutes / 60)
-
-meta_df %>% 
-  separate(name, into = c("trash", "IPM", "Habitat")) %>% 
-  select(-trash) %>% 
-  select(IPM, Habitat, minutes) %>% 
-  group_by(IPM) %>% 
-  summarize(mean_time_min = round(mean(minutes), 2))
-```
 
 Figure \@ref(fig:pop-states) has some interesting things in it:
 
@@ -282,11 +291,11 @@ Figure \@ref(fig:pop-states) has some interesting things in it:
 
 -   Also, in the parameter-resampled IPM (and only in this one), we see a shift toward smaller plants in FF compared to CF
 
-# Discussion
+## Discussion
 
 -   Our finding that the choice of IPM didn't change the relative ranking of CF and FF is consistent with @kayeEffectStochasticTechnique2003 finding that method effected stochastic lambda, but relative ranking of populations was consistent.
 
-# Acknowledgments
+## Acknowledgments
 
 We thank **,** \_, \_\_\_ and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript.
 We thank Sam Levin for his help with the `ipmr` package.
@@ -295,14 +304,14 @@ National Science Foundation (awards \_\_\_\_, and \_\_\_\_).
 This article is publication no. -- -- in the BDFFP Technical series.
 The authors declare no conflicts of interest.
 
-# CRediT Statement
+## CRediT Statement
 
 <!--# https://casrai.org/credit/ -->
 
 ERS contributed to the conceptualization, methodology, formal analysis, and led the writing of the original draft.
 EMB contributed to the conceptualization, methodology, and writing and also acquired funding.
 
-# Data Availability Statement
+## Data Availability Statement
 
 Data and R code used in this study are archived with Zenodo at <doi url>.
 
@@ -374,6 +383,42 @@ pandoc.table(
 
 \newpage
 
+```{r time, results='asis'}
+meta_df <- 
+  tar_meta(store = here("_targets")) %>% 
+  select(name, size, bytes, time, seconds) %>% 
+  filter(str_detect(name, "^ipm_\\w+_[cf]{2}$")) %>% 
+  mutate(minutes = seconds / 60,
+         hours = minutes / 60)
+
+meta_df_tbl<-meta_df %>% 
+  separate(name, into = c("trash", "IPM", "Habitat")) %>% 
+  select(-trash) %>% 
+  select(IPM, Habitat, minutes) %>% 
+  group_by(IPM) %>% 
+mutate(IPM = str_replace_all(
+    IPM,
+    c(
+      "det" = "Deterministic",
+      "stoch" = "Stochastic, kernel-resampled",
+      "dlnm" = "Stochastic, parameter-resampled"
+    ))) %>%
+  summarize(mean_time_min = round(mean(minutes), 2)) %>%
+  rename("IPM Type" = IPM) %>% 
+  rename("mean time (min.)" = mean_time_min)  
+  
+kbl(meta_df_tbl, 
+    booktabs = T,
+    align = "lc",
+    caption = "table caption") %>% 
+  kable_styling(full_width = F,
+                position = "center")    
+  
+
+```
+
+\newpage
+
 ```{r lambdas, results='asis'}
 lambda_table %>% 
   mutate(habitat = toupper(habitat)) %>% 
@@ -421,7 +466,7 @@ knitr::include_graphics(here(fig_pop_states), rel_path = FALSE)
 
 \newpage
 
-# References
+## Literature Cited
 
 <!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
 
