@@ -6,15 +6,20 @@ authors:
     email: scottericr@gmail.com
     affil-id: 1
     corresponding: true
+  - name: María Uriarte
+    email: mu2126@columbia.edu
+    institute: 2
   - name: Emilio M. Bruna
     email: embruna@ufl.edu
-    affil-id: 1,2,3
+    affil-id: 1,3,5
 affiliations:
   - id: "1"
-    name: Department of Wildlife Ecology and Conservation, University of Florida, Gainesville, Florida 32611-0430
-  - id: "2"
-    name: Center for Latin American Studies, University of Florida, Gainesville, Florida 32611-5530
+    name: Department of Wildlife Ecology and Conservation, University of Florida, Gainesville, Florida 32611-0430 USA
+  - id: "2" 
+    name: Department of Ecology, Evolution and Environmental Biology, Columbia University 1200 Amsterdam Avenue, New York, New York 10027 USA
   - id: "3"
+    name: Center for Latin American Studies, University of Florida, Gainesville, Florida 32611-5530 USA
+  - id: "4"
     name: Biological Dynamics of Forest Fragments Project, INPA-PDBFF, CP 478, Manaus, Amazonas 69011-970 Brazil
 date: 'last-modified'
 date-format: '([draft:] D MMMM YYYY)'
@@ -29,6 +34,8 @@ format:
     number-sections: false
     colorlinks: true
     keeptex: true
+    fontsize: 12pt
+    documentclass: article
     # the following line is to render the aaffiliations in pdf, which is not default in quarto, see 
     # https://stackoverflow.com/questions/75040607/why-do-affiliations-not-show-up-anywhere-in-the-pdf-output-of-quarto
     template-partials:  
@@ -43,6 +50,17 @@ format:
         \usepackage{lineno}\linenumbers
         \usepackage{sectsty}\sectionfont{\centering}
         \usepackage{sectsty}\subsectionfont{\centering}
+        \usepackage{fontspec}
+        \usepackage{titlesec}
+        
+#\sectionfont{\color{black}\fontsize{12}{16.8}\selectfont}
+#\subsectionfont{\color{black}\fontsize{12}{16.8}\selectfont}
+        
+# number after font size is the interline spacing. It should about 20-25 % more 
+# than the font size (for a 10 pt document, you can measure it is equal to 12 pt).
+# \titleformat{\subsection}
+# \titleformat*{\subsection}{\fontsize{12{16.8}\selectfont
+        #     {\sffamily\Large\bfseries}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
 
 # When ready to submit, these will change to double space and add a 
 # paragraph indent
@@ -170,33 +188,33 @@ Therefore, we used general IPMs to model population dynamics with seedlings trea
 General IPMs allow for combinations of continuous and discrete states and transitions between them [@ellnerDatadrivenModellingStructured2016].
 
 We built three classes of IPMs for comparison which each required different functional forms of their underlying vital rates models.
-The simplest IPM was a general, density-independent, deterministic IPM with four sub-kernels: growth and survival ($P$, @eq:P), fecundity ($F$, i.e. production of new seedlings, @eq:F), probability of staying a seedling (always 0), and recruitment ($R$, i.e. seedling survival and establishment, @eq:R) ([@eq:mature; @eq:sdlg], Figure \@ref(fig:lifecycle)).
+The simplest IPM was a general, density-independent, deterministic IPM with four sub-kernels: growth and survival ($P$, @eq-P), fecundity ($F$, i.e. production of new seedlings, @eq-F), probability of staying a seedling (always 0), and recruitment ($R$, i.e. seedling survival and establishment, @eq-R) ([@eq-mature; @eq-sdlg], @fig-lifecycle).
 The probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.
 
 $$
 n(z^{\prime},t+1) = R(z^\prime)n_s(t) + \int_L^U P(z^\prime,z) n(z,t)\;dz
-$${#eq:mature}
+$$ {#eq-mature}
 
 $$
 n_s(t+1) = \int_L^U F(z) n(z,t) \; dz
-$${#eq:sdlg}
+$$ {#eq-sdlg}
 
 $$
 R(z^\prime) = s_sG_s(z^\prime)
-$${#eq:R}
+$$ {#eq-R}
 
 $$
 P(z^\prime, z) = s(z)G(z^\prime, z)
-$${#eq:P}
+$$ {#eq-P}
 
 $$
 F(z) = p_f(z)f(z)g
-$${#eq:F}
+$$ {#eq-F}
 
-The number and size of mature plants in the next census is determined by seedlings entering the mature plant population (i.e. recruitment <!--# *Is* this recruitment? -->) and survival and growth (or regression) of mature plants [@eq:mature].
-Seedlings survive ($s_s$) and grow into mature plants of a particular size ($G_s(z^\prime)$) [@eq:R].
-Mature plants survive as a function of size ($s(z)$), and grow (or regress) to a new size as a function of their previous size ($G(z^\prime, z)$) [@eq:P].
-Mature plants flower with a probability that is a function of size ($p_f(z)$) and produce a number of seeds as a function of size ($f(z)$), which germinate and establish as seedlings with probability $g$ [@eq:F].
+The number and size of mature plants in the next census is determined by seedlings entering the mature plant population (i.e. recruitment <!--# *Is* this recruitment? -->) and survival and growth (or regression) of mature plants ([@eq-mature]).
+Seedlings survive ($s_s$) and grow into mature plants of a particular size ($G_s(z^\prime)$) ([@eq-R]).
+Mature plants survive as a function of size ($s(z)$), and grow (or regress) to a new size as a function of their previous size ($G(z^\prime, z)$) ([@eq-P]).
+Mature plants flower with a probability that is a function of size ($p_f(z)$) and produce a number of seeds as a function of size ($f(z)$), which germinate and establish as seedlings with probability $g$ ([@eq-F]).
 
 Vital rate models for growth ($G_s(z^\prime)$ and $G(z^\prime, z)$) , survival ($s_s$ and $s(z)$), and flowering ($p_f(z)$) were fit using the long term demographic dataset.
 For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020] <!--# probably include a supplement with detail on things like basis, number of knots, etc. -->.
@@ -207,14 +225,14 @@ To estimate reproduction we drew on additional data sources to estimate the numb
 Germination and establishment rates in continuous forest and forest fragments were estimated using data from ....
 <!--# Emilio: add more info here -->
 
-To build the general, density-independent, stochastic, kernel-resampled IPMs, we included environmental stochasticity in all vital rate models built using the long term demographic datset by adding a random effect of year (Figure \@ref(fig:lifecycle)).
+To build the general, density-independent, stochastic, kernel-resampled IPMs, we included environmental stochasticity in all vital rate models built using the long term demographic datset by adding a random effect of year (@fig-lifecycle).
 The random effect of year was included using a factor--smooth interaction which allowed the relationship between plant size and vital rates to vary in functional form among transition years.
 The kernel-resampling approach is to generate kernels corresponding to each transition year in the demographic dataset using the random smooths for year, and to iterate the IPM by drawing from these randomly.
 This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.
 
 For the third method, we modeled the impacts of drought on vital rates explicitly and created general, density-independent, stochastic, parameter-resampled IPMs (*sensu* @metcalfStatisticalModellingAnnual2015).
 We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022.
-For all vital rate models fit using the long term demographic dataset, we modeled delayed effects of SPEI using distributed lag non-linear models with a maximum lag of 36 months[@scottDelayedEffectsClimate2022] (Figure \@ref(fig:lifecycle)).
+For all vital rate models fit using the long term demographic dataset, we modeled delayed effects of SPEI using distributed lag non-linear models with a maximum lag of 36 months [@scottDelayedEffectsClimate2022] (@fig-lifecycle).
 To iterate these parameter-resampled IPMs, a random sequence of SPEI values was created by sampling years of the observed monthly SPEI data.
 Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
 These values are then used to predict fitted values from the vital rates models, generating different kernels at each iteration of the IPM.
@@ -240,17 +258,17 @@ All about the stats.
 
 ## Results
 
-For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (Table \@ref(tab:aic)).\
+For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (@tbl-aic).\
 <!--# No longer true if random effect = different smooth for each year -->
 
-Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (Table \@ref(tab:lambdas)).
+Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (@tbl-lambdas).
 
 The time to iterate the DLNM models is much higher than than deterministic and kernel-resampled.
 
 The greater use of computational resources is likely a result of `predict()` being much slower for GAMs with 2D smooths because the number of knots is much higher compared to the GAMs used for the vital rates models in the determinsitic and kernel-resampled IPMs.
 <!--# also note that this can't really be paralellized because each iteration depends on the previous one.  There's *maybe* some potential speed gains in using multiple cores with predict.bam(), but unlikely to be substantial. -->
 
-Figure \@ref(fig:pop-states) has some interesting things in it:
+@fig-pop-states has some interesting things in it:
 
 -   for the deterministic IPM (and the kernel-resampled IPM?) there are slightly more of the smallest plants and the largest plants in CF compared to FF (i.e. more medium sized plants in FF).
 
@@ -259,7 +277,7 @@ Figure \@ref(fig:pop-states) has some interesting things in it:
 -   For the parameter-resampled IPM (DLNM) the size structure of the population is a LOT more variable in FF.
     This makes sense as we know lagged effects are more important in fragments.
 
--   Also, the fluctuations in size structure in CF do not match the fluctuations in FF as well (can see this by the increased spread of points in Figure \@ref(fig:pop-states)B)
+-   Also, the fluctuations in size structure in CF do not match the fluctuations in FF as well (can see this by the increased spread of points in @fig-pop-states (B)
 
 -   Also, in the parameter-resampled IPM (and only in this one), we see a shift toward smaller plants in FF compared to CF
 
@@ -287,6 +305,13 @@ EMB contributed to the conceptualization, methodology, and writing and also acqu
 
 Data and R code used in this study are archived with Zenodo at <doi url>.
 
+## Literature Cited
+
+<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
+
+::: {#refs}
+:::
+
 \pagebreak
 
 <!-- # Tables -->
@@ -298,6 +323,9 @@ library(snakecase)
 ```
 
 ```{r aic, results='asis'}
+#| label: tbl-aic
+#| tbl-cap: "Comparison of vital rate models used to build IPM.  The 'Effect of Environment' column describes how environmental effects were included in models. Those with 'none' were used to build deterministic IPMs; those with a random effect of year were used to build stochastic, kernel-resampled IPMs; and those with a distributed lag non-linear model (DLNM) were used to build stochastic, parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM. \u0394AIC is calculated within each habitat and vital rate combination.  \u0394AIC within 2 indicates models are equivalent."
+#| 
 #TODO: only show first instance of habitat and vital rate columns, not on every row.  Alternatively do something fancy with flextable or gt.
 
 aic_tbl_df %>%
@@ -348,14 +376,17 @@ aic_tbl_df %>%
   
 pandoc.table(
   justify = c( "left", "left","left", "right",  "right"),
-  full_width = FALSE,
-  caption = "(\\#tab:aic) Comparison of vital rate models used to build IPM.  The 'Effect of Environment' column describes how environmental effects were included in models. Those with 'none' were used to build deterministic IPMs; those with a random effect of year were used to build stochastic, kernel-resampled IPMs; and those with a distributed lag non-linear model (DLNM) were used to build stochastic, parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM. \u0394AIC is calculated within each habitat and vital rate combination.  \u0394AIC within 2 indicates models are equivalent."
+  full_width = FALSE
+  # ,
+  # caption = Comparison of vital rate models used to build IPM.  The 'Effect of Environment' column describes how environmental effects were included in models. Those with 'none' were used to build deterministic IPMs; those with a random effect of year were used to build stochastic, kernel-resampled IPMs; and those with a distributed lag non-linear model (DLNM) were used to build stochastic, parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM. \u0394AIC is calculated within each habitat and vital rate combination.  \u0394AIC within 2 indicates models are equivalent."
 )
 ```
 
 \newpage
 
-```{r time, results='asis'}
+```{r tbl-time, results='asis'}
+#| label: tbl-time
+#| tbl-cap: "Figure caption to be written"
 meta_df <- 
   tar_meta(store = here("_targets")) %>% 
   select(name, size, bytes, time, seconds) %>% 
@@ -381,19 +412,19 @@ mutate(IPM = str_replace_all(
   
 kbl(meta_df_tbl, 
     booktabs = T,
-    align = "lc",
-    caption = "table caption") %>% 
+    align = "lc") %>% 
   kable_styling(full_width = F,
                 position = "center")    
   
 
 ```
 
-```{=tex}
 \newpage
-\newpage
-```
-```{r lambdas, results='asis'}
+
+```{r tbl-lambdas, results='asis'}
+#| label: tbl-lambdas
+#| tbl-cap: "Population growth rates for continuous forest (CF) and forest fragments (FF) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
+
 lambda_table %>% 
   mutate(habitat = toupper(habitat)) %>% 
   mutate(across(c(est, lower, upper), ~format(round(.,4)))) %>% 
@@ -411,8 +442,9 @@ pandoc.table(
   digits = 5,
   keep.trailing.zeros = TRUE,
   justify = c("left", "left", "right"),
-  full_width = FALSE,
-  caption = "(\\#tab:lambdas) Population growth rates for continuous forest (CF) and forest fragments (FF) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
+  full_width = FALSE
+  # ,
+  # caption = "(\\#tab-lambdas) Population growth rates for continuous forest (CF) and forest fragments (FF) under different kinds of IPMs with bootstrapped, bias-corrected, 95% confidence intervals."
 )
 
 ```
@@ -421,7 +453,7 @@ pandoc.table(
 
 <!-- # Figures -->
 
-```{r lifecycle,  echo=FALSE, out.width="85%",fig.align='center'}
+```{r #fig-lifecycle,  echo=FALSE, out.width="85%",fig.align='center'}
 #| fig.cap = "Lifecycle diagram of *Heliconia acuminata*. Each transition is associated with an equation for a vital rate function.  The functions shown on the diagram correspond to those used to construct a general, density-independent, deterministic IPM. The table below shows the equivalent equations for stochastic, kernel-resampled IPMs and stochastic, parameter-resampled IPMs."
 
 # Draft of this figure is in docs/figures/Heliconia lifecycle DAG.key
@@ -431,18 +463,8 @@ knitr::include_graphics(path, rel_path = FALSE)
 
 \newpage
 
-```{r pop-states,  echo=FALSE, out.width="85%",fig.align='center'}
-#| fig.cap = "Relative proportions of plant sizes in the first 250 iterations of the IPM simulations. Stacked area charts (A) show the relative size/stage distribution of plants in continuous forest (CF, top row) and forest fragments (FF, bottom row) in each of the three IPMs (columns). The proportion of each size class in CF and FF for each iteration is shown in B with the first 30 iterations removed to not include transient dynamics.  A 1:1 line is plotted in black.  Size categories include seedlings (a discrete category in the IPMs), pre-reproductive 1 (log(size) 0–2.5) that have low average survival (< 0.9) and a near 0 probability of flowering, pre-reproductive 2 (log(size) 2.5–4.5) that have a higher average survival probabilty (> 0.8) and a near 0 probability of flowering, reproductive 1 (log(size) 4.5–6) that have a high average survival probability (>0.95) and a lower flowering probability (< 0.25), and reproductive 2 (log(size) 6+) that have a high average survival probability (>0.95) and higher flowering proability (> 0.2)."
+```{r #fig-pop-states,  echo=FALSE, out.width="85%",fig.align='center'}
+#| fig.cap = "Relative proportions of plant sizes in the first 250 iterations of the IPM simulations. Stacked area charts (A) show the relative size/stage distribution of plants in continuous forest (CF, top row) and forest fragments (FF, bottom row) in each of the three IPMs (columns). The proportion of each size class in CF and FF for each iteration is shown in B with the first 30 iterations removed to not include transient dynamics. A 1:1 line is plotted in black.  Size categories include seedlings (a discrete category in the IPMs), pre-reproductive 1 (log(size) 0–2.5) that have low average survival (< 0.9) and a near 0 probability of flowering, pre-reproductive 2 (log(size) 2.5–4.5) that have a higher average survival probabilty (> 0.8) and a near 0 probability of flowering, reproductive 1 (log(size) 4.5–6) that have a high average survival probability (>0.95) and a lower flowering probability (< 0.25), and reproductive 2 (log(size) 6+) that have a high average survival probability (>0.95) and higher flowering proability (> 0.2)."
 
 knitr::include_graphics(here(fig_pop_states), rel_path = FALSE)
-
 ```
-
-\newpage
-
-## Literature Cited
-
-<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
-
-::: {#refs}
-:::

@@ -4,6 +4,7 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
+  12pt,
 ]{article}
 
 \usepackage{amsmath,amssymb}
@@ -119,6 +120,8 @@
 \usepackage{lineno}\linenumbers
 \usepackage{sectsty}\sectionfont{\centering}
 \usepackage{sectsty}\subsectionfont{\centering}
+\usepackage{fontspec}
+\usepackage{titlesec}
 \makeatletter
 \makeatother
 \makeatletter
@@ -192,20 +195,23 @@ demographic models}
 
 
 \author[1]{Eric R. Scott}
-\author[1,2,3]{Emilio M. Bruna}
+\author{María Uriarte}
+\author[1,3,5]{Emilio M. Bruna}
 
 \affil[1]{Department of Wildlife Ecology and Conservation, University of
-Florida, Gainesville, Florida 32611-0430}
-\affil[2]{Center for Latin American Studies, University of Florida,
-Gainesville, Florida 32611-5530}
-\affil[3]{Biological Dynamics of Forest Fragments Project, INPA-PDBFF,
+Florida, Gainesville, Florida 32611-0430 USA}
+\affil[2]{Department of Ecology, Evolution and Environmental Biology,
+Columbia University 1200 Amsterdam Avenue, New York, New York 10027 USA}
+\affil[3]{Center for Latin American Studies, University of Florida,
+Gainesville, Florida 32611-5530 USA}
+\affil[4]{Biological Dynamics of Forest Fragments Project, INPA-PDBFF,
 CP 478, Manaus, Amazonas 69011-970 Brazil}
 
 
-\date{(draft: 20 July 2023)}
+\date{(draft: 21 July 2023)}
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, interior hidden, sharp corners, frame hidden, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, borderline west={3pt}{0pt}{shadecolor}, breakable, sharp corners, boxrule=0pt, interior hidden, frame hidden]}{\end{tcolorbox}}\fi
 
 \pagebreak
 
@@ -315,45 +321,47 @@ them (Ellner et al. 2016).
 We built three classes of IPMs for comparison which each required
 different functional forms of their underlying vital rates models. The
 simplest IPM was a general, density-independent, deterministic IPM with
-four sub-kernels: growth and survival (\(P\), (\textbf{eq:P?})),
-fecundity (\(F\), i.e.~production of new seedlings, (\textbf{eq:F?})),
-probability of staying a seedling (always 0), and recruitment (\(R\),
-i.e.~seedling survival and establishment, (\textbf{eq:R?}))
-((\textbf{eq:mature?}; \textbf{eq:sdlg?}), Figure @ref(fig:lifecycle)).
-The probability of staying a seedling, was always equal to zero, since
-our definition of seedlings was first year plants only.
+four sub-kernels: growth and survival (\(P\), Equation~\ref{eq-P}),
+fecundity (\(F\), i.e.~production of new seedlings,
+Equation~\ref{eq-F}), probability of staying a seedling (always 0), and
+recruitment (\(R\), i.e.~seedling survival and establishment,
+Equation~\ref{eq-R}) (Equation~\ref{eq-mature}, Equation~\ref{eq-sdlg},
+Figure~\ref{fig-lifecycle}). The probability of staying a seedling, was
+always equal to zero, since our definition of seedlings was first year
+plants only.
 
-\[
+\begin{equation}\protect\hypertarget{eq-mature}{}{
 n(z^{\prime},t+1) = R(z^\prime)n_s(t) + \int_L^U P(z^\prime,z) n(z,t)\;dz
-\]\{\#eq:mature\}
+}\label{eq-mature}\end{equation}
 
-\[
+\begin{equation}\protect\hypertarget{eq-sdlg}{}{
 n_s(t+1) = \int_L^U F(z) n(z,t) \; dz
-\]\{\#eq:sdlg\}
+}\label{eq-sdlg}\end{equation}
 
-\[
+\begin{equation}\protect\hypertarget{eq-R}{}{
 R(z^\prime) = s_sG_s(z^\prime)
-\]\{\#eq:R\}
+}\label{eq-R}\end{equation}
 
-\[
+\begin{equation}\protect\hypertarget{eq-P}{}{
 P(z^\prime, z) = s(z)G(z^\prime, z)
-\]\{\#eq:P\}
+}\label{eq-P}\end{equation}
 
-\[
+\begin{equation}\protect\hypertarget{eq-F}{}{
 F(z) = p_f(z)f(z)g
-\]\{\#eq:F\}
+}\label{eq-F}\end{equation}
 
 The number and size of mature plants in the next census is determined by
 seedlings entering the mature plant population (i.e.~recruitment ) and
 survival and growth (or regression) of mature plants
-(\textbf{eq:mature?}). Seedlings survive (\(s_s\)) and grow into mature
-plants of a particular size (\(G_s(z^\prime)\)) (\textbf{eq:R?}). Mature
-plants survive as a function of size (\(s(z)\)), and grow (or regress)
-to a new size as a function of their previous size (\(G(z^\prime, z)\))
-(\textbf{eq:P?}). Mature plants flower with a probability that is a
-function of size (\(p_f(z)\)) and produce a number of seeds as a
-function of size (\(f(z)\)), which germinate and establish as seedlings
-with probability \(g\) (\textbf{eq:F?}).
+(Equation~\ref{eq-mature}). Seedlings survive (\(s_s\)) and grow into
+mature plants of a particular size (\(G_s(z^\prime)\))
+(Equation~\ref{eq-R}). Mature plants survive as a function of size
+(\(s(z)\)), and grow (or regress) to a new size as a function of their
+previous size (\(G(z^\prime, z)\)) (Equation~\ref{eq-P}). Mature plants
+flower with a probability that is a function of size (\(p_f(z)\)) and
+produce a number of seeds as a function of size (\(f(z)\)), which
+germinate and establish as seedlings with probability \(g\)
+(Equation~\ref{eq-F}).
 
 Vital rate models for growth (\(G_s(z^\prime)\) and \(G(z^\prime, z)\))
 , survival (\(s_s\) and \(s(z)\)), and flowering (\(p_f(z)\)) were fit
@@ -377,7 +385,7 @@ estimated using data from \ldots.
 To build the general, density-independent, stochastic, kernel-resampled
 IPMs, we included environmental stochasticity in all vital rate models
 built using the long term demographic datset by adding a random effect
-of year (Figure @ref(fig:lifecycle)). The random effect of year was
+of year (Figure~\ref{fig-lifecycle}). The random effect of year was
 included using a factor--smooth interaction which allowed the
 relationship between plant size and vital rates to vary in functional
 form among transition years. The kernel-resampling approach is to
@@ -395,9 +403,9 @@ for our site using a published gridded dataset based on ground
 measurements (Xavier et al. 2016) as described in Scott et al. (2022).
 For all vital rate models fit using the long term demographic dataset,
 we modeled delayed effects of SPEI using distributed lag non-linear
-models with a maximum lag of 36 months(Scott et al. 2022) (Figure
-@ref(fig:lifecycle)). To iterate these parameter-resampled IPMs, a
-random sequence of SPEI values was created by sampling years of the
+models with a maximum lag of 36 months (Scott et al. 2022)
+(Figure~\ref{fig-lifecycle}). To iterate these parameter-resampled IPMs,
+a random sequence of SPEI values was created by sampling years of the
 observed monthly SPEI data. Then, 36 month lags are calculated for each
 year starting in February (the month of the demographic census). These
 values are then used to predict fitted values from the vital rates
@@ -445,11 +453,11 @@ All about the stats.
 
 For all vital rates estimated using the long term demographic dataset,
 the DLNM model fit the best (dAIC = 0) followed by the model with a
-random effect of year, followed by the deterministic model (Table
-@ref(tab:aic)).\\
+random effect of year, followed by the deterministic model
+(Table~\ref{tbl-aic}).\\
 
 Population growth rates were consistently higher in continuous forest
-compared to forest fragments across IPM types (Table @ref(tab:lambdas)).
+compared to forest fragments across IPM types (Table~\ref{tbl-lambdas}).
 
 The time to iterate the DLNM models is much higher than than
 deterministic and kernel-resampled.
@@ -459,7 +467,7 @@ The greater use of computational resources is likely a result of
 the number of knots is much higher compared to the GAMs used for the
 vital rates models in the determinsitic and kernel-resampled IPMs.
 
-Figure @ref(fig:pop-states) has some interesting things in it:
+Figure~\ref{fig-pop-states} has some interesting things in it:
 
 \begin{itemize}
 \item
@@ -476,7 +484,7 @@ Figure @ref(fig:pop-states) has some interesting things in it:
 \item
   Also, the fluctuations in size structure in CF do not match the
   fluctuations in FF as well (can see this by the increased spread of
-  points in Figure @ref(fig:pop-states)B)
+  points in Figure~\ref{fig-pop-states} (B)
 \item
   Also, in the parameter-resampled IPM (and only in this one), we see a
   shift toward smaller plants in FF compared to CF
@@ -516,188 +524,6 @@ conceptualization, methodology, and writing and also acquired funding.
 Statement}\label{data-availability-statement}}
 
 Data and R code used in this study are archived with Zenodo at .
-
-\pagebreak
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1389}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2778}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3333}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1111}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1111}}@{}}
-\caption{(\#tab:aic) Comparison of vital rate models used to build IPM.
-The `Effect of Environment' column describes how environmental effects
-were included in models. Those with `none' were used to build
-deterministic IPMs; those with a random effect of year were used to
-build stochastic, kernel-resampled IPMs; and those with a distributed
-lag non-linear model (DLNM) were used to build stochastic,
-parameter-resampled IPMs. `edf' is the estimated degrees of freedom of
-the penalized GAM. ΔAIC is calculated within each habitat and vital rate
-combination. ΔAIC within 2 indicates models are
-equivalent.}\tabularnewline
-\toprule()
-\begin{minipage}[b]{\linewidth}\raggedright
-Habitat
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Vital Rate
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Effect of Environment
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-edf
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-ΔAIC
-\end{minipage} \\
-\midrule()
-\endfirsthead
-\toprule()
-\begin{minipage}[b]{\linewidth}\raggedright
-Habitat
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Vital Rate
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Effect of Environment
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-edf
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-ΔAIC
-\end{minipage} \\
-\midrule()
-\endhead
-CF & Survival & Random effect of year & 43.26 & 0 \\
-CF & Survival & DLNM & 19.72 & 78.92 \\
-CF & Survival & None & 4.976 & 260 \\
-CF & Growth & Random effect of year & 78.43 & 0 \\
-CF & Growth & DLNM & 23.87 & 158.5 \\
-CF & Growth & None & 7.81 & 1896 \\
-CF & Flowering & DLNM & 19.59 & 0 \\
-CF & Flowering & Random effect of year & 17.19 & 1.627 \\
-CF & Flowering & None & 7.468 & 381.9 \\
-CF & Seedling survival & None & 1 & 0 \\
-CF & Seedling survival & Random effect of year & 1.817 & 1.386 \\
-CF & Seedling survival & DLNM & 4.008 & 1.528 \\
-CF & Seedling growth & Random effect of year & 9.475 & 0 \\
-CF & Seedling growth & DLNM & 8.952 & 2.902 \\
-CF & Seedling growth & None & 1 & 172.3 \\
-FF & Survival & DLNM & 14.95 & 0 \\
-FF & Survival & Random effect of year & 19.21 & 35.68 \\
-FF & Survival & None & 4.333 & 51.25 \\
-FF & Growth & DLNM & 25.18 & 0 \\
-FF & Growth & Random effect of year & 37.84 & 200 \\
-FF & Growth & None & 5.599 & 382.8 \\
-FF & Flowering & DLNM & 20.61 & 0 \\
-FF & Flowering & Random effect of year & 13.81 & 27.4 \\
-FF & Flowering & None & 5.007 & 101.7 \\
-FF & Seedling survival & DLNM & 5.574 & 0 \\
-FF & Seedling survival & Random effect of year & 5.088 & 5.721 \\
-FF & Seedling survival & None & 1 & 6.491 \\
-FF & Seedling growth & Random effect of year & 6.25 & 0 \\
-FF & Seedling growth & DLNM & 8.182 & 2.29 \\
-FF & Seedling growth & None & 1 & 5.745 \\
-\bottomrule()
-\end{longtable}
-
-\newpage
-
-\begin{table}
-
-\caption{table caption}
-\centering
-\begin{tabular}[t]{lc}
-\toprule
-IPM Type & mean time (min.)\\
-\midrule
-Deterministic & 0.02\\
-Stochastic, kernel-resampled & 0.07\\
-Stochastic, parameter-resampled & 87.12\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\newpage
-\newpage
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4306}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1389}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3611}}@{}}
-\caption{(\#tab:lambdas) Population growth rates for continuous forest
-(CF) and forest fragments (FF) under different kinds of IPMs with
-bootstrapped, bias-corrected, 95\% confidence intervals.}\tabularnewline
-\toprule()
-\begin{minipage}[b]{\linewidth}\raggedright
-IPM
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Habitat
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-\(\lambda\)
-\end{minipage} \\
-\midrule()
-\endfirsthead
-\toprule()
-\begin{minipage}[b]{\linewidth}\raggedright
-IPM
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Habitat
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-\(\lambda\)
-\end{minipage} \\
-\midrule()
-\endhead
-Deterministic & FF & 0.9778 (0.9736, 0.9823) \\
-Deterministic & CF & 0.9897 (0.9877, 0.9920) \\
-Stochastic, kernel-resampled & FF & 0.9787 (0.9735, 0.9835) \\
-Stochastic, kernel-resampled & CF & 0.9913 (0.9892, 0.9939) \\
-dlnm & FF & 0.9595 (0.9459, 0.9689) \\
-dlnm & CF & 0.9795 (0.9752, 0.9867) \\
-\bottomrule()
-\end{longtable}
-
-\newpage
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{/Users/emiliobruna/Dropbox (UFL)/Research/Heliconia/Scott_etal_AmNat/lagged-ipms-ms/docs/figures/lifecycle.png}
-
-}
-
-\caption{Lifecycle diagram of \emph{Heliconia acuminata}. Each
-transition is associated with an equation for a vital rate function. The
-functions shown on the diagram correspond to those used to construct a
-general, density-independent, deterministic IPM. The table below shows
-the equivalent equations for stochastic, kernel-resampled IPMs and
-stochastic, parameter-resampled IPMs.}
-
-\end{figure}
-
-\newpage
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{/Users/emiliobruna/Dropbox (UFL)/Research/Heliconia/Scott_etal_AmNat/lagged-ipms-ms/docs/figures/pop_states.png}
-
-}
-
-\caption{Relative proportions of plant sizes in the first 250 iterations
-of the IPM simulations. Stacked area charts (A) show the relative
-size/stage distribution of plants in continuous forest (CF, top row) and
-forest fragments (FF, bottom row) in each of the three IPMs (columns).
-The proportion of each size class in CF and FF for each iteration is
-shown in B with the first 30 iterations removed to not include transient
-dynamics. A 1:1 line is plotted in black. Size categories include
-seedlings (a discrete category in the IPMs), pre-reproductive 1
-(log(size) 0--2.5) that have low average survival (\textless{} 0.9) and
-a near 0 probability of flowering, pre-reproductive 2 (log(size)
-2.5--4.5) that have a higher average survival probabilty (\textgreater{}
-0.8) and a near 0 probability of flowering, reproductive 1 (log(size)
-4.5--6) that have a high average survival probability (\textgreater0.95)
-and a lower flowering probability (\textless{} 0.25), and reproductive 2
-(log(size) 6+) that have a high average survival probability
-(\textgreater0.95) and higher flowering proability (\textgreater{}
-0.2).}
-
-\end{figure}
-
-\newpage
 
 \hypertarget{literature-cited}{%
 \subsection{Literature Cited}\label{literature-cited}}
@@ -768,6 +594,188 @@ variables in {Brazil} (1980\textendash 2013)}. International Journal of
 Climatology 36:2644--2659.
 
 \end{CSLReferences}
+
+\pagebreak
+
+\hypertarget{tbl-aic}{}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1389}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2778}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3333}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1111}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1111}}@{}}
+\caption{\label{tbl-aic}Comparison of vital rate models used to build
+IPM. The `Effect of Environment' column describes how environmental
+effects were included in models. Those with `none' were used to build
+deterministic IPMs; those with a random effect of year were used to
+build stochastic, kernel-resampled IPMs; and those with a distributed
+lag non-linear model (DLNM) were used to build stochastic,
+parameter-resampled IPMs. `edf' is the estimated degrees of freedom of
+the penalized GAM. ΔAIC is calculated within each habitat and vital rate
+combination. ΔAIC within 2 indicates models are
+equivalent.}\tabularnewline
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+Habitat
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Vital Rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Effect of Environment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+edf
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ΔAIC
+\end{minipage} \\
+\midrule()
+\endfirsthead
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+Habitat
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Vital Rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Effect of Environment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+edf
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ΔAIC
+\end{minipage} \\
+\midrule()
+\endhead
+CF & Survival & Random effect of year & 43.26 & 0 \\
+CF & Survival & DLNM & 19.72 & 78.92 \\
+CF & Survival & None & 4.976 & 260 \\
+CF & Growth & Random effect of year & 78.43 & 0 \\
+CF & Growth & DLNM & 23.87 & 158.5 \\
+CF & Growth & None & 7.81 & 1896 \\
+CF & Flowering & DLNM & 19.59 & 0 \\
+CF & Flowering & Random effect of year & 17.19 & 1.627 \\
+CF & Flowering & None & 7.468 & 381.9 \\
+CF & Seedling survival & None & 1 & 0 \\
+CF & Seedling survival & Random effect of year & 1.817 & 1.386 \\
+CF & Seedling survival & DLNM & 4.008 & 1.528 \\
+CF & Seedling growth & Random effect of year & 9.475 & 0 \\
+CF & Seedling growth & DLNM & 8.952 & 2.902 \\
+CF & Seedling growth & None & 1 & 172.3 \\
+FF & Survival & DLNM & 14.95 & 0 \\
+FF & Survival & Random effect of year & 19.21 & 35.68 \\
+FF & Survival & None & 4.333 & 51.25 \\
+FF & Growth & DLNM & 25.18 & 0 \\
+FF & Growth & Random effect of year & 37.84 & 200 \\
+FF & Growth & None & 5.599 & 382.8 \\
+FF & Flowering & DLNM & 20.61 & 0 \\
+FF & Flowering & Random effect of year & 13.81 & 27.4 \\
+FF & Flowering & None & 5.007 & 101.7 \\
+FF & Seedling survival & DLNM & 5.574 & 0 \\
+FF & Seedling survival & Random effect of year & 5.088 & 5.721 \\
+FF & Seedling survival & None & 1 & 6.491 \\
+FF & Seedling growth & Random effect of year & 6.25 & 0 \\
+FF & Seedling growth & DLNM & 8.182 & 2.29 \\
+FF & Seedling growth & None & 1 & 5.745 \\
+\bottomrule()
+\end{longtable}
+
+\newpage
+
+\hypertarget{tbl-time}{}
+\begin{table}
+\caption{\label{tbl-time}Figure caption to be written }\tabularnewline
+
+\centering
+\begin{tabular}[t]{lc}
+\toprule
+IPM Type & mean time (min.)\\
+\midrule
+Deterministic & 0.02\\
+Stochastic, kernel-resampled & 0.07\\
+Stochastic, parameter-resampled & 87.12\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\hypertarget{tbl-lambdas}{}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4306}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1389}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3611}}@{}}
+\caption{\label{tbl-lambdas}Population growth rates for continuous
+forest (CF) and forest fragments (FF) under different kinds of IPMs with
+bootstrapped, bias-corrected, 95\% confidence intervals.}\tabularnewline
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+IPM
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Habitat
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(\lambda\)
+\end{minipage} \\
+\midrule()
+\endfirsthead
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+IPM
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Habitat
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(\lambda\)
+\end{minipage} \\
+\midrule()
+\endhead
+Deterministic & FF & 0.9778 (0.9736, 0.9823) \\
+Deterministic & CF & 0.9897 (0.9877, 0.9920) \\
+Stochastic, kernel-resampled & FF & 0.9787 (0.9735, 0.9835) \\
+Stochastic, kernel-resampled & CF & 0.9913 (0.9892, 0.9939) \\
+dlnm & FF & 0.9595 (0.9459, 0.9689) \\
+dlnm & CF & 0.9795 (0.9752, 0.9867) \\
+\bottomrule()
+\end{longtable}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{/Users/emiliobruna/Dropbox (UFL)/Research/Heliconia/Scott_etal_AmNat/lagged-ipms-ms/docs/figures/lifecycle.png}
+
+}
+
+\caption{\label{fig-lifecycle}Lifecycle diagram of \emph{Heliconia
+acuminata}. Each transition is associated with an equation for a vital
+rate function. The functions shown on the diagram correspond to those
+used to construct a general, density-independent, deterministic IPM. The
+table below shows the equivalent equations for stochastic,
+kernel-resampled IPMs and stochastic, parameter-resampled IPMs.}
+
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{/Users/emiliobruna/Dropbox (UFL)/Research/Heliconia/Scott_etal_AmNat/lagged-ipms-ms/docs/figures/pop_states.png}
+
+}
+
+\caption{\label{fig-pop-states}Relative proportions of plant sizes in
+the first 250 iterations of the IPM simulations. Stacked area charts (A)
+show the relative size/stage distribution of plants in continuous forest
+(CF, top row) and forest fragments (FF, bottom row) in each of the three
+IPMs (columns). The proportion of each size class in CF and FF for each
+iteration is shown in B with the first 30 iterations removed to not
+include transient dynamics. A 1:1 line is plotted in black. Size
+categories include seedlings (a discrete category in the IPMs),
+pre-reproductive 1 (log(size) 0--2.5) that have low average survival
+(\textless{} 0.9) and a near 0 probability of flowering,
+pre-reproductive 2 (log(size) 2.5--4.5) that have a higher average
+survival probabilty (\textgreater{} 0.8) and a near 0 probability of
+flowering, reproductive 1 (log(size) 4.5--6) that have a high average
+survival probability (\textgreater0.95) and a lower flowering
+probability (\textless{} 0.25), and reproductive 2 (log(size) 6+) that
+have a high average survival probability (\textgreater0.95) and higher
+flowering proability (\textgreater{} 0.2).}
+
+\end{figure}
 
 
 
