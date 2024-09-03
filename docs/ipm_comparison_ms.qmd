@@ -144,7 +144,7 @@ Text of 150 words max summarizing this amazing paper.
 
 ### Paragraph 1: MM and IPM broadly used, but technical challenges remain
 
-1.  Two types of structured population models - matrix models [@leslie1945use; @caswell2001] and integral projection models [@ellnerIntegralProjectionModels2006] - are fundamental frameworks used to study demography and population dynamics.\
+1.  Two types of structured population models - matrix models [@leslie1945use; @caswell2001] and integral projection models [@ellnerIntegralProjectionModels2006] - are fundamental frameworks used to study demography and population dynamics.
 2.  Their flexibility, in concert with a rapidly growing suite of software, data, and other resources [@ellnerDatadrivenModellingStructured2016; @levinIpmrFlexibleImplementation2021; @salguero-gomezCOMPADREPlantMatrix2015], have facilitated their use to study a wide range of topics in ecology, evolution, and conservation [@ellnerDatadrivenModellingStructured2016; @morrisQuantitativeConservationBiology2002; @croneHowPlantEcologists2011].
 3.  While recent mathematical and statistical developments have expanded the scope of these applications [e.g., @brooksStatisticalModelingPatterns2019; @reesEvolvingIntegralProjection2016], a number of technical challenges remain.
 4.  While many of these relate to general issues surrounding model development and validation [e.g., @williams2012avoiding], others stem from the fundamental challenge of using mathematical models - albeit highly advanced ones - to describe and analyze complex biological systems.
