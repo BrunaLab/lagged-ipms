@@ -1,0 +1,368 @@
+
+@article{brooksStatisticalModelingPatterns2019,
+	title = {Statistical modeling of patterns in annual reproductive rates},
+	volume = {100},
+	url = {https://doi.org/10.1002/ecy.2706},
+	doi = {10.1002/ecy.2706},
+	abstract = {Reproduction by individuals is typically recorded as count data (e.g., number of fledglings from a nest or inflorescences on a plant) and commonly modeled using Poisson or negative binomial distributions, which assume that variance is greater than or equal to the mean. However, distributions of reproductive effort are often underdispersed (i.e., variance {\textless} mean). When used in hypothesis tests, models that ignore underdispersion will be overly conservative and may fail to detect significant patterns. Here we show that generalized Poisson (GP) and Conway-Maxwell-Poisson (CMP) distributions are better choices for modeling reproductive effort because they can handle both overdispersion and underdispersion; we provide examples of how ecologists can use GP and CMP distributions in generalized linear models (GLMs) and generalized linear mixed models (GLMMs) to quantify patterns in reproduction. Using a new R package, glmmTMB, we construct GLMMs to investigate how rainfall and population density influence the number of fledglings in the warbler Oreothlypis celata and how flowering rate of Heliconia acuminata differs between fragmented and continuous forest. We also demonstrate how to deal with zero-inflation, which occurs when there are more zeros than expected in the distribution, e.g., due to complete reproductive failure by some individuals.},
+	number = {7},
+	journal = {Ecology},
+	author = {Brooks, M. E. and Kristensen, K. and Darrigo, M. R. and Rubim, P. and Uriarte, M. and Bruna, E. and Bolker, B. M.},
+	year = {2019},
+	keywords = {conway-maxwell-poisson fecundity generalized poisson heliconia acuminata oreothlypis celata overdispersion regression underdispersion zero-inflation habitat fragmentation life-history count data growth},
+}
+
+@article{croneHowPlantEcologists2011,
+	title = {How do plant ecologists use matrix population models?},
+	volume = {14},
+	doi = {10.1111/j.1461-0248.2010.01540.x},
+	abstract = {P{\textgreater}Matrix projection models are among the most widely used tools in plant ecology. However, the way in which plant ecologists use and interpret these models differs from the way in which they are presented in the broader academic literature. In contrast to calls from earlier reviews, most studies of plant populations are based on {\textless} 5 matrices and present simple metrics such as deterministic population growth rates. However, plant ecologists also cautioned against literal interpretation of model predictions. Although academic studies have emphasized testing quantitative model predictions, such forecasts are not the way in which plant ecologists find matrix models to be most useful. Improving forecasting ability would necessitate increased model complexity and longer studies. Therefore, in addition to longer term studies with better links to environmental drivers, priorities for research include critically evaluating relative/comparative uses of matrix models and asking how we can use many short-term studies to understand long-term population dynamics.},
+	number = {1},
+	journal = {Ecology Letters},
+	author = {Crone, E. E. and Menges, E. S. and Ellis, M. M. and Bell, T. and Bierzychudek, P. and Ehrlen, J. and Kaye, T. N. and Knight, T. M. and Lesica, P. and Morris, W. F. and Oostermeijer, G. and Quintana-Ascencio, P. F. and Stanley, A. and Ticktin, T. and Valverde, T. and Williams, J. L.},
+	year = {2011},
+	keywords = {analysis, assessment, biology, conservation, demography, dynamics, ecological, evolution, extinction, forecasting, growth, harvest, life-history, matrix, meaningful, models, plant, population, probability, projection, rate, risk, sensitivity, viability},
+	pages = {1--8},
+}
+
+@article{ellnerIntegralProjectionModels2006,
+	title = {Integral projection models for species with complex demography},
+	volume = {167},
+	doi = {10.1086/499438},
+	abstract = {Matrix projection models occupy a central role in population and conservation biology. Matrix models divide a population into discrete classes, even if the structuring trait exhibits continuous variation ( e. g., body size). The integral projection model ( IPM) avoids discrete classes and potential artifacts from arbitrary class divisions, facilitates parsimonious modeling based on smooth relationships between individual state and demographic performance, and can be implemented with standard matrix software. Here, we extend the IPM to species with complex demographic attributes, including dormant and active life stages, cross- classification by several attributes ( e. g., size, age, and condition), and changes between discrete and continuous structure over the life cycle. We present a general model encompassing these cases, numerical methods, and theoretical results, including stable population growth and sensitivity/ elasticity analysis for density- independent models, local stability analysis in density- dependent models, and optimal/ evolutionarily stable strategy life- history analysis. Our presentation centers on an IPM for the thistle Onopordum illyricum based on a 6- year field study. Flowering and death probabilities are size and age dependent, and individuals also vary in a latent attribute affecting survival, but a predictively accurate IPM is completely parameterized by fitting a few regression equations. The online edition of the American Naturalist includes a zip archive of R scripts illustrating our suggested methods.},
+	number = {3},
+	journal = {American Naturalist},
+	author = {Ellner, S. P. and Rees, M.},
+	year = {2006},
+	keywords = {structured populations integral model matrix model sensitivity analysis latent variability thistle population-growth environmental stochasticity flowering strategies individual variation life-histories category size rosette size age evolution predictions},
+	pages = {410--428},
+}
+
+@book{morrisQuantitativeConservationBiology2002,
+	address = {Sunderland, MA},
+	title = {Quantitative conservation biology: theory and practice of population viability analysis.},
+	publisher = {Sinauer},
+	author = {Morris, W. F. and Doak, D. F.},
+	year = {2002},
+}
+
+@article{reesBuildingIntegralProjection2014,
+	title = {Building integral projection models: a user's guide},
+	volume = {83},
+	doi = {10.1111/1365-2656.12178},
+	abstract = {In order to understand how changes in individual performance (growth, survival or reproduction) influence population dynamics and evolution, ecologists are increasingly using parameterized mathematical models. For continuously structured populations, where some continuous measure of individual state influences growth, survival or reproduction, integral projection models (IPMs) are commonly used. We provide a detailed description of the steps involved in constructing an IPM, explaining how to: (i) translate your study system into an IPM; (ii) implement your IPM; and (iii) diagnose potential problems with your IPM. We emphasize how the study organism's life cycle, and the timing of censuses, together determine the structure of the IPM kernel and important aspects of the statistical analysis used to parameterize an IPM using data on marked individuals. An IPM based on population studies of Soay sheep is used to illustrate the complete process of constructing, implementing and evaluating an IPM fitted to sample data. We then look at very general approaches to parameterizing an IPM, using a wide range of statistical techniques (e.g. maximum likelihood methods, generalized additive models, nonparametric kernel density estimators). Methods for selecting models for parameterizing IPMs are briefly discussed. We conclude with key recommendations and a brief overview of applications that extend the basic model. The online Supporting Information provides commented R code for all our analyses.},
+	number = {3},
+	journal = {Journal of Animal Ecology},
+	author = {Rees, M. and Childs, D. Z. and Ellner, S. P.},
+	year = {2014},
+	keywords = {mathematical model soay sheep structured population integral projection model population-dynamics life-history evolutionary demography stochastic environment likelihood-estimation flowering strategies maximum-likelihood size growth decisions},
+	pages = {528--545},
+	file = {Rees et al. - 2014 - Building integral projection models a user's guid.pdf:/Users/emiliobruna/Zotero/storage/ZL7JKWCY/Rees et al. - 2014 - Building integral projection models a user's guid.pdf:application/pdf},
+}
+
+@article{reesIntegralProjectionModels2009,
+	title = {Integral projection models for populations in temporally varying environments},
+	volume = {79},
+	doi = {10.1890/08-1474.1},
+	abstract = {Most plant and animal populations have substantial interannual variability in survival, growth rate, and fecundity. They also exhibit substantial variability among individuals in traits such as size, age, condition, and disease status that have large impacts on individual fates and consequently on the future of the population. We present here methods for constructing and analyzing a stochastic integral projection model (IPM) incorporating both of these forms of variability, illustrated through a case study of the monocarpic thistle Carlina vulgaris. We show how model construction can exploit the close correspondence between stochastic IPMs and statistical analysis of trait-fate relationships in a "mixed" or "hierarchical" models framework. This correspondence means that IPMs can be parameterized straightforwardly from data using established statistical techniques and software (vs. the largely ad hoc methods for stochastic matrix models), properly accounting for sampling error and between-year sample size variation and with vastly fewer parameters than a conventional stochastic matrix model. We show that the many tools available for analyzing stochastic matrix models (such as stochastic growth rate, lambda(S), small variance approximations, elasticity/sensitivity analysis, and life table response experiment [LTRE] analysis) can be used for IPMs, and we give computational formulas for elasticity/sensitivity analyses. We develop evolutionary analyses based on the connection between growth rate sensitivity and selection gradients and present a new method using techniques from functional data analysis to study the evolution of function-valued traits such as size-dependent flowering probability. For Carlina we found consistent selection against variability in both state-specific transition rates and the fitted functions describing state dependence in demographic rates. For most of the regression parameters de. ning the IPM there was also selection against temporal variance; however, in some cases the effects of nonlinear averaging were big enough to favor increased temporal variation. The LTRE analysis identified year-to-year variation in survival as the dominant factor in population growth variability. Evolutionary analysis of flowering strategy showed that the entire functional relationship between plant size and flowering probability is at or near an evolutionarily stable strategy (ESS) shaped by the size-specific trade-off between the benefit (fecundity) and cost (mortality) of flowering in a temporally varying environment.},
+	number = {4},
+	journal = {Ecological Monographs},
+	author = {Rees, M. and Ellner, S. P.},
+	year = {2009},
+	keywords = {adaptive, analysis, carlina, carlina-vulgaris, dynamics, environment, evolution, evolutionarily, experiment, fitness, flowering, fluctuating, forecasting, function-valued, growth, integral, life, mixed, model, models, population, projection, random, rate, response, selection, sensitivity, size, stable, stochastic, strategies, structured, table, temporal, topography, traits, variability, variable, vulgaris},
+	pages = {575--594},
+}
+
+@article{reesEvolvingIntegralProjection2016,
+	title = {Evolving integral projection models: evolutionary demography meets eco-evolutionary dynamics},
+	volume = {7},
+	url = {https://doi.org/10.1111/2041-210X.12487},
+	doi = {10.1111/2041-210X.12487},
+	abstract = {Patterns of survival and reproduction determine fitness, and there is a rich body of theory linking demography with evolution. For example, selection analysis can be used to predict changes in trait values, and by approximating selection, equations describing trait dynamics derived and evolutionary endpoints predicted. Here, we provide an overview of how these methods can be used to understand evolutionary dynamics and selection in a structured population modelled by an integral projection model (IPM). General expressions for selection are given, and we show how these can be approximated using eigenvalue sensitivities. Approximations for the dynamics of both the trait mean and variance are presented and compared to simulation results (IPMs and individual-based models) for monocarpic perennials. We describe how selection can be decomposed into components related to survival and reproduction and into components resulting from changes in demography versus changes in population structure. We show that, in an empirically based IPM, effects of changes in population structure can be a major component of the overall selection pressure. Most studies of selection in natural populations have focused entirely on selection due to changes in demography, so our results may help explain why directional selection is often predicted but no evolutionary response is observed. The endpoints of evolution, what we expect to see in nature, are explored using ideas from adaptive dynamics theory. The key methods are based on evolutionarily stable strategies (ESS) and convergence stability. Efficient methods for finding an ESS are described. We then extend these ideas to function-valued traits, where it is assumed that an entire function can evolve, rather than a few parameters defining it. By combining theory for IPMs with ideas from several different fields, we show how the dynamics of ecologically complex, evolving systems can be understood.},
+	number = {2},
+	journal = {Methods in Ecology and Evolution},
+	author = {Rees, M. and Ellner, S. P.},
+	year = {2016},
+	keywords = {biology, decisions, ecology, environment, evolutionary, flowering, fluctuating, function-valued, genetic-variation, genetics, life-history, microevolution, modelling, oenothera-glazioviana, population, population-dynamics, populations, quantitative, structured, traits, variable},
+	pages = {157--170},
+	file = {Rees and Ellner - 2016 - Evolving integral projection models evolutionary .pdf:/Users/emiliobruna/Zotero/storage/YQ9JD9QC/Rees and Ellner - 2016 - Evolving integral projection models evolutionary .pdf:application/pdf},
+}
+
+@article{salguero-gomezCOMPADREPlantMatrix2015,
+	title = {The {COMPADRE} {Plant} {Matrix} {Database}: an open online repository for plant demography},
+	volume = {103},
+	issn = {0022-0477, 1365-2745},
+	shorttitle = {The {\textless}span style="font-variant},
+	url = {https://onlinelibrary.wiley.com/doi/10.1111/1365-2745.12334},
+	doi = {10.1111/1365-2745.12334},
+	language = {en},
+	number = {1},
+	urldate = {2021-05-04},
+	journal = {Journal of Ecology},
+	author = {Salguero‐Gómez, Roberto and Jones, Owen R. and Archer, C. Ruth and Buckley, Yvonne M. and Che‐Castaldo, Judy and Caswell, Hal and Hodgson, David and Scheuerlein, Alexander and Conde, Dalia A. and Brinks, Erik and Buhr, Hendrik and Farack, Claudia and Gottschalk, Fränce and Hartmann, Alexander and Henning, Anne and Hoppe, Gabriel and Römer, Gesa and Runge, Jens and Ruoff, Tara and Wille, Julia and Zeh, Stefan and Davison, Raziel and Vieregg, Dirk and Baudisch, Annette and Altwegg, Res and Colchero, Fernando and Dong, Ming and Kroon, Hans and Lebreton, Jean‐Dominique and Metcalf, Charlotte J. E. and Neel, Maile M. and Parker, Ingrid M. and Takada, Takenori and Valverde, Teresa and Vélez‐Espino, Luis A. and Wardle, Glenda M. and Franco, Miguel and Vaupel, James W.},
+	editor = {Rees, Mark},
+	month = jan,
+	year = {2015},
+	keywords = {access, analyses, and, approach, big, climate-change, community, comparative, data, desert, dynamics, elasticity, evolution, growth, herb, integral, life-history, matrix, model, models, open, perennial, plant, plants, population, population-growth-rate, populations, projection, rate, sensitivity, sensitivity-analysis, stage-structured, transient, viability},
+	pages = {202--218},
+	file = {Salguero‐Gómez et al. - 2015 - The COMPADRE Plant Matrix Database an open online.pdf:/Users/emiliobruna/Zotero/storage/6CQPZP38/Salguero‐Gómez et al. - 2015 - The COMPADRE Plant Matrix Database an open online.pdf:application/pdf},
+}
+
+@article{salguero-gomezMatrixDimensionsBias2010,
+	title = {Matrix {Dimensions} {Bias} {Demographic} {Inferences}: {Implications} for {Comparative} {Plant} {Demography}.},
+	volume = {176},
+	issn = {0003-0147},
+	shorttitle = {Matrix {Dimensions} {Bias} {Demographic} {Inferences}},
+	url = {https://www.journals.uchicago.edu/doi/10.1086/657044},
+	doi = {10.1086/657044},
+	abstract = {While the wealth of projection matrices in plant demography permits comparative studies, variation in matrix dimensions complicates interspecific comparisons. Collapsing matrices to a common dimension may facilitate such comparisons but may also bias the inferred demographic parameters. Here we examine how matrix dimension affects inferred demographic elasticities and how different collapsing criteria perform. We analyzed 
+13×13
+13×13
+ matrices representing nine plant species, collapsing these matrices (i) into even 
+7×7
+7×7
+, 
+5×5
+5×5
+, 
+4×4
+4×4
+, and 
+3×3
+3×3
+ matrices and (ii) into 
+5×5
+5×5
+ matrices using different criteria. Stasis and fecundity elasticities increased when matrix dimension was reduced, whereas those of progression and retrogression decreased. We suggest a collapsing criterion that minimizes dissimilarities between the original‐ and collapsed‐matrix elasticities and apply it to 66 plant species to study how life span and growth form influence the relationship between matrix dimension and elasticities. Our analysis demonstrates that (i) projection matrix dimension has significant effects on inferred demographic parameters, (ii) there are better‐performing methods than previously suggested for standardizing matrix dimension, and (iii) herbaceous perennial projection matrices are particularly sensitive to changes in matrix dimensionality. For comparative demographic studies, we recommend normalizing matrices to a common dimension by collapsing higher classes and leaving the first few classes unaltered.},
+	number = {6},
+	urldate = {2022-03-01},
+	journal = {The American Naturalist},
+	author = {Salguero‐Gómez, Roberto and Plotkin, Joshua B.},
+	month = dec,
+	year = {2010},
+	note = {Publisher: The University of Chicago Press},
+	keywords = {elasticity, collapsing, comparative plant demography, matrix dimension, population growth rate (λ), projection matrix models},
+	pages = {710--722},
+	file = {Salguero‐Gómez and Plotkin - 2010 - Matrix Dimensions Bias Demographic Inferences Imp.pdf:/Users/emiliobruna/Zotero/storage/GLFVYUE5/Salguero‐Gómez and Plotkin - 2010 - Matrix Dimensions Bias Demographic Inferences Imp.pdf:application/pdf},
+}
+
+@article{plaistowContextDependentIntergenerational2006,
+	title = {Context‐{Dependent} {Intergenerational} {Effects}: {The} {Interaction} between {Past} and {Present} {Environments} and {Its} {Effect} on {Population} {Dynamics}.},
+	volume = {167},
+	issn = {0003-0147},
+	shorttitle = {Context‐{Dependent} {Intergenerational} {Effects}},
+	url = {https://www.journals.uchicago.edu/doi/full/10.1086/499380},
+	doi = {10.1086/499380},
+	abstract = {Intergenerational effects arise when parents’ actions influence the reproduction and survival of their offspring and possibly later descendants. Models suggest that intergenerational effects have important implications for both population dynamical patterns and the evolution of life‐history traits. However, these will depend on the nature and duration of intergenerational effects. Here we show that manipulating parental food environments of soil mites produced intergenerational effects that were still detectable in the life histories of descendents three generations later. Intergenerational effects varied in different environments and from one generation to the next. In low‐food environments, variation in egg size altered a trade‐off between age and size at maturity and had little effect on the size of eggs produced in subsequent generations. Consequently, intergenerational effects decreased over time. In contrast, in high‐food environments, variation in egg size predominantly influenced a trade‐off between fecundity and adult survival and generated increasing variation in egg size. As a result, the persistence and significance of intergenerational effects varied between high‐ and low‐food environments. Context‐dependent intergenerational effects can therefore have complex but important effects on population dynamics.},
+	number = {2},
+	urldate = {2022-03-01},
+	journal = {The American Naturalist},
+	author = {Plaistow, Stewart J. and Lapsley, Craig T. and Benton, Tim G.},
+	month = feb,
+	year = {2006},
+	note = {Publisher: The University of Chicago Press},
+	keywords = {population dynamics, context dependence, intergenerational effects, life‐history plasticity, Sancassania berlesei},
+	pages = {206--215},
+	file = {Plaistow et al. - 2006 - Context‐Dependent Intergenerational Effects The I.pdf:/Users/emiliobruna/Zotero/storage/FA4VYHF9/Plaistow et al. - 2006 - Context‐Dependent Intergenerational Effects The I.pdf:application/pdf},
+}
+
+@article{ezardHabitatDependenceCorrelations2008,
+	title = {Habitat {Dependence} and {Correlations} between {Elasticities} of {Long}‐{Term} {Growth} {Rates}},
+	volume = {172},
+	issn = {0003-0147, 1537-5323},
+	url = {https://www.journals.uchicago.edu/doi/10.1086/589897},
+	doi = {10.1086/589897},
+	abstract = {In population biology, elasticity is a measure of the importance of a demographic rate on population growth. A relatively small amount of stochasticity can substantially impact the dynamics of a population whose growth is a function of deterministic and stochastic processes. Analyses of natural populations frequently neglect the latter. Even in a population that ﬂuctuates substantially with time, the results of a deterministic perturbation analysis correlated strongly with results of a perturbation analysis of the long-run stochastic growth rate. Population growth was, however, not uniformly sensitive to demographic rates across different environmental conditions. The overall correlation between deterministic and stochastic perturbation analysis may be high, but environmental variability can dramatically alter the contributions of demographic rates in different environmental conditions. This potentially informative detail is neglected by deterministic analysis, yet it highlights one difﬁculty when extrapolating results from long-term analysis to shorter-term environmental change.},
+	language = {en},
+	number = {3},
+	urldate = {2022-03-09},
+	journal = {The American Naturalist},
+	author = {Ezard, Thomas H. G. and Gaillard, Jean‐Michel and Crawley, Michael J. and Coulson, Tim},
+	month = sep,
+	year = {2008},
+	note = {tex.ids= ezardHabitatDependenceCorrelations2008a
+publisher: The University of Chicago Press},
+	keywords = {demography, sensitivity, Markov chain, Soay sheep, St. Kilda, vital rate},
+	pages = {424--430},
+	file = {Ezard et al. - 2008 - Habitat Dependence and Correlations between Elasti.pdf:/Users/emiliobruna/Zotero/storage/XP42EC2N/Ezard et al. - 2008 - Habitat Dependence and Correlations between Elasti.pdf:application/pdf},
+}
+
+@article{scottInteractiveEffectsDrought2019,
+	title = {Interactive effects of drought severity and simulated herbivory on tea (\textit{{Camellia} sinensis}) volatile and non-volatile metabolites},
+	volume = {157},
+	issn = {00988472},
+	doi = {10.1016/j.envexpbot.2018.10.025},
+	journal = {Environmental and Experimental Botany},
+	author = {Scott, Eric R. and Li, Xin and Kfoury, Nicole and Morimoto, Joshua and Han, Wen-Yan and Ahmed, Selena and Cash, Sean B. and Griffin, Timothy S. and Stepp, John R. and Robbat, Albert and Orians, Colin M.},
+	month = jan,
+	year = {2019},
+	note = {Publisher: Elsevier
+tex.copyright: All rights reserved},
+	pages = {283--292},
+}
+
+@article{mgcv,
+	title = {Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models},
+	volume = {73},
+	author = {Wood, S. N.},
+	year = {2011},
+	pages = {3--36},
+}
+
+@article{scottDelayedEffectsClimate2022,
+	title = {Delayed effects of climate on vital rates lead to demographic divergence in {Amazonian} forest fragments},
+	volume = {28},
+	url = {http://onlinelibrary.wiley.com/doi/abs/10.1111/gcb.15900},
+	doi = {10.1111/gcb.15900},
+	language = {en},
+	number = {2},
+	journal = {Global Change Biology},
+	author = {Scott, Eric R. and Uriarte, María and Bruna, Emilio M.},
+	year = {2022},
+	pages = {463--479},
+}
+
+@article{eversLaggedDormantSeason2021,
+	title = {Lagged and dormant season climate better predict plant vital rates than climate during the growing season},
+	volume = {27},
+	url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/gcb.15519},
+	doi = {10.1111/gcb.15519},
+	language = {en},
+	journal = {Global Change Biology},
+	author = {Evers, Sanne M. and Knight, Tiffany M. and Inouye, David W. and Miller, Tom E. X. and Salguero-Gómez, Roberto and Iler, Amy M. and Compagnoni, Aldo},
+	year = {2021},
+	pages = {1927--1941},
+}
+
+@techreport{rcoreteam2020,
+	address = {Vienna, Austria},
+	title = {R: {A} language and environment for statistical computing},
+	author = {{R Core Team}},
+	year = {2020},
+}
+
+@article{targets,
+	title = {The targets {R} package: a dynamic {Make}-like function-oriented pipeline toolkit for reproducibility and high-performance computing},
+	volume = {6},
+	url = {https://doi.org/10.21105/joss.02959},
+	author = {Landau, William Michael},
+	year = {2021},
+	pages = {2959},
+}
+
+@article{xavierDailyGriddedMeteorological2016,
+	title = {Daily gridded meteorological variables in {Brazil} (1980–2013)},
+	volume = {36},
+	issn = {1097-0088},
+	doi = {10.1002/joc.4518},
+	language = {english},
+	number = {6},
+	journal = {International Journal of Climatology},
+	author = {Xavier, Alexandre C. and King, Carey W. and Scanlon, Bridget R.},
+	year = {2016},
+	note = {tex.copyright: © 2015 Royal Meteorological Society},
+	keywords = {Brazil, data set, evapotranspiration, gridded data, interpolation, meteorological variables, precipitation, read},
+	pages = {2644--2659},
+}
+
+@book{caswell2001,
+	address = {Sunderland},
+	title = {Matrix population models: construction, analysis, and interpretation},
+	publisher = {Sinauer Associates},
+	author = {Caswell, Hall},
+	year = {2001},
+}
+
+@article{levinIpmrFlexibleImplementation2021,
+	title = {Ipmr: {Flexible} implementation of {Integral} {Projection} {Models} in {R}},
+	volume = {12},
+	issn = {2041-210X},
+	shorttitle = {Ipmr},
+	doi = {10.1111/2041-210X.13683},
+	language = {english},
+	number = {10},
+	journal = {Methods in Ecology and Evolution},
+	author = {Levin, Sam C. and Childs, Dylan Z. and Compagnoni, Aldo and Evers, Sanne and Knight, Tiffany M. and Salguero-Gómez, Roberto},
+	year = {2021},
+	keywords = {elasticity, integral projection model, life history, population dynamics, population growth rate, sensitivity, structured populations},
+	pages = {1826--1834},
+}
+
+@article{kayeEffectStochasticTechnique2003,
+	title = {The effect of stochastic technique on estimates of population viability from transition matrix models},
+	volume = {84},
+	url = {http://www.jstor.org/stable/3107968},
+	doi = {10.1890/0012-9658(2003)084[1464:TEOSTO]2.0.CO;2},
+	number = {6},
+	journal = {Ecology},
+	author = {Kaye, Thomas N. and Pyke, David A.},
+	year = {2003},
+	pages = {1464--1476},
+}
+
+@article{metcalfStatisticalModellingAnnual2015,
+	title = {Statistical modelling of annual variation for inference on stochastic population dynamics using {Integral} {Projection} {Models}},
+	volume = {6},
+	issn = {2041-210X},
+	doi = {10.1111/2041-210X.12405},
+	language = {english},
+	number = {9},
+	journal = {Methods in Ecology and Evolution},
+	author = {Metcalf, C. Jessica E. and Ellner, Stephen P. and Childs, Dylan Z. and Salguero-Gómez, Roberto and Merow, Cory and McMahon, Sean M. and Jongejans, Eelke and Rees, Mark},
+	year = {2015},
+	note = {tex.copyright: © 2015 The Authors. Methods in Ecology and Evolution © 2015 British Ecological Society},
+	keywords = {covariation, integral projection model, population growth rate, population projection, population viability, random vs. fixed effects, read, sampling effects, stochastic simulations},
+	pages = {1007--1017},
+}
+
+@book{ellnerDatadrivenModellingStructured2016,
+	address = {New York, NY},
+	title = {Data-driven modelling of structured populations: a practical guide to the integral projection model},
+	isbn = {978-3-319-28891-8},
+	shorttitle = {Data-driven modelling of structured populations},
+	publisher = {Springer Science+Business Media},
+	author = {Ellner, Stephen P. and Childs, Dylan Z. and Rees, Mark},
+	year = {2016},
+}
+
+@article{brunaEffectMutualistPartner2014a,
+	title = {Effect of mutualist partner identity on plant demography},
+	volume = {95},
+	issn = {0012-9658},
+	doi = {10.1890/14-0481.1},
+	abstract = {Mutualisms play a central role in the origin and maintenance of biodiversity. Because many mutualisms have strong demographic effects, interspecific variation in partner quality could have important consequences for population dynamics. Nevertheless, few studies have quantified how a mutualist partner influences population growth rates, and still fewer have compared the demographic impacts of multiple partner species. We used integral projection models parameterized with three years of census data to compare the demographic effects of two ant species, Crematogaster laevis and Pheidole minutula, on populations of the Amazonian ant plant Maieta guianensis. Estimated population growth rates were positive (i.e., lambda {\textgreater} 1) for all ant-plant combinations. However, populations with only Pheidole minutula had the highest asymptotic growth rate (lambda = 1.23), followed by those colonized by Crematogaster laevis (lambda = 1.16), and in which the partner ant alternated between C. laevis and P. minutula at least once during our study (lambda = 1.15). Our results indicate that the short-term superiority of a mutualist partner (in this system, P. minutula is a better defender of plants against herbivores than C. laevis) can have long-term demographic consequences. Furthermore, the demographic effects of switching among alternative partners appear to be context dependent, with no benefits to plants hosting C. laevis but a major cost of switching to plants hosting P. minutula. Our results underscore the importance of expanding the study of mutualisms beyond the study of pair-wise interactions to consider the demographic costs and benefits of interacting with different, and multiple, potential partners.},
+	language = {English},
+	number = {12},
+	journal = {Ecology},
+	author = {Bruna, Emilio M. and Izzo, Thiago J. and Inouye, Brian D. and Vasconcelos, Heraldo L.},
+	month = dec,
+	year = {2014},
+	note = {Place: 111 RIVER ST, HOBOKEN 07030-5774, NJ USA
+Publisher: WILEY
+Type: Article},
+	keywords = {Azteca, Crematogaster, integral projection model, lambda, life-table response experiment, Maieta, Melastomataceae},
+	pages = {3237--3243},
+	file = {Full Text PDF:/Users/emiliobruna/Zotero/storage/M6B48ATL/Bruna et al. - 2014 - Effect of mutualist partner identity on plant demo.pdf:application/pdf;Snapshot:/Users/emiliobruna/Zotero/storage/9QFAI6IQ/14-0481.html:text/html},
+}
+
+@article{leslie1945use,
+	title = {On the use of matrices in certain population mathematics},
+	volume = {33},
+	number = {3},
+	journal = {Biometrika},
+	author = {Leslie, Patrick H},
+	year = {1945},
+	note = {Publisher: JSTOR},
+	pages = {183--212},
+}
+
+@article{williams2012avoiding,
+	title = {Avoiding unintentional eviction from integral projection models},
+	volume = {93},
+	number = {9},
+	journal = {Ecology},
+	author = {Williams, Jennifer L and Miller, Tom EX and Ellner, Stephen P},
+	year = {2012},
+	note = {Publisher: Wiley Online Library},
+	pages = {2008--2014},
+}

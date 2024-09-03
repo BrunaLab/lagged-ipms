@@ -1,17 +1,22 @@
 ---
-title: "Context-dependent consequences of including lagged effects in demographic models"
+title: "Context-dependent consequences of lagged effects in demographic models"
 shorttitle: "Lagged Effects IPMs"  
 authors:
   - name: Eric R. Scott
     email: scottericr@gmail.com
-    affil-id: 1
+    affiliations:
+      - ref: 1
     corresponding: true
   - name: María Uriarte
     email: mu2126@columbia.edu
-    institute: 2
+    affiliations:
+      - ref: 2
   - name: Emilio M. Bruna
     email: embruna@ufl.edu
-    affil-id: 1,3,5
+    affiliations:
+      - ref: 1
+      - ref: 3
+      - ref: 4
 affiliations:
   - id: "1"
     name: Department of Wildlife Ecology and Conservation, University of Florida, Gainesville, Florida 32611-0430 USA
@@ -24,7 +29,7 @@ affiliations:
 date: 'last-modified'
 date-format: '([draft:] D MMMM YYYY)'
 linkcolor: blue
-bibliography: references.bib
+bibliography: lagged-ipms-ms.bib
 csl: "templates/the-american-naturalist.csl" # Insert path for the bib-style
 # 
 # highlights: |
@@ -34,11 +39,11 @@ format:
     number-sections: false
     colorlinks: true
     keeptex: true
-    fontsize: 12pt
+    fontsize: 11pt
     documentclass: article
     # the following line is to render the aaffiliations in pdf, which is not default in quarto, see 
     # https://stackoverflow.com/questions/75040607/why-do-affiliations-not-show-up-anywhere-in-the-pdf-output-of-quarto
-    template-partials:  
+    template-partials:
       - title.tex
     include-in-header:
       text: |
@@ -52,6 +57,8 @@ format:
         \usepackage{sectsty}\subsectionfont{\centering}
         \usepackage{fontspec}
         \usepackage{titlesec}
+        \usepackage[sc]{mathpazo} %Like Palatino with extensive math support
+        \usepackage[utf8]{inputenc}
         
 #\sectionfont{\color{black}\fontsize{12}{16.8}\selectfont}
 #\subsectionfont{\color{black}\fontsize{12}{16.8}\selectfont}
@@ -76,21 +83,19 @@ geometry:
   - right=1in
 keywords: 
   - integral projection models
+  - demography
+  - population dynamics
   - environmental stochasticity
   - lagged effects
+  
+Notes: >
+  Manuscript elements: Figure~1, figure~2, table~1, appendix~A.  
+  Manuscript type: e-note
+
+
+# abstract: >
+#  The abstract should have 150 words. 
 ---
-
-<!-- This is the format for text comments that will be ignored during renderings. Do not put R code in these comments because it will not be ignored. -->
-
-<!-- With the following code you can access and display values from the yml header above. -->
-
-<!-- Keywords: `r rmarkdown::metadata$keywords` -->
-
-<!-- Running title: `r rmarkdown::metadata$shorttitle` -->
-
-<!-- Highlights: `r rmarkdown::metadata$highlights` -->
-
-<!-- The following code chunk defines some general settings how code chunks should behave. -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -104,6 +109,7 @@ knitr::opts_chunk$set(
 	comment = "#>"
 )
 library(targets)
+library(grateful)
 library(tidyverse)
 library(kableExtra)
 library(here)
@@ -136,31 +142,26 @@ Text of 150 words max summarizing this amazing paper.
 
 <!-- AmNat Notes: communicate concise points, using either data or theory. Like Major Articles, they present insights of broad general significance and interest. Notes, on average, should be no more than 3000 words of text (not including the Literature Cited) and have no more than three figures and/or tables in print. -->
 
-### **Paragraph 1**
+### Paragraph 1: MM and IPM broadly used, but technical challenges remain
 
-1.  Structured demographic models, such as Integral Projection Models (IPMs) and matrix models, have emerged as invaluable tools in ecology, evolution, and conservation biology.
+1.  Two types of structured population models - matrix models [@leslie1945use; @caswell2001] and integral projection models [@ellnerIntegralProjectionModels2006] - are fundamental frameworks used to study demography and population dynamics.\
+2.  Their flexibility, in concert with a rapidly growing suite of software, data, and other resources [@ellnerDatadrivenModellingStructured2016; @levinIpmrFlexibleImplementation2021; @salguero-gomezCOMPADREPlantMatrix2015], have facilitated their use to study a wide range of topics in ecology, evolution, and conservation [@ellnerDatadrivenModellingStructured2016; @morrisQuantitativeConservationBiology2002; @croneHowPlantEcologists2011].
+3.  While recent mathematical and statistical developments have expanded the scope of these applications [e.g., @brooksStatisticalModelingPatterns2019; @reesEvolvingIntegralProjection2016], a number of technical challenges remain.
+4.  While many of these relate to general issues surrounding model development and validation [e.g., @williams2012avoiding], others stem from the fundamental challenge of using mathematical models - albeit highly advanced ones - to describe and analyze complex biological systems.
 
-They provide insights into \_\_\_\_, the evolution of life-history strategies, and life-history stages and ecological processes at which conservation intervention is likely to have the greatest impact on population growth rate.
+### Paragraph 2: Challenge of lagged effects
 
-Their flexibility hasmade them increasingly applicable to species with differtent life histories.
-
-however, there are still a number of challenges to address, namely \_\_\_\_ , \_\_\_\_, and \_\_\_\_.
-
-### **Paragraph 2**
-
-1.  It has long been recognized that there is the potential for lagged effects.
+1.  Once such biological challenge is the implementation of alagged effects. It has long been recognized that there is the potential for lagged effects.
 2.  Including lagged effects in models has been a major technical challenge, but there are now multiple approaches for doing so.
 3.  The studies assessing the potential for lagged effects on vital rates find that they indeed appear to be prevalent [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022].
 
-### **Paragraph 3**
+### Paragraph 3: Why does it matter when modeling?
 
 1.  Lagged effects could be different in different habitat types.
 2.  This could be a big reason for differences between habitats.
-
-### **Paragraph 4**
-
-1.  Here we...
-2.  We conducted these analyses with both deterministic and stochastic IPMs.
+3.  Could also be important for stochastic vs. deterministic models.
+4.  Here we...
+5.  We conducted these analyses with both deterministic and stochastic IPMs.
 
 ## Methods
 
@@ -256,12 +257,14 @@ This workflow was managed using the `targets` R package [@targets] which also al
 
 All about the stats.
 
-## Results
+## Results & Discussion
 
 For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (@tbl-aic).\
 <!--# No longer true if random effect = different smooth for each year -->
 
 Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (@tbl-lambdas).
+
+We found that the the choice of Integral Projection Model didn't change the relative ranking of lambda in Continous Forest and Fragments.
 
 The time to iterate the DLNM models is much higher than than deterministic and kernel-resampled.
 
@@ -281,9 +284,7 @@ The greater use of computational resources is likely a result of `predict()` bei
 
 -   Also, in the parameter-resampled IPM (and only in this one), we see a shift toward smaller plants in FF compared to CF
 
-## Discussion
-
--   Our finding that the choice of IPM didn't change the relative ranking of CF and FF is consistent with @kayeEffectStochasticTechnique2003 finding that method effected stochastic lambda, but relative ranking of populations was consistent.
+These results are consistent with those of @kayeEffectStochasticTechnique2003, who found who found that the method effected stochastic lambda but relative ranking of populations was consistent.
 
 ## Acknowledgments
 
@@ -304,6 +305,14 @@ EMB contributed to the conceptualization, methodology, and writing and also acqu
 ## Data Availability Statement
 
 Data and R code used in this study are archived with Zenodo at <doi url>.
+
+<!-- ```{r } -->
+
+<!-- pkgs <- cite_packages(output = "table", out.dir = ".") -->
+
+<!-- knitr::kable(pkgs) -->
+
+<!-- ``` -->
 
 ## Literature Cited
 
@@ -468,3 +477,5 @@ knitr::include_graphics(path, rel_path = FALSE)
 
 knitr::include_graphics(here(fig_pop_states), rel_path = FALSE)
 ```
+
+\`\`\`\`
