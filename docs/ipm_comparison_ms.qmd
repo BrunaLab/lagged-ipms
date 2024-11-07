@@ -36,11 +36,13 @@ csl: "templates/the-american-naturalist.csl" # Insert path for the bib-style
 #   These are the highlights
 format: 
   pdf:
+    # template: AmNat_MS_template.tex
+    # documentclass: scrarticle
+    documentclass: article
     number-sections: false
     colorlinks: true
     keeptex: true
-    fontsize: 11pt
-    documentclass: article
+    fontsize: 12pt
     # the following line is to render the aaffiliations in pdf, which is not default in quarto, see 
     # https://stackoverflow.com/questions/75040607/why-do-affiliations-not-show-up-anywhere-in-the-pdf-output-of-quarto
     template-partials:
@@ -59,6 +61,10 @@ format:
         \usepackage{titlesec}
         \usepackage[sc]{mathpazo} %Like Palatino with extensive math support
         \usepackage[utf8]{inputenc}
+        \usepackage{parskip}
+        \setlength{\parskip}{1pt} % 1ex plus 0.5ex minus 0.2ex}
+        \setlength{\parindent}{0pt}
+    
         
 #\sectionfont{\color{black}\fontsize{12}{16.8}\selectfont}
 #\subsectionfont{\color{black}\fontsize{12}{16.8}\selectfont}
@@ -136,6 +142,18 @@ withr::with_dir(here(), {
 
 Text of 150 words max summarizing this amazing paper.
 
+\bigskip
+
+**Keywords:** demography, environmental stochasticity, integral projection models, lagged effects, structured population models, population dynamics
+
+\bigskip
+
+**Manuscript elements:** Figure\~1, figure\~2, table\~1, appendix\~A..
+
+\bigskip
+
+**Manuscript type:** e-note
+
 \pagebreak
 
 ## Introduction
@@ -146,22 +164,33 @@ Text of 150 words max summarizing this amazing paper.
 
 1.  Two types of structured population models - matrix models [@leslie1945use; @caswell2001] and integral projection models [@ellnerIntegralProjectionModels2006] - are fundamental frameworks used to study demography and population dynamics.
 2.  Their flexibility, in concert with a rapidly growing suite of software, data, and other resources [@ellnerDatadrivenModellingStructured2016; @levinIpmrFlexibleImplementation2021; @salguero-gomezCOMPADREPlantMatrix2015], have facilitated their use to study a wide range of topics in ecology, evolution, and conservation [@ellnerDatadrivenModellingStructured2016; @morrisQuantitativeConservationBiology2002; @croneHowPlantEcologists2011].
-3.  While recent mathematical and statistical developments have expanded the scope of these applications [e.g., @brooksStatisticalModelingPatterns2019; @reesEvolvingIntegralProjection2016], a number of technical challenges remain.
-4.  While many of these relate to general issues surrounding model development and validation [e.g., @williams2012avoiding], others stem from the fundamental challenge of using mathematical models - albeit highly advanced ones - to describe and analyze complex biological systems.
+3.  Mathematical and statistical advances have rapidly expand the scope of questions that can be addressed with these models [e.g., @brooksStatisticalModelingPatterns2019; @reesEvolvingIntegralProjection2016].
+4.  However, there are still several fundamental questions for which these models are not yet readily applied, or for which it is unclear how potential alternative approaches will shape model results [e.g., @williams2012avoiding].
+
+<!-- Not quite right yet...maybe:  Others, however, reflect the difficulty of describing complex biological processes with the mathematical and statistical frameworks used for demographic models;  models may be extremely difficult to parameterize, limited in  -->
+
+<!-- recent advances greatly expanded the scope of questions that can be addressed. -->
 
 ### Paragraph 2: Challenge of lagged effects
 
-1.  Once such biological challenge is the implementation of alagged effects. It has long been recognized that there is the potential for lagged effects.
-2.  Including lagged effects in models has been a major technical challenge, but there are now multiple approaches for doing so.
-3.  The studies assessing the potential for lagged effects on vital rates find that they indeed appear to be prevalent [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022].
+1.  One example of such a process is *Delayed Life-history Events* (i.e., DLHEs), also known as *Lagged Effects*.
+2.  Lagged effects are those in which the demographic vital rates observed in a given year are influenced -- or even determined by -- past environmental conditions.
+3.  For instance, environmental conditions during juvenile development can shape the expression of traits (e.g., defensive spikes on *Daphnia*) that determine adult survival.
+4.  Alternatively, the physiological mechanisms responsible for a vital rate can take an extended period of time to complete (e.g., bud formation in \_\_\_\_\_ can begin 1-2 years before flowers appear).
+5.  Vital rates can even be influenced by environmental conditions during the parental life-cycle or historical trade-offs between vital rates (e.g., delayed costs of reproduction, competition-colonization trade-offs).
+6.  Although these lagged effects could potentially have major consequences for population dynamics [@beckermanPopulationDynamicConsequences2002], their impacts remain poorly understood for two primary reasons.
+7.  The first is the empirical challenge of designing studies to quantify lagged responses and evaluate their potential drivers [@kussEvolutionaryDemographyLonglived2008a].
+8.  The second is the technical challenge of incorporating these complex or poorly understood biological processes in demographic models; doing often renders them less parameterizable, tractable, or broadly applicable.
 
 ### Paragraph 3: Why does it matter when modeling?
 
-1.  Lagged effects could be different in different habitat types.
-2.  This could be a big reason for differences between habitats.
-3.  Could also be important for stochastic vs. deterministic models.
-4.  Here we...
-5.  We conducted these analyses with both deterministic and stochastic IPMs.
+1.  Recent years have seen a surge in new approaches for doing so, including ***,*** \_, and \_\_\_\_.
+2.  Studies assessing potential for lagged effects on vital rates find that they indeed appear to be prevalent [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022].
+3.  Lagged effects could be different in different habitat types.
+4.  This could be a big reason for differences between habitats.
+5.  Could also be important for stochastic vs. deterministic models.
+6.  Here we...
+7.  We conducted these analyses with both deterministic and stochastic IPMs.
 
 ## Methods
 
@@ -477,5 +506,3 @@ knitr::include_graphics(path, rel_path = FALSE)
 
 knitr::include_graphics(here(fig_pop_states), rel_path = FALSE)
 ```
-
-\`\`\`\`
