@@ -156,51 +156,28 @@ Text of 150 words max summarizing this amazing paper.
 
 \pagebreak
 
-## Introduction
-
 <!-- AmNat Notes: communicate concise points, using either data or theory. Like Major Articles, they present insights of broad general significance and interest. Notes, on average, should be no more than 3000 words of text (not including the Literature Cited) and have no more than three figures and/or tables in print. -->
 
-### Paragraph 1: MM and IPM broadly used, but technical challenges remain
+## Introduction
 
-1.  Two types of structured population models - matrix models [@leslie1945use; @caswell2001] and integral projection models [@ellnerIntegralProjectionModels2006] - are fundamental frameworks used to study demography and population dynamics.
-2.  Their flexibility, in concert with a rapidly growing suite of software, data, and other resources [@ellnerDatadrivenModellingStructured2016; @levinIpmrFlexibleImplementation2021; @salguero-gomezCOMPADREPlantMatrix2015], have facilitated their use to study a wide range of topics in ecology, evolution, and conservation [@ellnerDatadrivenModellingStructured2016; @morrisQuantitativeConservationBiology2002; @croneHowPlantEcologists2011].
-3.  Mathematical and statistical advances have rapidly expand the scope of questions that can be addressed with these models [e.g., @brooksStatisticalModelingPatterns2019; @reesEvolvingIntegralProjection2016].
-4.  However, there are still several fundamental questions for which these models are not yet readily applied, or for which it is unclear how potential alternative approaches will shape model results [e.g., @williams2012avoiding].
+Two types of structured population models - matrix models [@leslie1945use; @caswell2001] and integral projection models [@ellnerIntegralProjectionModels2006] - are fundamental frameworks used to study demography and population dynamics. Their flexibility, in concert with a rapidly growing suite of software, data, and other resources [@ellnerDatadrivenModellingStructured2016; @levinIpmrFlexibleImplementation2021; @salguero-gomezCOMPADREPlantMatrix2015], have facilitated their use to study a wide range of topics in ecology, evolution, and conservation [@ellnerDatadrivenModellingStructured2016; @morrisQuantitativeConservationBiology2002; @croneHowPlantEcologists2011]. Mathematical and statistical advances [e.g., @brooksStatisticalModelingPatterns2019; @williams2012avoiding]have rapidly expand the scope of questions and biological processes that can be investigated with these models [e.g., @reesEvolvingIntegralProjection2016; @ellnerDatadrivenModellingStructured2016]. Despite this progress, however, several important biological processes have proven challenging to incorporate in structured population models. In some cases this is because theoretical and analytical methods for doing so remain underdeveloped; in others this is because data with which to parametertize and assess alternative model structures are lacking [@ellnerDatadrivenModellingStructured2016; @metcalfStatisticalModellingAnnual2015].\
 
-<!-- Not quite right yet...maybe:  Others, however, reflect the difficulty of describing complex biological processes with the mathematical and statistical frameworks used for demographic models;  models may be extremely difficult to parameterize, limited in  -->
+One of these biological processes is *Delayed Life-history Events* (i.e., DLHEs), also known as *Lagged Effects* [@beckermanPopulationDynamicConsequences2002].Lagged effects are those in which the demographic vital rates observed in a given year are influenced -- or even determined by -- past environmental conditions. For instance, environmental conditions during juvenile development can shape the expression of traits (e.g., defensive spikes on *Daphnia*) that determine adult survival. Alternatively, the physiological mechanisms responsible for a vital rate can take an extended period of time to complete [@eversLaggedDormantSeason2021]; for example, flowering bud formation may be initiated several months before flowers appear [@crileyYearProductionHigh1994]. Vital rates can even be influenced by environmental conditions during the parental life-cycle or historical trade-offs between vital rates (e.g., delayed costs of reproduction, competition-colonization trade-offs). Although these lagged effects could potentially have major consequences for population dynamics [@beckermanPopulationDynamicConsequences2002], their impacts remain poorly understood for two primary reasons. The first is limited data - parametrizing models requires long-term data on lagged effects and their potential drivers [@metcalfStatisticalModellingAnnual2015], and these studies can be challenging to design and maintain [@kussEvolutionaryDemographyLonglived2008a]. The second is challenge is technical - incorporating complex biological processes in demographic models can render them less tractable.\
 
-<!-- recent advances greatly expanded the scope of questions that can be addressed. -->
+Despite these challenges, several recent studies have found there can be large delayed effects of environmental conditions (e.g., climate) on demographic vital rates [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022]. It remains unclear, however, if including such lagged effects will significantly alter the results of demographic models. Using a decade of survey and climate data, we assessed the effects of precipitation extremes on the demographic vital rates of the Amazonian understory herb *Heliconia acuminata* (Heliconiaceae). We found that the effects of climate on vital rates could be delayed up to 36 months, with the presence and duration of these effects differing by vital rate and habitat type (i.e., continuous forest, forest fragments). Here we used these data to parameterize three different classes of Intgral Projection Models (IPMs): a deterministic IPM, a stochastic IPM, and a stochastic IPM with lagged effects of SPEI on vital rates. We then evaluated how model choice influenced projections of population growth rate (i.e., $\lambda$) and structure? Based on previous studies [@brunaArePlantPopulations2003; @brunaDemographicEffectsHabitat2005; @brunaExperimentalAssessmentHeliconia2002; @brunaHabitatFragmentationDemographic2002] and demographic theory [@caswell2001; @tuljapurkarPopulationDynamicsVariable1990] we predicted that:\
 
-### Paragraph 2: Challenge of lagged effects
-
-1.  One example of such a process is *Delayed Life-history Events* (i.e., DLHEs), also known as *Lagged Effects*.
-2.  Lagged effects are those in which the demographic vital rates observed in a given year are influenced -- or even determined by -- past environmental conditions.
-3.  For instance, environmental conditions during juvenile development can shape the expression of traits (e.g., defensive spikes on *Daphnia*) that determine adult survival.
-4.  Alternatively, the physiological mechanisms responsible for a vital rate can take an extended period of time to complete (e.g., bud formation in \_\_\_\_\_ can begin 1-2 years before flowers appear).
-5.  Vital rates can even be influenced by environmental conditions during the parental life-cycle or historical trade-offs between vital rates (e.g., delayed costs of reproduction, competition-colonization trade-offs).
-6.  Although these lagged effects could potentially have major consequences for population dynamics [@beckermanPopulationDynamicConsequences2002], their impacts remain poorly understood for two primary reasons.
-7.  The first is the empirical challenge of designing studies to quantify lagged responses and evaluate their potential drivers [@kussEvolutionaryDemographyLonglived2008a].
-8.  The second is the technical challenge of incorporating these complex or poorly understood biological processes in demographic models; doing often renders them less parameterizable, tractable, or broadly applicable.
-
-### Paragraph 3: Why does it matter when modeling?
-
-1.  Recent years have seen a surge in new approaches for doing so, including ***,*** \_, and \_\_\_\_.
-2.  Studies assessing potential for lagged effects on vital rates find that they indeed appear to be prevalent [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022].
-3.  Lagged effects could be different in different habitat types.
-4.  This could be a big reason for differences between habitats.
-5.  Could also be important for stochastic vs. deterministic models.
-6.  Here we...
-7.  We conducted these analyses with both deterministic and stochastic IPMs.
+(i) $\lambda$ would be higher in continuous forest forest fragments regardless of model type,
+(ii) that projections of $\lambda$ from deterministic models would be higher than those of stochastic models,
+(iii) that $\lambda$ would be lowest for models including lagged effects, and
+(iv) populations would be more skewed towards pre-reproductive size classes in fragments that forest, regadless of wether models included stochaticity or lagged effects.
 
 ## Methods
 
-### *Demographic methods and data*
+### *Study System and Demographic Data*
 
-<!--# Emilio will fill this section -->
+<!--# Emilio will fill this section with info about Ha and demog data -->
 
-Overview of the heliconia project and data
-
-<!-- Add info about additional datasets (Emilio) -->
+> Overview of the *Heliconia* project
 
 ### *Construction of Integral Projection Models*
 
@@ -212,14 +189,10 @@ Overview of the heliconia project and data
 
 -->
 ```
-In preliminary investigation we found that the survival and growth of plants was better explained by treating seedlings and mature plants separately.
-Seedlings are physiologically different from small plants because they necessarily lack the underground reserves (of carbohydrates and meristems) that a small, mature plant may have.
-Therefore, we used general IPMs to model population dynamics with seedlings treated as a separate discreet class not structured by size.
-General IPMs allow for combinations of continuous and discrete states and transitions between them [@ellnerDatadrivenModellingStructured2016].
 
-We built three classes of IPMs for comparison which each required different functional forms of their underlying vital rates models.
-The simplest IPM was a general, density-independent, deterministic IPM with four sub-kernels: growth and survival ($P$, @eq-P), fecundity ($F$, i.e. production of new seedlings, @eq-F), probability of staying a seedling (always 0), and recruitment ($R$, i.e. seedling survival and establishment, @eq-R) ([@eq-mature; @eq-sdlg], @fig-lifecycle).
-The probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.
+In preliminary investigation, we found that the survival and growth of plants was better explained by treating seedlings and mature plants separately. Seedlings are physiologically different from small plants because they necessarily lack the underground reserves (of carbohydrates and meristems) that a small, mature plant may have. Therefore, we used general IPMs to model population dynamics with seedlings treated as a separate discreet class not structured by size. General IPMs allow for combinations of continuous and discrete states and transitions between them [@ellnerDatadrivenModellingStructured2016].\
+
+We built three classes of IPMs for comparison which each required different functional forms of their underlying vital rates models. The simplest IPM was a general, density-independent, deterministic IPM with four sub-kernels: growth and survival ($P$, @eq-P), fecundity ($F$, i.e. production of new seedlings, @eq-F), probability of staying a seedling (always 0), and recruitment ($R$, i.e. seedling survival and establishment, @eq-R) ([@eq-mature; @eq-sdlg], @fig-lifecycle). The probability of staying a seedling, was always equal to zero, since our definition of seedlings was first year plants only.\
 
 $$
 n(z^{\prime},t+1) = R(z^\prime)n_s(t) + \int_L^U P(z^\prime,z) n(z,t)\;dz
@@ -241,95 +214,68 @@ $$
 F(z) = p_f(z)f(z)g
 $$ {#eq-F}
 
-The number and size of mature plants in the next census is determined by seedlings entering the mature plant population (i.e. recruitment <!--# *Is* this recruitment? -->) and survival and growth (or regression) of mature plants ([@eq-mature]).
-Seedlings survive ($s_s$) and grow into mature plants of a particular size ($G_s(z^\prime)$) ([@eq-R]).
-Mature plants survive as a function of size ($s(z)$), and grow (or regress) to a new size as a function of their previous size ($G(z^\prime, z)$) ([@eq-P]).
-Mature plants flower with a probability that is a function of size ($p_f(z)$) and produce a number of seeds as a function of size ($f(z)$), which germinate and establish as seedlings with probability $g$ ([@eq-F]).
+The number and size of mature plants in the next census is determined by seedlings entering the mature plant population (i.e. recruitment <!--# *Is* this recruitment? -->) and survival and growth (or regression) of mature plants ([@eq-mature]). Seedlings survive ($s_s$) and grow into mature plants of a particular size ($G_s(z^\prime)$) ([@eq-R]).\
 
-Vital rate models for growth ($G_s(z^\prime)$ and $G(z^\prime, z)$) , survival ($s_s$ and $s(z)$), and flowering ($p_f(z)$) were fit using the long term demographic dataset.
-For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020] <!--# probably include a supplement with detail on things like basis, number of knots, etc. -->.
-For consistency, seedling survival and growth were also modeled using GAMs, but without size in the previous census as a predictor (i.e. intercept only models).
-For growth models ($G_s(z^\prime)$ and $G(z^\prime, z)$) a scaled t family distribution provided a better fit to the data than a gaussian fit as the residuals were leptokurtic with a simple gaussian model.
+Mature plants survive as a function of size ($s(z)$), and grow (or regress) to a new size as a function of their previous size ($G(z^\prime, z)$) ([@eq-P]). Mature plants flower with a probability that is a function of size ($p_f(z)$) and produce a number of seeds as a function of size ($f(z)$), which germinate and establish as seedlings with probability $g$ ([@eq-F]).\
 
-To estimate reproduction we drew on additional data sources to estimate the number of fruits per flowering plant as a function of plant size and the number of seeds per fruit (together $f(z)$).
-Germination and establishment rates in continuous forest and forest fragments were estimated using data from ....
-<!--# Emilio: add more info here -->
+Vital rate models for growth ($G_s(z^\prime)$ and $G(z^\prime, z)$) , survival ($s_s$ and $s(z)$), and flowering ($p_f(z)$) were fit using the long term demographic dataset. For established plants, these three vital rates were modeled as a smooth function of size in the previous census using generalized additive models (GAMs) fit with the `mgcv` package[@mgcv] in `r version$version.string` [@rcoreteam2020] <!--# probably include a supplement with detail on things like basis, number of knots, etc. -->. For consistency, seedling survival and growth were also modeled using GAMs, but without size in the previous census as a predictor (i.e. intercept only models). For growth models ($G_s(z^\prime)$ and $G(z^\prime, z)$) a scaled t family distribution provided a better fit to the data than a gaussian fit as the residuals were leptokurtic with a simple Gaussian model.\
 
-To build the general, density-independent, stochastic, kernel-resampled IPMs, we included environmental stochasticity in all vital rate models built using the long term demographic datset by adding a random effect of year (@fig-lifecycle).
-The random effect of year was included using a factor--smooth interaction which allowed the relationship between plant size and vital rates to vary in functional form among transition years.
-The kernel-resampling approach is to generate kernels corresponding to each transition year in the demographic dataset using the random smooths for year, and to iterate the IPM by drawing from these randomly.
-This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.
+To estimate reproduction we drew on additional data sources to estimate the number of fruits per flowering plant as a function of plant size and the number of seeds per fruit (together $f(z)$). Germination and establishment rates in continuous forest and forest fragments were estimated using data from .... <!--# Emilio: add more info here -->.\
 
-For the third method, we modeled the impacts of drought on vital rates explicitly and created general, density-independent, stochastic, parameter-resampled IPMs (*sensu* @metcalfStatisticalModellingAnnual2015).
-We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022.
-For all vital rate models fit using the long term demographic dataset, we modeled delayed effects of SPEI using distributed lag non-linear models with a maximum lag of 36 months [@scottDelayedEffectsClimate2022] (@fig-lifecycle).
-To iterate these parameter-resampled IPMs, a random sequence of SPEI values was created by sampling years of the observed monthly SPEI data.
-Then, 36 month lags are calculated for each year starting in February (the month of the demographic census).
-These values are then used to predict fitted values from the vital rates models, generating different kernels at each iteration of the IPM.
-With this method, the kernels of successive iterations are not entirely independent because the SPEI values used in calculating vital rates include values used in the previous two iterations, but they are ergodic.
+To build the general, density-independent, stochastic, kernel-resampled IPMs, we included environmental stochasticity in all vital rate models built using the long term demographic datset by adding a random effect of year (@fig-lifecycle). The random effect of year was included using a factor--smooth interaction which allowed the relationship between plant size and vital rates to vary in functional form among transition years. The kernel-resampling approach is to generate kernels corresponding to each transition year in the demographic dataset using the random smooths for year, and to iterate the IPM by drawing from these randomly. This is equivalent to the matrix selection approach for matrix population models described by @caswell2001.\
+
+For the third method, we modeled the impacts of drought on vital rates explicitly and created general, density-independent, stochastic, parameter-resampled IPMs (*sensu* @metcalfStatisticalModellingAnnual2015). We calculated the standardized precipitation evapotranspiraton index (SPEI) for our site using a published gridded dataset based on ground measurements [@xavierDailyGriddedMeteorological2016] as described in @scottDelayedEffectsClimate2022. For all vital rate models fit using the long term demographic dataset, we modeled delayed effects of SPEI using distributed lag non-linear models with a maximum lag of 36 months [@scottDelayedEffectsClimate2022] (@fig-lifecycle). To iterate these parameter-resampled IPMs, a random sequence of SPEI values was created by sampling years of the observed monthly SPEI data. Then, 36 month lags are calculated for each year starting in February (the month of the demographic census). These values are then used to predict fitted values from the vital rates models, generating different kernels at each iteration of the IPM. With this method, the kernels of successive iterations are not entirely independent because the SPEI values used in calculating vital rates include values used in the previous two iterations, but they are ergodic.\
+
 <!--# ergodicity is somethign discussed in the Caswell book.  Basically, kernels eventually "forget" previous states.  I don't know if this last sentence really needs to be included, or if we are just inviting criticism from reviewers. -->
 
-All IPMs were constructed and iterated <!--# optimized in notes/optimizing-meshpoints.Rmd which could be turned into supplemental -->using the `ipmr` package in R [@levinIpmrFlexibleImplementation2021].
-The IPMs used 100 meshpoints and the midpoint rule for calculating kernels <!--# citation? -->.
-For each type of IPM we iterated the model for 1000 time steps, discarding the first 100 time steps to omit transient effects.
-Stochastic growth rates ($\lambda_s$) were calculated as the average $ln(\lambda)$ from each time step [@caswell2001] and back-transformed to be on the same scale as deterministic lambdas for comparison.
-We used the distribution of established plant sizes and proportion of seedlings from the full dataset as a starting population vector.
-While other starting population vectors were possible, the choice is of little importance as it will only impact transient dynamics, which we aren't interested in for this study.
+All IPMs were constructed and iterated <!--# optimized in notes/optimizing-meshpoints.Rmd which could be turned into supplemental -->using the `ipmr` package in R [@levinIpmrFlexibleImplementation2021]. The IPMs used 100 meshpoints and the midpoint rule for calculating kernels <!--# citation? -->. For each type of IPM we iterated the model for 1000 time steps, discarding the first 100 time steps to omit transient effects. Stochastic growth rates ($\lambda_s$) were calculated as the average $ln(\lambda)$ from each time step [@caswell2001] and back-transformed to be on the same scale as deterministic lambdas for comparison. We used the distribution of established plant sizes and proportion of seedlings from the full dataset as a starting population vector. While other starting population vectors were possible, the choice is of little importance as it will only impact transient dynamics, which we aren't interested in for this study.\
 
-To estimate uncertainty around the per-capita growth rates (lambdas), we created 500 bootstraps of the demographic dataset by sampling individual plants with replacement within each habitat.
-For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and calculated a value for lambda as described above.
-We then used these bootstraped estimates of lambda to calculate bias corrected 95% confidence intervals [@ellnerDatadrivenModellingStructured2016].
+To estimate uncertainty around the per-capita growth rates (lambdas), we created 500 bootstraps of the demographic dataset by sampling individual plants with replacement within each habitat. For each bootstrap, we then re-fit vital rates models (all except germination and establishment rate, fruits per flowering plant, and seeds per fruit, which were estimated using different datasets), constructed IPMs, and calculated a value for lambda as described above. We then used these bootstraped estimates of lambda to calculate bias corrected 95% confidence intervals [@ellnerDatadrivenModellingStructured2016].\
 
-This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.
+This workflow was managed using the `targets` R package [@targets] which also allowed us to track computational time spent on each IPM for comparison.\
 
 ### *Statistical analyses*
 
-All about the stats.
+> All about the stats.
 
 ## Results & Discussion
 
-For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (@tbl-aic).\
-<!--# No longer true if random effect = different smooth for each year -->
+1.  For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (@tbl-aic).\
+    <!--# No longer true if random effect = different smooth for each year -->
 
-Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (@tbl-lambdas).
+2.  Population growth rates were consistently higher in continuous forest compared to forest fragments across IPM types (@tbl-lambdas).\
 
-We found that the the choice of Integral Projection Model didn't change the relative ranking of lambda in Continous Forest and Fragments.
+3.  We found that the the choice of Integral Projection Model didn't change the relative ranking of lambda in Continous Forest and Fragments.\
 
-The time to iterate the DLNM models is much higher than than deterministic and kernel-resampled.
+4.  The time to iterate the DLNM models is much higher than than deterministic and kernel-resampled.\
 
-The greater use of computational resources is likely a result of `predict()` being much slower for GAMs with 2D smooths because the number of knots is much higher compared to the GAMs used for the vital rates models in the determinsitic and kernel-resampled IPMs.
+5.  The greater use of computational resources is likely a result of `predict()` being much slower for GAMs with 2D smooths because the number of knots is much higher compared to the GAMs used for the vital rates models in the determinsitic and kernel-resampled IPMs.\
+
 <!--# also note that this can't really be paralellized because each iteration depends on the previous one.  There's *maybe* some potential speed gains in using multiple cores with predict.bam(), but unlikely to be substantial. -->
 
-@fig-pop-states has some interesting things in it:
+6.  @fig-pop-states has some interesting things in it:
 
--   for the deterministic IPM (and the kernel-resampled IPM?) there are slightly more of the smallest plants and the largest plants in CF compared to FF (i.e. more medium sized plants in FF).
+> -   For the deterministic IPM (and the kernel-resampled IPM?) there are slightly more of the smallest plants and the largest plants in CF compared to FF (i.e. more medium sized plants in FF).
 
--   For the kernel-resampled IPM (random effect of year), the fluctuations are extremely similar between CF and FF
+> -   For the kernel-resampled IPM (random effect of year), the fluctuations are extremely similar between CF and FF
 
--   For the parameter-resampled IPM (DLNM) the size structure of the population is a LOT more variable in FF.
-    This makes sense as we know lagged effects are more important in fragments.
+> -   For the parameter-resampled IPM (DLNM) the size structure of the population is a LOT more variable in FF. This makes sense as we know lagged effects are more important in fragments.
 
--   Also, the fluctuations in size structure in CF do not match the fluctuations in FF as well (can see this by the increased spread of points in @fig-pop-states (B)
+> -   Also, the fluctuations in size structure in CF do not match the fluctuations in FF as well (can see this by the increased spread of points in @fig-pop-states (B)
 
--   Also, in the parameter-resampled IPM (and only in this one), we see a shift toward smaller plants in FF compared to CF
+> -   Also, in the parameter-resampled IPM (and only in this one), we see a shift toward smaller plants in FF compared to CF
 
-These results are consistent with those of @kayeEffectStochasticTechnique2003, who found who found that the method effected stochastic lambda but relative ranking of populations was consistent.
+> -   These results are consistent with those of @kayeEffectStochasticTechnique2003, who found who found that the method effected stochastic lambda but relative ranking of populations was consistent.
 
 ## Acknowledgments
 
-We thank **,** \_, \_\_\_ and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript.
-We thank Sam Levin for his help with the `ipmr` package.
-Financial support was provided by the U.S.
-National Science Foundation (awards \_\_\_\_, and \_\_\_\_).
-This article is publication no. -- -- in the BDFFP Technical series.
-The authors declare no conflicts of interest.
+We thank **,** \_, \_\_\_ and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript. We thank Sam Levin for his help with the `ipmr` package. Financial support was provided by the U.S. National Science Foundation (awards \_\_\_\_, and \_\_\_\_). This article is publication no. -- -- in the BDFFP Technical series. The authors declare no conflicts of interest.
 
 ## CRediT Statement
 
 <!--# https://casrai.org/credit/ -->
 
-ERS contributed to the conceptualization, methodology, formal analysis, and led the writing of the original draft.
-EMB contributed to the conceptualization, methodology, and writing and also acquired funding.
+ERS contributed to the conceptualization, methodology, formal analysis, and led the writing of the original draft. EMB contributed to the conceptualization, methodology, and writing and also acquired funding.
 
 ## Data Availability Statement
 
@@ -502,6 +448,7 @@ knitr::include_graphics(path, rel_path = FALSE)
 \newpage
 
 ```{r #fig-pop-states,  echo=FALSE, out.width="85%",fig.align='center'}
+
 #| fig.cap = "Relative proportions of plant sizes in the first 250 iterations of the IPM simulations. Stacked area charts (A) show the relative size/stage distribution of plants in continuous forest (CF, top row) and forest fragments (FF, bottom row) in each of the three IPMs (columns). The proportion of each size class in CF and FF for each iteration is shown in B with the first 30 iterations removed to not include transient dynamics. A 1:1 line is plotted in black.  Size categories include seedlings (a discrete category in the IPMs), pre-reproductive 1 (log(size) 0–2.5) that have low average survival (< 0.9) and a near 0 probability of flowering, pre-reproductive 2 (log(size) 2.5–4.5) that have a higher average survival probabilty (> 0.8) and a near 0 probability of flowering, reproductive 1 (log(size) 4.5–6) that have a high average survival probability (>0.95) and a lower flowering probability (< 0.25), and reproductive 2 (log(size) 6+) that have a high average survival probability (>0.95) and higher flowering proability (> 0.2)."
 
 knitr::include_graphics(here(fig_pop_states), rel_path = FALSE)
