@@ -160,35 +160,30 @@ Text of 150 words max summarizing this amazing paper.
 
 ## Introduction
 
-Two types of structured population models - matrix models [@leslie1945use; @caswell2001] and integral projection models [@ellnerIntegralProjectionModels2006] - are fundamental frameworks used to study demography and population dynamics. Their flexibility, in concert with a rapidly growing suite of software, data, and other resources [@ellnerDatadrivenModellingStructured2016; @levinIpmrFlexibleImplementation2021; @salguero-gomezCOMPADREPlantMatrix2015], have facilitated their use to study a wide range of topics in ecology, evolution, and conservation [@ellnerDatadrivenModellingStructured2016; @morrisQuantitativeConservationBiology2002; @croneHowPlantEcologists2011]. Mathematical and statistical advances [e.g., @brooksStatisticalModelingPatterns2019; @williams2012avoiding]have rapidly expand the scope of questions and biological processes that can be investigated with these models [e.g., @reesEvolvingIntegralProjection2016; @ellnerDatadrivenModellingStructured2016]. Despite this progress, however, several important biological processes have proven challenging to incorporate in structured population models. In some cases this is because theoretical and analytical methods for doing so remain underdeveloped; in others this is because data with which to parametertize and assess alternative model structures are lacking [@ellnerDatadrivenModellingStructured2016; @metcalfStatisticalModellingAnnual2015].\
+Integral Projection Models (i.e., IPMs) are an important and widely used tool for studying demography and population dynamics [@ellnerIntegralProjectionModels2006; @reesBuildingIntegralProjection2014; @reesIntegralProjectionModels2009]. Their flexibility, in concert with a rapidly growing suite of software, data, and other resources [@ellnerDatadrivenModellingStructured2016; @levinIpmrFlexibleImplementation2021; @salguero-gomezCOMPADREPlantMatrix2015], have facilitated their use to study a wide range of topics in ecology, evolution, and conservation [@ellnerDatadrivenModellingStructured2016; @morrisQuantitativeConservationBiology2002; @croneHowPlantEcologists2011]. Mathematical and statistical advances [e.g., @brooksStatisticalModelingPatterns2019; @williams2012avoiding]have rapidly expand the scope of questions and biological processes that can be investigated with these models [e.g., @reesEvolvingIntegralProjection2016; @ellnerDatadrivenModellingStructured2016]. Despite this progress, however, several important biological processes have proven challenging to incorporate in structured population models. In some cases this is because theoretical and analytical methods for doing so remain underdeveloped; in others this is because data with which to parametertize and assess alternative model structures are lacking [@ellnerDatadrivenModellingStructured2016; @metcalfStatisticalModellingAnnual2015].\
 
-One of these biological processes is *Delayed Life-history Events* (i.e., DLHEs), also known as *Lagged Effects* [@beckermanPopulationDynamicConsequences2002].Lagged effects are those in which the demographic vital rates observed in a given year are influenced -- or even determined by -- past environmental conditions. For instance, environmental conditions during juvenile development can shape the expression of traits (e.g., defensive spikes on *Daphnia*) that determine adult survival. Alternatively, the physiological mechanisms responsible for a vital rate can take an extended period of time to complete [@eversLaggedDormantSeason2021]; for example, flowering bud formation may be initiated several months before flowers appear [@crileyYearProductionHigh1994]. Vital rates can even be influenced by environmental conditions during the parental life-cycle or historical trade-offs between vital rates (e.g., delayed costs of reproduction, competition-colonization trade-offs). Although these lagged effects could potentially have major consequences for population dynamics [@beckermanPopulationDynamicConsequences2002], their impacts remain poorly understood for two primary reasons. The first is limited data - parametrizing models requires long-term data on lagged effects and their potential drivers [@metcalfStatisticalModellingAnnual2015], and these studies can be challenging to design and maintain [@kussEvolutionaryDemographyLonglived2008a]. The second is challenge is technical - incorporating complex biological processes in demographic models can render them less tractable.\
+One of these biological processes is *Delayed Life-history Events* (i.e., DLHEs), also known as *Lagged Effects* [@beckermanPopulationDynamicConsequences2002]. Lagged effects are those in which the demographic vital rates observed in a given year are influenced -- or even determined by -- past environmental conditions. For instance, environmental conditions during juvenile development can shape the expression of traits (e.g., defensive spikes on *Daphnia*) that determine adult survival. Alternatively, the physiological mechanisms responsible for a vital rate can take an extended period of time to complete [@eversLaggedDormantSeason2021]; for example, flowering bud formation may be initiated several months before flowers appear [@crileyYearProductionHigh1994]. Vital rates can even be influenced by environmental conditions during the parental life-cycle or historical trade-offs between vital rates (e.g., delayed costs of reproduction, competition-colonization trade-offs).\
 
-Despite these challenges, several recent studies have found there can be large delayed effects of environmental conditions (e.g., climate) on demographic vital rates [@eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2022]. It remains unclear, however, if including such lagged effects will significantly alter the results of demographic models. Using a decade of survey and climate data, we assessed the effects of precipitation extremes on the demographic vital rates of the Amazonian understory herb *Heliconia acuminata* (Heliconiaceae). We found that the effects of climate on vital rates could be delayed up to 36 months, with the presence and duration of these effects differing by vital rate and habitat type (i.e., continuous forest, forest fragments). Here we used these data to parameterize three different classes of Intgral Projection Models (IPMs): a deterministic IPM, a stochastic IPM, and a stochastic IPM with lagged effects of SPEI on vital rates. We then evaluated how model choice influenced projections of population growth rate (i.e., $\lambda$) and structure? Based on previous studies [@brunaArePlantPopulations2003; @brunaDemographicEffectsHabitat2005; @brunaExperimentalAssessmentHeliconia2002; @brunaHabitatFragmentationDemographic2002] and demographic theory [@caswell2001; @tuljapurkarPopulationDynamicsVariable1990] we predicted that:\
+Although such lagged effects could potentially have major consequences for population dynamics [@beckermanPopulationDynamicConsequences2002], their their demographic impacts remain poorly understood [but see @molowny-horasChangesNaturalDynamics2017; @tenhumbergTimelaggedEffectsWeather2018; @williamsLifeHistoryEvolution2015]. There are two primary reasons for this limited understanding. The first is a lack of empirical data [sensu @eversLaggedDormantSeason2021]. Detecting lagged effects requires long-term data on both the putative lagged effects and their potential drivers [@metcalfStatisticalModellingAnnual2015], and studies to detect them can be challenging to design and maintain [@kussEvolutionaryDemographyLonglived2008a]. The second is challenge is technical - incorporating complex biological processes such as lagged effects in demographic models can render the models less tractable. <!-- would be good to close with a sentence stating that if model outputs are incorrect, thenm failure to do so could lead to major problems... -->\
 
-(i) $\lambda$ would be higher in continuous forest forest fragments regardless of model type,
+We used a decade of survey and climate data to assess the effects of precipitation extremes on the demographic vital rates of the Amazonian understory herb *Heliconia acuminata* [@scottDelayedEffectsClimate2022]. Our analyses revealed that the effects of climate on vital rates could be delayed up to 36 months, and that the presence and duration of these effects could differ by vital rate and habitat type (i.e., continuous forest vs. forest fragments). Here we investigate how including lagged effects in Integral Projection Models influences projections of population growth rate (i.e., $\lambda$) and structure. To do so we parameterized and compared three different classes of Integral Projection Models: a deterministic IPM, a stochastic IPM, and a stochastic IPM with lagged effects of SPEI on vital rates. Based on previous studies [@brunaArePlantPopulations2003; @brunaDemographicEffectsHabitat2005; @brunaExperimentalAssessmentHeliconia2002; @brunaHabitatFragmentationDemographic2002] and demographic theory [@caswell2001; @tuljapurkarPopulationDynamicsVariable1990] we predicted that:\
+
+(i) $\lambda$ would be higher in forest than fragments regardless of model type,
 (ii) that projections of $\lambda$ from deterministic models would be higher than those of stochastic models,
 (iii) that $\lambda$ would be lowest for models including lagged effects, and
-(iv) populations would be more skewed towards pre-reproductive size classes in fragments that forest, regadless of wether models included stochaticity or lagged effects.
+(iv) populations would be more skewed towards pre-reproductive size classes in fragments that forest, regardless of whether models included stochasticity or lagged effects.
 
 ## Methods
 
 ### *Study System and Demographic Data*
 
-<!--# Emilio will fill this section with info about Ha and demog data -->
+*Heliconia acuminata* (Heliconiaceae) is a perennial, self-incompatible monocot [@kressDiversityDistributionHeliconia1990] that is distributed throughout much of the Amazon basin [@kressDiversityDistributionHeliconia1990]. While some *Heliconia* species grow in large aggregations on roadsides, gaps, and in other disturbed habitats, others - including *H. acuminata* - grow primarily in the forest understory [@kressSelfincompatibilitySystemsCentral1983; @ribeiroInfluencePostclearingTreatment2010]. Understory *Heliconia* species typically produce fewer flowers and are pollinated by traplining hummingbirds [@stoufferForestFragmentationSeasonal1996; @brunaHeliconiaAcuminataReproductive2004].\
 
-> Overview of the *Heliconia* project
+The models and analyses here are based on 11 years (1998-2009) of demographic data collected on \>8500 *H. acuminata* found at Brazil's Biological Dynamics of Forest Fragments Project (BDFFP), located \~70 km north of Manaus, Brazil. The BDFFP reserves include both continuous forest and forest fragments that range in size from 1-100 ha. These fragment reserves were originally isolated in the early 1980’s by the creation of cattle pastures, with the secondary growth surrounding them periodically cleared to ensure their continued isolation. The habitat in all sites is non-flooded lowland rain forest with rugged topography. A complete summary of the BDFFP and its history can be found in @bierregaardLessonsAmazoniaEcology2001.\
+
+In 1997--1998 a series of 5000 m^2^ plots were established in the BDFFP's Continuous Forest Reserves (N=6 plots) and 1-ha Fragments (N=4 plots) in which all of the *Heliconia acuminata* were marked and measured. The plots were censused annually, at which time a team maked marked and measured new seedlings, identified any previously marked plants that died, and recorded the size of surviving individuals. Each plot was also surveyed 4-5 times during the flowering season to identify reproductive plants; in our site *H. acuminata* begin flowering early in the rainy season (e.g., January) and most reproductive plants produce a single infloresence (range = 1--7) with 20--25 flowers [@brunaHabitatFragmentationDemographic2002]. Fruits mature April-May and have 1--3 seeds per fruit ($\bar{x}=2$) that are dispersed by a thrush and several species of manakin [@uriarteDisentanglingDriversReduced2011]. Dispersed seeds germinate approximately 6 months after dispersal at the onset of the subsequent rainy season, with rates of germination and seedling establishment higher in continuous forest than forest fragments [@brunaHabitatFragmentationDemographic2002; @brunaSeedGerminationRainforest1999]. On average olots in CF also had more than twice as many plants as the plots in 1-ha fragments (CF median = 788, range = \[201, 1549\]; 1-ha median = 339, range = \[297, 400\]). A complete description of the demographic methods, data, and analyses to date can be found in [@brunaDemographyUnderstoryHerb2023].\
 
 ### *Construction of Integral Projection Models*
-
-```{=html}
-<!-- TODO:
-
--   Add paragraph about why we used IPMs or why a General IPM---depends on what goes in introduction maybe?
-
-
--->
-```
 
 In preliminary investigation, we found that the survival and growth of plants was better explained by treating seedlings and mature plants separately. Seedlings are physiologically different from small plants because they necessarily lack the underground reserves (of carbohydrates and meristems) that a small, mature plant may have. Therefore, we used general IPMs to model population dynamics with seedlings treated as a separate discreet class not structured by size. General IPMs allow for combinations of continuous and discrete states and transitions between them [@ellnerDatadrivenModellingStructured2016].\
 
@@ -240,6 +235,38 @@ This workflow was managed using the `targets` R package [@targets] which also al
 
 ## Results & Discussion
 
+```{r }
+meta_df <- 
+  tar_meta(store = here("_targets")) %>% 
+  select(name, size, bytes, time, seconds) %>% 
+  filter(str_detect(name, "^ipm_\\w+_[cf]{2}$")) %>% 
+  mutate(minutes = seconds / 60,
+         hours = minutes / 60)
+
+meta_df_tbl<-meta_df %>% 
+  separate(name, into = c("trash", "IPM", "Habitat")) %>% 
+  select(-trash) %>% 
+  select(IPM, Habitat, minutes) %>% 
+  group_by(IPM) %>% 
+mutate(IPM = str_replace_all(
+    IPM,
+    c(
+      "det" = "det",  # Deterministic",
+      "stoch" = "sk", # Stochastic, kernel-resampled
+      "dlnm" = "sp" # Stochastic, parameter-resampled
+    ))) %>%
+  summarize(mean_time_min = round(mean(minutes), 2)) %>%
+  rename("IPM Type" = IPM) %>% 
+  rename("mean time (min.)" = mean_time_min)
+
+det_time<-meta_df_tbl %>% filter(`IPM Type`=="det")
+det_time<-as.numeric(det_time[1,2])
+sker_time<-meta_df_tbl %>% filter(`IPM Type`=="sk")
+sker_time<-as.numeric(sker_time[1,2])
+spar_time<-meta_df_tbl %>% filter(`IPM Type`=="sp")
+spar_time<-as.numeric(spar_time[1,2])
+```
+
 1.  For all vital rates estimated using the long term demographic dataset, the DLNM model fit the best (dAIC = 0) followed by the model with a random effect of year, followed by the deterministic model (@tbl-aic).\
     <!--# No longer true if random effect = different smooth for each year -->
 
@@ -247,7 +274,7 @@ This workflow was managed using the `targets` R package [@targets] which also al
 
 3.  We found that the the choice of Integral Projection Model didn't change the relative ranking of lambda in Continous Forest and Fragments.\
 
-4.  The time to iterate the DLNM models is much higher than than deterministic and kernel-resampled.\
+4.  DLNM models take much, much longer to iterate: while the Deterministic and Kernel-resampled stochastic models took \~`r det_time` and \~`r sker_time` min to iterate (respectively), the Parameter-resampled stochastic models with lagged effects took \~`r spar_time` min.\
 
 5.  The greater use of computational resources is likely a result of `predict()` being much slower for GAMs with 2D smooths because the number of knots is much higher compared to the GAMs used for the vital rates models in the determinsitic and kernel-resampled IPMs.\
 
@@ -364,43 +391,6 @@ pandoc.table(
   # ,
   # caption = Comparison of vital rate models used to build IPM.  The 'Effect of Environment' column describes how environmental effects were included in models. Those with 'none' were used to build deterministic IPMs; those with a random effect of year were used to build stochastic, kernel-resampled IPMs; and those with a distributed lag non-linear model (DLNM) were used to build stochastic, parameter-resampled IPMs. 'edf' is the estimated degrees of freedom of the penalized GAM. \u0394AIC is calculated within each habitat and vital rate combination.  \u0394AIC within 2 indicates models are equivalent."
 )
-```
-
-\newpage
-
-```{r tbl-time, results='asis'}
-#| label: tbl-time
-#| tbl-cap: "Figure caption to be written"
-meta_df <- 
-  tar_meta(store = here("_targets")) %>% 
-  select(name, size, bytes, time, seconds) %>% 
-  filter(str_detect(name, "^ipm_\\w+_[cf]{2}$")) %>% 
-  mutate(minutes = seconds / 60,
-         hours = minutes / 60)
-
-meta_df_tbl<-meta_df %>% 
-  separate(name, into = c("trash", "IPM", "Habitat")) %>% 
-  select(-trash) %>% 
-  select(IPM, Habitat, minutes) %>% 
-  group_by(IPM) %>% 
-mutate(IPM = str_replace_all(
-    IPM,
-    c(
-      "det" = "Deterministic",
-      "stoch" = "Stochastic, kernel-resampled",
-      "dlnm" = "Stochastic, parameter-resampled"
-    ))) %>%
-  summarize(mean_time_min = round(mean(minutes), 2)) %>%
-  rename("IPM Type" = IPM) %>% 
-  rename("mean time (min.)" = mean_time_min)  
-  
-kbl(meta_df_tbl, 
-    booktabs = T,
-    align = "lc") %>% 
-  kable_styling(full_width = F,
-                position = "center")    
-  
-
 ```
 
 \newpage
