@@ -1,4 +1,4 @@
-# extract values of lambda fom targets to make figures
+# compare det lambda in CF and FF using bootstrapping 
 
 # load libraries ----------------------------------------------------------
 
@@ -6,6 +6,97 @@
 library(targets)
 library(tidyverse)
 library(RColorBrewer)  
+library(patchwork)
+library(ggExtra)
+
+
+tar_read(data_full)
+tar_read(demog)
+tar_read(vit_list_det_cf)
+tar_read(vit_list_det_ff)
+tar_read(pop_vec_cf)
+tar_read(data_cf)
+
+# load data ---------------------------------------------------------------
+ipm_det_cf_1<-tibble(lambda_cf=tar_read(lambda_bt_det_cf_6387ee2c))
+ipm_det_cf_2<-tibble(lambda_cf=tar_read(lambda_bt_det_cf_e8cfe512))
+ipm_det_cf_3<-tibble(lambda_cf=tar_read(lambda_bt_det_cf_1f90f462))
+ipm_det_cf_4<-tibble(lambda_cf=tar_read(lambda_bt_det_cf_832d921b))
+ipm_det_cf_5<-tibble(lambda_cf=tar_read(lambda_bt_det_cf_ac9b0ec2))
+det_cf<-bind_rows(
+  ipm_det_cf_1,
+  ipm_det_cf_2,
+  ipm_det_cf_3,
+  ipm_det_cf_4,
+  ipm_det_cf_5
+) %>% 
+  mutate(run=row_number())
+
+ipm_det_ff_1<-tibble(lambda_ff=tar_read(lambda_bt_det_ff_3305ceac))
+ipm_det_ff_2<-tibble(lambda_ff=tar_read(lambda_bt_det_ff_7944832e))
+ipm_det_ff_3<-tibble(lambda_ff=tar_read(lambda_bt_det_ff_2db550e8))
+ipm_det_ff_4<-tibble(lambda_ff=tar_read(lambda_bt_det_ff_2258367a))
+ipm_det_ff_5<-tibble(lambda_ff=tar_read(lambda_bt_det_ff_aad0a33a))
+
+
+det_ff<-bind_rows(
+  ipm_det_ff_1,
+  ipm_det_ff_2,
+  ipm_det_ff_3,
+  ipm_det_ff_4,
+  ipm_det_ff_5
+)%>% 
+  mutate(run=row_number())
+
+bootstrap_lambdas<-left_join(det_ff,det_cf,by="run") %>% 
+  relocate(run,.before=1) %>% 
+  mutate(diff=lambda_cf-lambda_ff)
+
+mean_bs_cf<-mean(bootstrap_lambdas$lambda_cf)
+mean_bs_ff<-mean(bootstrap_lambdas$lambda_ff)
+diff_mean_bs<-mean_bs_cf-mean_bs_ff
+obs_ff <- 0.977
+obs_cf <- 0.9897
+diff_obs<-obs_cf-obs_ff
+
+
+ggplot(bootstrap_lambdas, aes(x=value)) + 
+  geom_histogram()
+
+hist_data<-bootstrap_lambdas %>% 
+  pivot_longer(cols = lambda_ff:lambda_cf,
+               names_to = "habitat",
+               values_to = "lambda") %>% select(-run,-diff)
+ggplot(hist_data, aes(x=lambda, color=habitat)) +
+  geom_histogram(fill="white", alpha=0.5, position="identity")
+
+ggplot(bootstrap_lambdas, aes(x=diff)) +
+  geom_histogram()+
+  geom_segment(x = diff_obs, y= 0 , 
+               xend = diff_obs, yend = 50, 
+               colour = "darkred",
+               linetype = 2,
+               linewidth = 0.05)
+
+
+n_bs_greater<-bootstrap_lambdas %>% 
+  filter(diff>diff_obs) %>% 
+  tally() %>% 
+  mutate(perc_greater=n/nrow(bootstrap_lambdas)*100)
+
+
+t.test(bootstrap_lambdas$lambda_ff,bootstrap_lambdas$lambda_cf)
+
+# 1. calculate difference between det cf and det ff
+# 
+# 2. calc det cf by sampling with replacement
+# 3. calc det ff by sampling with replacement
+# 
+# 4. calc diff between boot det df and boot ff
+# 5 plot and see where actual diff is.
+
+
+
 
 
 # extract data ------------------------------------------------------------
@@ -26,51 +117,13 @@ l_det_ff<-as_tibble(l_det_ff) %>%
   slice_tail(n=900) %>% 
   rename(det_ff=value)
 
-# lagged CF
-ipm_dlnm_cf<-tar_read(ipm_dlnm_cf)
-l_lag_cf<-ipm_dlnm_cf$pop_state$lambda
-l_lag_cf<-as.vector(l_lag_cf)
-l_lag_cf<-as_tibble(l_lag_cf) %>% 
-  slice_tail(n=900) %>% 
-  rename(lag_cf=value)
-
-
-
-# lagged FF
-ipm_dlnm_ff<-tar_read(ipm_dlnm_ff)
-l_lag_ff<-ipm_dlnm_ff$pop_state$lambda
-l_lag_ff<-as.vector(l_lag_ff)
-l_lag_ff<-as_tibble(l_lag_ff) %>% 
-  slice_tail(n=900) %>% 
-  rename(lag_ff=value)
-
-# stochastic CF
-ipm_stoch_cf<-tar_read(ipm_stoch_cf)
-l_stoch_cf<-ipm_stoch_cf$pop_state$lambda
-l_stoch_cf<-as.vector(l_stoch_cf)
-l_stoch_cf<-as_tibble(l_stoch_cf) %>% 
-  slice_tail(n=900) %>% 
-  rename(stoch_cf=value)
-
-# stochastic FF
-ipm_stoch_ff<-tar_read(ipm_stoch_ff)
-l_stoch_ff<-ipm_stoch_ff$pop_state$lambda
-l_stoch_ff<-as.vector(l_stoch_ff)
-l_stoch_ff<-as_tibble(l_stoch_ff) %>% 
-  slice_tail(n=900) %>% 
-  rename(stoch_ff=value)
-
-
 # bind into single tibble -------------------------------------------------
 
 lambdas<-bind_cols(l_det_cf,
-                   l_det_ff, 
-                   l_stoch_cf,
-                   l_stoch_ff,
-                   l_lag_cf,
-                   l_lag_ff) %>% 
+                   l_det_ff
+                   ) %>% 
   mutate(run=row_number(), .before=1) %>% 
-  pivot_longer(cols = det_cf:lag_ff,
+  pivot_longer(cols = det_cf:det_ff,
                names_to = "ipm",
                values_to = "lambda") %>% 
   arrange(ipm,run) %>% 

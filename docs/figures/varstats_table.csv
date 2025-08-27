@@ -1,0 +1,11 @@
+Vital Rate,Habitat,Statistic,df,p value
+seedling,CF,4.59,1,0.032*
+seedling,FF,11.51,1,0.001*
+Pre-reproductive 1,CF,8.73,1,0.003*
+Pre-reproductive 1,FF,96.13,1,< 0.0001*
+Pre-reproductive 2,CF,0.99,1,0.319
+Pre-reproductive 2,FF,39.67,1,< 0.0001*
+Reproductive 1,CF,0.57,1,0.452
+Reproductive 1,FF,61.58,1,< 0.0001*
+Reproductive 2,CF,0.11,1,0.745
+Reproductive 2,FF,18.78,1,< 0.0001*
