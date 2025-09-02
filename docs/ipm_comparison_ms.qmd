@@ -99,7 +99,7 @@ keywords:
   - lagged effects
   
 Notes: >
-  Manuscript elements: Figure~1, figure~2, table~1, appendix~A.  
+  Manuscript elements: Figures 1-4, Tables 1-6.  
   Manuscript type: e-note
 
 
@@ -157,7 +157,7 @@ Text of 150 words max summarizing this amazing paper.
 
 \bigskip
 
-**Manuscript elements:** Figure\~1, figure\~2, table\~1, appendix\~A..
+**Manuscript elements:** Figures 1-4, Tables 1-6
 
 \bigskip
 
@@ -240,9 +240,9 @@ Finally, We estimated the 95% confidence intervals for each IPMs projections of 
 
 ### *Statistical analyses*
 
-##### $\lambda$ in Continuous Forest vs. Forest Fragments.
+##### Comparison of $\lambda$ in Continuous Forest and Forest Fragments.
 
-To determine if the deterministic projections of $\lambda$ for Continuous Forest and Forest Fragments were significantly different between habitats we used the randomization test procedure described by @caswell2001. Briefly, we randomly assigned plants with their demographic history among two populations, $R_{1}$ and $R_{2}$, that were equal in size to the original CF and FF populations. We then calculated $\lambda^{R_1}$, $\lambda^{R_2}$, and the absolute value of the difference between the two (i.e., $\theta$). This was repeated N = 1000 times, after which we determined the proportion of simulations in which $\theta$ was greater than the observed difference between $\lambda^{CF}$ and $\lambda^{FF}$ (i.e., $P[\theta \geq \theta_{obs}]$).
+To determine if the deterministic projections of $\lambda$ for Continuous Forest and Forest Fragment populations were significantly different we used the randomization test procedure described by @caswell2001. Briefly, we randomly assigned plants with their demographic history among two populations, $R_{1}$ and $R_{2}$, that were equal in size to the original CF and FF populations. We then calculated $\lambda^{R_1}$, $\lambda^{R_2}$, and the absolute value of the difference between the two (i.e., $\theta$). This was repeated N = 1000 times, after which we determined the proportion of simulations in which $\theta$ was greater than the observed difference between $\lambda^{CF}$ and $\lambda^{FF}$ (i.e., $P[\theta \geq \theta_{obs}]$).
 
 <!-- -   for within stoch and lag: glm/t-test. -->
 
@@ -311,9 +311,9 @@ det_stats<-read_csv(path_det_stats) %>%
   mutate(p_val=100-perc_below)
 ```
 
-Deterministic projections of $\lambda$ for Continuous Forest were significantly greater than for Forest Fragments ($P[\theta \geq \theta_{obs}]$ = `r det_stats$p_val`, N = 1000 randomization). We also found found significant effects of IPM Type, Habitat, and their interaction on projections of $\lambda$ (F(df1, df2) = F-value, p = p-value, η² = effect size). Generally speaking, the effects of model choice on $\lambda$ were consistent across habitats - both the deterministic $\lambda$ and the average $\lambda$ from stochastic IPMs were higher for Continuous Forest than for Forest Fragments (@tbl-lambdas). However, model choice did influence the absolute value of projections within a habitat. Deterministic $\lambda$ was nearly identical to the average $\lambda$ from kernel-resampled IPMs, which was unexpected given that stochasticity is predicted to reduce population growth rates [@doakCorrectlyEstimatingHow2005a; @tuljapurkarManyGrowthRates2003; @metcalfStatisticalModellingAnnual2015]. However the average projection of $\lambda$ was 1.5-2% lower when including lagged effects, with 70-76% of $\lambda$ projections below deterministic $\lambda$. These IPMs also appear to be more accurate - the underlying vital rate models for IPMs with lagged effects all had the best fit to the survey data (dAIC = 0, @tbl-aic). <!--# No longer true if random effect = different smooth for each year -->
+All IPMs projected higher population growth rates for *Heliconia acuminata* populations in Continuous Forest than for those in Forest Fragments (@tbl-lambdas, @tbl-glm). The differences between $\lambda^{CF}$ and $\lambda^{FF}$, which ranged from 1.19-2%, were significant for both deterministic ($P[\theta \geq \theta_{obs}]$ = `r det_stats$p_val`, N = 1000 randomization) and stochastic IPMs (@tbl-glm). There were also significant effects of IPM Type, Habitat, and their interaction on $\lambda$ (@tbl-glm). Deterministic $\lambda$ was nearly identical to the average $\lambda$ from kernel-resampled IPMs (@fig-lambdas), which is somewhat surpring given that stochasticity is predicted to reduce population growth rates [@doakCorrectlyEstimatingHow2005a; @tuljapurkarManyGrowthRates2003; @metcalfStatisticalModellingAnnual2015]. However including lagged effects in IPMs resulted in projections of $\lambda$ that were on average 1.5-2% lower than those of deterministic models, with 70-76% of projections below deterministic $\lambda$ (@fig-lambdas). The IPMs with lagged effects also appear to be more accurate - the underlying vital rate models for IPMs with lagged effects all had the best fit to the survey data (dAIC = 0, @tbl-aic). <!--# No longer true if random effect = different smooth for each year -->
 
-Including lagged effects in IPMs also resulted in less predictable projections of population structure, both with (@fig-pop-states a) and across habitats (@fig-pop-states b, @tbl-vartest). This variability is particularly notable in forest fragments, where we have previously shown lagged effects have very large impacts on growth and survival [@scottDelayedEffectsClimate2022]. The deterministic IPM for Continuous Forest projected slightly more of the smallest and largest plants than the one for Forest Fragments. In other words, populations in forest fragments had proportionately less recruitment and fewer individuals growing into the larger, reproductive size classes [@brunaDemographicEffectsHabitat2005]. This shift towards intermediately sized, pre-reproductive plants in forest fragments is even more dramatic when using the parameter-resampled stochastic IPM (@fig-pop-states b).\
+Including lagged effects in IPMs also resulted in significantly less predictable projections of population structure, both within (@fig-pop-states a) and across habitats (@fig-pop-states b, @tbl-vartest). This variability is particularly notable in forest fragments (@fig-marginal, @tbl-meanvars), where we have previously shown lagged effects have very large impacts on growth and survival [@scottDelayedEffectsClimate2022]. The deterministic IPM for Continuous Forest projected slightly more of the smallest and largest plants than the one for Forest Fragments. In other words, populations in forest fragments had proportionately less recruitment and fewer individuals growing into the larger, reproductive size classes [@brunaDemographicEffectsHabitat2005]. This shift towards intermediately sized, pre-reproductive plants in forest fragments is even more dramatic when using the parameter-resampled stochastic IPM (@fig-pop-states b).\
 
 What are the implications of these results for the use of IPMs to study plant demography? First, they suggest that failing to include lagged effects in models could result in underestimates of $\lambda$. While relative differences in $\lambda$ may be sufficient for some tests of theory, they may be critical in conservation or management settings because even small differences in $\lambda$ can have major consequences for population dynamics. They could also be critical for studies assessing the effects of climate change, given many DLHE are climate driven. That said, there is a cost to including lagged effects in models, even in if they are more accurate. While Deterministic and Kernel-resampled Stochastic IPMs took only \~`r det_time` and \~`r sker_time` min to iterate (respectively), the Stochastic IPMs with using parameter-resampled kernels and lagged effects took \~`r spar_time` min. This is largely due to the required computational resources and algorithms (i.e., `predict()`), which are much slower forGeneral Additive Models (i.e., GAMs) with 2D smooths because of the much higher number of knots than for the GAMs used in Determinsitic and Kernel-resampled IPMs. Advances in computational power and access to high-performance computing resources could lower this cost.
 
