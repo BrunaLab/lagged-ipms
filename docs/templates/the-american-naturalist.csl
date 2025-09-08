@@ -46,7 +46,7 @@
   <macro name="secondary-contributors">
     <choose>
       <if type="chapter paper-conference" match="none">
-        <names variable="translator" delimiter=", " prefix=" (" suffix=")">
+        <names variable="translator" delimiter=", " prefix=" (" suffix="). ">
           <name and="symbol" initialize-with=". " delimiter=", "/>
           <label form="short" prefix=", "/>
           <substitute>
@@ -221,6 +221,9 @@
           <label variable="page" form="short"/>
           <text variable="page"/>
         </group>
+      </else-if>
+      <else-if type="software">
+        <text variable="doi" prefix=". doi: "/>
       </else-if>
       <else-if type="book graphic motion_picture report song chapter paper-conference" match="any">
         <group prefix=" (" suffix=")" delimiter=", ">

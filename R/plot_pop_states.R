@@ -1,5 +1,6 @@
 # library(targets)
 # library(ipmr)
+# library(patchwork)
 # tar_load(c(
 #   ipm_det_cf,
 #   ipm_det_ff,
@@ -8,7 +9,7 @@
 #   ipm_dlnm_cf,
 #   ipm_dlnm_ff
 # ))
-
+# 
 
 
 #' Plot population stage structure over time
@@ -32,15 +33,15 @@
 #'   Otherwise `save_path` is returned.
 #'
 #' @examples
-#' list(
-#'   det_cf = ipm_det_cf,
-#'   det_ff = ipm_det_ff,
-#'   stoch_cf = ipm_stoch_cf,
-#'   stoch_ff = ipm_stoch_ff,
-#'   dlnm_cf = ipm_dlnm_cf,
-#'   dlnm_ff = ipm_dlnm_ff
-#' ) %>%
-#'   plot_pop_states(save_path = "test.png", height = 5)
+# list(
+#   det_cf = ipm_det_cf,
+#   det_ff = ipm_det_ff,
+#   stoch_cf = ipm_stoch_cf,
+#   stoch_ff = ipm_stoch_ff,
+#   dlnm_cf = ipm_dlnm_cf,
+#   dlnm_ff = ipm_dlnm_ff
+# ) %>%
+#   plot_pop_states(save_path = "test.png", height = 5)
 #'   
 plot_pop_states <- function(ipm_list, xlim = c(0, 250), save_path = NULL, ...) {
   df <-

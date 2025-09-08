@@ -103,8 +103,8 @@ lambdas <- lambdas %>%
 
 # lambda stats ------------------------------------------------------------
 unique(lambdas$ipm)
-unique(cf_stoch$ipm)
-summary(cf_stoch)
+# unique(cf_stoch$ipm)
+# summary(cf_stoch)
 
 stoch_lambdas<-lambdas %>% 
   dplyr::filter(ipm=="stoch_cf"|
@@ -256,7 +256,7 @@ lambdas_fig <- ggplot(plot_data2, aes(x=lambda)) +
                       # alpha=0.9), 
                   fill="darkgreen",
                  color="gray20") +
-  scale_y_continuous(n.breaks = 10, limits = c(-55, 55))+
+  scale_y_continuous(labels=abs,n.breaks = 10, limits = c(-55, 55))+
   # scale_x_continuous(n.breaks = 20, limits = c(0.8, 1.06))+
   scale_x_continuous(breaks = seq(0.8,1.06,by=.02))+
   annotate("text", x = 0.87, y = 20, label = "Continuous Forest", color="darkgreen")+
@@ -413,9 +413,6 @@ geom_text(data = data.frame(x = 0.985,
           aes(x = x, y = y, label = label), 
           parse = TRUE, 
           size = 4)
-  
-  
-  
   
   
 lambdas_fig
