@@ -54,10 +54,10 @@ plot_pop_states <- function(ipm_list, xlim = c(0, 250), save_path = NULL, ...) {
         ipm,
         c(
           "det" = "Deterministic",
-          "stoch" = "Kernel-resampled",
-          "dlnm" = "Parameter-resampled"
+          "stoch" = "Stochastic",
+          "dlnm" = "Lagged effects"
         )
-      ),
+      ) %>% fct_inorder(),
       habitat = toupper(habitat)
     ) %>% 
     rename(IPM = ipm, Habitat = habitat)
