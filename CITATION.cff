@@ -1,0 +1,40 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  Code for "Context-dependent consequences of lagged effects
+  in demographic models"
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Eric R.
+    family-names: Scott
+    email: scottericr@gmail.com
+    affiliation: >-
+      Department of Wildlife Ecology and Conservation,
+      University of Florida
+    orcid: 'https://orcid.org/0000-0002-7430-7879'
+  - given-names: María
+    family-names: Uriarte
+    email: mu2126@columbia.edu
+    affiliation: >-
+      Department of Ecology, Evolution and Environmental
+      Biology, Columbia University
+  - given-names: Emilio M.
+    family-names: Bruna
+    email: embruna@ufl.edu
+    affiliation: >-
+      Department of Wildlife Ecology and Conservation,
+      University of Florida
+    orcid: 'https://orcid.org/0000-0003-3381-8477'
+repository-code: 'https://github.com/BrunaLab/lagged-ipms'
+keywords:
+  - integral projection models
+  - demography
+  - population dynamics
+  - environmental stochasticity
+  - lagged effects
+license: MIT
