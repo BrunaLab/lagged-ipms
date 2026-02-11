@@ -100,8 +100,8 @@ plot_pop_states <- function(ipm_list, xlim = c(0, 250), save_path = NULL, ...) {
         ipm,
         c(
           "det" = "Deterministic",
-          "stoch" = "Kernel-resampled",
-          "dlnm" = "Parameter-resampled"
+          "stoch" = "Stochastic",
+          "dlnm" = "Stochastic with lagged effects"
         )
       ),
       habitat = toupper(habitat)
@@ -122,7 +122,7 @@ marg_plot_data <- df %>%
   pivot_wider(values_from=c(prop_plants,n_plants),names_from=Habitat) %>% 
   arrange(IPM,log_size_bin,iteration) %>% 
   # dplyr::filter(IPM!="Deterministic") %>% 
-  # dplyr::filter(IPM!="Kernel-resampled") %>% 
+  # dplyr::filter(IPM!="Stochastic") %>% 
   mutate(
     log_size_bin = str_replace_all(
       log_size_bin," \\[0, 2\\.5\\]","")) %>% 
@@ -199,20 +199,20 @@ stage_marginal_plot <- function(stage) {
   
   
   if (stage=="seedling") {
-    colors<-c("Kernel-resampled"="#fde725",
-              "Parameter-resampled"= "#FEF5A8")
+    colors<-c("Stochastic"="#fde725",
+              "Stochastic with lagged effects"= "#FEF5A8")
   } else if (stage=="pre-reproductive1") {
-    colors<-c("Kernel-resampled"="#5ec962",
-              "Parameter-resampled"= "#DFF4E0")
+    colors<-c("Stochastic"="#5ec962",
+              "Stochastic with lagged effects"= "#DFF4E0")
   } else if (stage=="pre-reproductive2") {
-    colors<-c("Kernel-resampled"="#21918c",
-              "Parameter-resampled"= "#A6D3D1")
+    colors<-c("Stochastic"="#21918c",
+              "Stochastic with lagged effects"= "#A6D3D1")
   } else if (stage=="reproductive1") {
-    colors<-c("Kernel-resampled"="#3b528b",
-              "Parameter-resampled"= "#B1BAD1")
+    colors<-c("Stochastic"="#3b528b",
+              "Stochastic with lagged effects"= "#B1BAD1")
   } else if (stage=="reproductive2") {
-    colors<-c("Kernel-resampled"="#440154",
-              "Parameter-resampled"= "#DACCDD")
+    colors<-c("Stochastic"="#440154",
+              "Stochastic with lagged effects"= "#DACCDD")
   } else {
     print('the stage is incorrectly defined')
   }
@@ -348,7 +348,7 @@ res.ftest
 
 my_data2<-df_for_stats %>% 
   dplyr::filter(log_size_bin== 'pre-reproductive2') %>% 
-  dplyr::filter(IPM=="Kernel-resampled") %>% 
+  dplyr::filter(IPM=="Stochastic") %>% 
   dplyr::filter(Habitat=="FF")
 
 # Test for normality

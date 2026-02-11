@@ -140,14 +140,14 @@ means_vars<-df_for_stats %>%
   arrange(log_size_bin,IPM,Habitat)
 
 means_vars_CF<-means_vars %>%
-  filter(Habitat=="CF") %>% 
+  dplyr::filter(Habitat=="CF") %>% 
   rename(medianCF=median,
          meanCF=mean,
          varCF=variance) %>% 
   ungroup() %>% 
   select(-Habitat)
 means_vars_FF<-means_vars %>%
-  filter(Habitat=="FF") %>% 
+  dplyr::filter(Habitat=="FF") %>% 
   rename(medianFF=median,
          meanFF=mean,
          varFF=variance) %>% 

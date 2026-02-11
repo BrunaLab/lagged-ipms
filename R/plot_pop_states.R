@@ -1,5 +1,6 @@
 # library(targets)
 # library(ipmr)
+# library(tidyverse)
 # library(patchwork)
 # tar_load(c(
 #   ipm_det_cf,
@@ -42,7 +43,76 @@
 #   dlnm_ff = ipm_dlnm_ff
 # ) %>%
 #   plot_pop_states(save_path = "test.png", height = 5)
+#'   save_path="./docs/figures/pop_states.png"
 #'   
+#'   
+#'   
+# 
+
+
+
+# # Deterministic CF
+# ipm_det_cf<-tar_read(ipm_det_cf)
+# l_det_cf<-ipm_det_cf$pop_state$lambda
+# l_det_cf<-as.vector(l_det_cf)
+# l_det_cf<-as_tibble(l_det_cf) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(det_cf=value)
+# 
+# # Deterministic FF
+# ipm_det_ff<-tar_read(ipm_det_ff)
+# l_det_ff<-ipm_det_ff$pop_state$lambda
+# l_det_ff<-as.vector(l_det_ff)
+# l_det_ff<-as_tibble(l_det_ff) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(det_ff=value)
+# 
+# # lagged CF
+# ipm_dlnm_cf<-tar_read(ipm_dlnm_cf)
+# l_lag_cf<-ipm_dlnm_cf$pop_state$lambda
+# l_lag_cf<-as.vector(l_lag_cf)
+# l_lag_cf<-as_tibble(l_lag_cf) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(lag_cf=value)
+# 
+# 
+# 
+# # lagged FF
+# ipm_dlnm_ff<-tar_read(ipm_dlnm_ff)
+# l_lag_ff<-ipm_dlnm_ff$pop_state$n_log_size
+# l_lag_ff<-as.vector(l_lag_ff)
+# l_lag_ff<-as_tibble(l_lag_ff) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(lag_ff=value)
+# 
+# # stochastic CF
+# ipm_stoch_cf<-tar_read(ipm_stoch_cf)
+# l_stoch_cf<-ipm_stoch_cf$pop_state$lambda
+# l_stoch_cf<-as.vector(l_stoch_cf)
+# l_stoch_cf<-as_tibble(l_stoch_cf) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(stoch_cf=value)
+# 
+# # stochastic FF
+# ipm_stoch_ff<-tar_read(ipm_stoch_ff)
+# l_stoch_ff<-ipm_stoch_ff$pop_state$lambda
+# l_stoch_ff<-as.vector(l_stoch_ff)
+# l_stoch_ff<-as_tibble(l_stoch_ff) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(stoch_ff=value)
+# 
+# 
+# 
+# ipm_list<-
+#   list(
+#     det_cf = ipm_det_cf,
+#     det_ff = ipm_det_ff,
+#     stoch_cf = ipm_stoch_cf,
+#     stoch_ff = ipm_stoch_ff,
+#     dlnm_cf = ipm_dlnm_cf,
+#     dlnm_ff = ipm_dlnm_ff
+#   )
+
 plot_pop_states <- function(ipm_list, xlim = c(0, 250), save_path = NULL, ...) {
   df <-
     ipm_list %>%
@@ -51,27 +121,34 @@ plot_pop_states <- function(ipm_list, xlim = c(0, 250), save_path = NULL, ...) {
     #wrangle into a pretty dataframe
     separate(model, into = c("ipm", "habitat")) %>% 
     mutate(
+      habitat = toupper(habitat),
       ipm = str_replace_all(
         ipm,
         c(
           "det" = "Deterministic",
-          "stoch" = "Kernel-resampled",
-          "dlnm" = "Parameter-resampled"
+          "stoch" = "Stochastic",
+          "dlnm" = "Stochastic - lagged effects")
+        ),
+      habitat = str_replace_all(
+        habitat,
+        c(
+          "CF" = "Continuous Forest",
+          "FF" = "Fragments"
+          )
         )
-      ),
-      habitat = toupper(habitat)
-    ) %>% 
+      ) %>% 
     rename(IPM = ipm, Habitat = habitat)
   
   #plot proportions over time with facet_grid
   p <- 
     ggplot(df, aes(x = iteration, y = prop_plants, fill = log_size_bin)) +
     geom_area(aes(color = log_size_bin), size =.2) +
-    scale_color_viridis_d("log(size) bin", aesthetics = c("fill", "color")) +
+    scale_color_viridis_d("log(size) bin", aesthetics = c("fill", "color"),name="Stage (size limits)") +
     coord_cartesian(expand = FALSE, xlim = xlim) +
     facet_grid(Habitat ~ IPM, labeller = label_both) +
     labs(y = "Proportion", x = "Iteration") + 
     theme_bw() +
+    # guides(title="Plant stage (size limits")+
     theme(panel.spacing = unit(1, "lines")) #increases spacing between top and bottom row so axis labels don't overlap
   
   #Plot relationship between proportion in CF and in FF at each iteration (after removing burnin)
@@ -81,24 +158,32 @@ plot_pop_states <- function(ipm_list, xlim = c(0, 250), save_path = NULL, ...) {
     pivot_wider(id_cols = c(IPM, log_size_bin, iteration),
                 names_from = Habitat, 
                 values_from = prop_plants) %>%
-    ggplot(aes(x = CF, y = FF, color = log_size_bin, fill = log_size_bin)) +
+    ggplot(aes(x = `Continuous Forest`, y = `Fragments`, color = log_size_bin, fill = log_size_bin)) +
     geom_point(alpha = 0.4, key_glyph = draw_key_rect) + 
     guides(fill = guide_legend(override.aes = list(alpha = 1)), color = "none") +
     geom_abline(slope = 1) +
     scale_color_viridis_d("log(size) bin", aesthetics = c("fill", "color")) +
     facet_wrap(~IPM, labeller = label_both) +
-    labs(x = "Proportion in CF", y = "Proportion in FF") +
+    labs(x = "Proportion in Continuous Forest", y = "Proportion in Fragments") +
     theme_bw() +
     theme(panel.spacing = unit(1, "lines")) +
+    theme(legend.position = "none") +
+    # theme(plot.margin = unit(c(0, 0, 0, 0), "mm")) +
     coord_fixed(ratio = 1, xlim = c(0, 0.65), ylim = c(0, 0.65))
   
   #use `patchwork` to put them together
   #TODO: get legends to "collect" properly
   full_plot <- 
     p/p2 +
-    plot_annotation(tag_levels = "A") +
-    plot_layout(guides = "collect", heights = c(2,1))
-    
+    plot_annotation(tag_levels = "A") 
+  # +
+  #   plot_layout(guides = "collect", heights = c(2,1))
+  
+  
+  ggsave("./docs/figures/pop_states.png",
+         width = 10, height = 12, units = "in",
+         device='png', dpi=700)
+  
   
   if(!is.null(save_path)) {
     ggsave(save_path, full_plot, ...)
@@ -107,7 +192,6 @@ plot_pop_states <- function(ipm_list, xlim = c(0, 250), save_path = NULL, ...) {
     return(invisible(full_plot))
   }
 }
-
 
 
 bin_pop_states <- function(ipm) {

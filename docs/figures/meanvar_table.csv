@@ -1,11 +1,11 @@
 log_size_bin,IPM,medianCF,medianFF,meanCF,meanFF,varCF,varFF,n
-seedling,Kernel-resampled,0.0018,9e-4,0.002,9e-4,1e-6,0,220
-seedling,Parameter-resampled,0.0011,4e-4,0.0014,5e-4,1e-6,0,220
-pre-reproductive1,Kernel-resampled,0.0426,0.034,0.045,0.0345,2.03e-4,3.4e-5,220
-pre-reproductive1,Parameter-resampled,0.0499,0.0438,0.0522,0.0556,1.92e-4,0.001167,220
-pre-reproductive2,Kernel-resampled,0.3097,0.3677,0.3147,0.3702,0.003354,0.001884,220
-pre-reproductive2,Parameter-resampled,0.3975,0.4613,0.4002,0.4617,0.003934,0.01038,220
-reproductive1,Kernel-resampled,0.4725,0.4332,0.4704,0.4353,7.36e-4,8.22e-4,220
-reproductive1,Parameter-resampled,0.4464,0.4049,0.4371,0.3839,0.001481,0.006388,220
-reproductive2,Kernel-resampled,0.163,0.1554,0.1679,0.1591,0.00263,0.001745,220
-reproductive2,Parameter-resampled,0.1062,0.0882,0.1092,0.0982,0.001427,0.003213,220
+seedling,Stochastic,0.0018,9e-4,0.002,9e-4,1e-6,0,220
+seedling,Stochastic with lagged effects,0.0011,4e-4,0.0014,5e-4,1e-6,0,220
+pre-reproductive1,Stochastic,0.0426,0.034,0.045,0.0345,2.03e-4,3.4e-5,220
+pre-reproductive1,Stochastic with lagged effects,0.0499,0.0438,0.0522,0.0556,1.92e-4,0.001167,220
+pre-reproductive2,Stochastic,0.3097,0.3677,0.3147,0.3702,0.003354,0.001884,220
+pre-reproductive2,Stochastic with lagged effects,0.3975,0.4613,0.4002,0.4617,0.003934,0.01038,220
+reproductive1,Stochastic,0.4725,0.4332,0.4704,0.4353,7.36e-4,8.22e-4,220
+reproductive1,Stochastic with lagged effects,0.4464,0.4049,0.4371,0.3839,0.001481,0.006388,220
+reproductive2,Stochastic,0.163,0.1554,0.1679,0.1591,0.00263,0.001745,220
+reproductive2,Stochastic with lagged effects,0.1062,0.0882,0.1092,0.0982,0.001427,0.003213,220

@@ -170,8 +170,8 @@ means<-plot_data %>%
   mutate(ipm_type = str_replace_all(
     ipm_type,
     c(
-      "lag" = "B) Stochastic, parameter-resampled",
-      "stoch" = "A) Stochastic, kernel-resampled",
+      "lag" = "B) Stochastic with lagged effects",
+      "stoch" = "A) Stochastic",
       "det" = "Deterministic"
     )
   )) %>%
@@ -226,8 +226,8 @@ plot_data2<-left_join(cf,ff,by=c("run","ipm_type")) %>%
   mutate(ipm_type = str_replace_all(
     ipm_type,
     c(
-      "lag" = "Stochastic, parameter-resampled",
-      "stoch" = "Stochastic, kernel-resampled",
+      "lag" = "Stochastic with lagged effects",
+      "stoch" = "Stochastic",
       "det" = "Deterministic"
     )
   )) 
@@ -239,8 +239,8 @@ plot_data2
 #   mutate(ipm_type = str_replace_all(
 #     ipm_type,
 #     c(
-#       "lag" = "Stochastic, parameter-resampled",
-#       "stoch" = "Stochastic, kernel-resampled",
+#       "lag" = "Stochastic with lagged effects",
+#       "stoch" = "Stochastic",
 #       "det" = "Deterministic"
 #     )
 #   )) %>% 
@@ -248,7 +248,7 @@ plot_data2
 # Fill in missing values
 
 plot_data2<-plot_data2 %>% dplyr::filter(ipm_type!="Deterministic") %>% 
-  mutate(ipm_type=if_else(ipm_type=="Stochastic, kernel-resampled", 
+  mutate(ipm_type=if_else(ipm_type=="Stochastic", 
                            paste("A) ",ipm_type,sep=""),
                            paste("B) ",ipm_type,sep=""))) 
 lambdas_fig <- ggplot(plot_data2, aes(x=lambda)) +
@@ -263,7 +263,7 @@ lambdas_fig <- ggplot(plot_data2, aes(x=lambda)) +
   # scale_x_continuous(n.breaks = 20, limits = c(0.8, 1.06))+
   scale_x_continuous(breaks = seq(0.8,1.06,by=.02))+
   annotate("text", x = 0.87, y = 20, label = "Continuous Forest", color="darkgreen", fontface=2)+
-  # annotate("text", x = 0.8, y = 50, label = "A) Stochastic, Kernel Resampled", color="black", fontface=2)+
+  # annotate("text", x = 0.8, y = 50, label = "A) Stochastic", color="black", fontface=2)+
   geom_histogram( aes(x = lambda_ff, 
                       y = -..density..),
                       # binwidth=.01,
@@ -288,19 +288,19 @@ lambdas_fig <- ggplot(plot_data2, aes(x=lambda)) +
 
 lambdas_fig<-lambdas_fig + 
   
-  geom_segment(data = means %>% dplyr::filter(ipm_type=="A) Stochastic, kernel-resampled" & habitat=="Continuous Forest"),
+  geom_segment(data = means %>% dplyr::filter(ipm_type=="A) Stochastic" & habitat=="Continuous Forest"),
                aes(x =mean_l, y = 0, xend = mean_l, yend = 35), 
                linewidth = 0.8,
                color="darkgreen") + 
-  geom_segment(data = means %>% dplyr::filter(ipm_type=="B) Stochastic, parameter-resampled" & habitat=="Continuous Forest"),
+  geom_segment(data = means %>% dplyr::filter(ipm_type=="B) Stochastic with lagged effects" & habitat=="Continuous Forest"),
                aes(x =mean_l, y = 0, xend = mean_l, yend = 30), 
                linewidth = 0.8,
                color="darkgreen") + 
-  geom_segment(data = means %>% dplyr::filter(ipm_type=="A) Stochastic, kernel-resampled" & habitat=="Forest Fragments"),
+  geom_segment(data = means %>% dplyr::filter(ipm_type=="A) Stochastic" & habitat=="Forest Fragments"),
                aes(x =mean_l, y = 0, xend = mean_l, yend = -50), 
                linewidth = 0.8,
                color="gray40") + 
-  geom_segment(data = means %>% dplyr::filter(ipm_type=="B) Stochastic, parameter-resampled" & habitat=="Forest Fragments"),
+  geom_segment(data = means %>% dplyr::filter(ipm_type=="B) Stochastic with lagged effects" & habitat=="Forest Fragments"),
                aes(x =mean_l, y = 0, xend = mean_l, yend = -30), 
                linewidth = 0.8,
                color="gray40")  
@@ -309,22 +309,22 @@ lambdas_fig<-lambdas_fig +
 # ADD LINES FOR DETERMINISTINC LAMBDAS
 lambdas_fig<-lambdas_fig + 
   
-  geom_segment(data = means %>% dplyr::filter(ipm_type=="A) Stochastic, kernel-resampled" & habitat=="Continuous Forest"),
+  geom_segment(data = means %>% dplyr::filter(ipm_type=="A) Stochastic" & habitat=="Continuous Forest"),
                aes(x =deterministic_l, y = 0, xend = deterministic_l, yend = 35), 
                # linewidth = 0.8,
                color="black",
                linetype=2)+
-  geom_segment(data = means %>% dplyr::filter(ipm_type=="B) Stochastic, parameter-resampled" & habitat=="Continuous Forest"),
+  geom_segment(data = means %>% dplyr::filter(ipm_type=="B) Stochastic with lagged effects" & habitat=="Continuous Forest"),
                aes(x =deterministic_l, y = 0, xend = deterministic_l, yend = 30), 
                color="black",
                # linewidth = 0.8,
                linetype=2)+
-  geom_segment(data = means %>% dplyr::filter(ipm_type=="A) Stochastic, kernel-resampled" & habitat=="Forest Fragments"),
+  geom_segment(data = means %>% dplyr::filter(ipm_type=="A) Stochastic" & habitat=="Forest Fragments"),
                aes(x =deterministic_l, y = 0, xend = deterministic_l, yend = -50), 
                color="black",
                # linewidth = 0.8,
                linetype=2)+
-  geom_segment(data = means %>% dplyr::filter(ipm_type=="B) Stochastic, parameter-resampled" & habitat=="Forest Fragments"),
+  geom_segment(data = means %>% dplyr::filter(ipm_type=="B) Stochastic with lagged effects" & habitat=="Forest Fragments"),
                aes(x =deterministic_l, y = 0, xend = deterministic_l, yend = -30), 
                color="black",
                # linewidth = 0.8,
@@ -357,7 +357,7 @@ lambdas_fig <-lambdas_fig +
 # add the det lambda in FF to paramenter resampled 
   geom_text(data = data.frame(x = 0.98, 
                             y = -35, 
-                            ipm_type = "B) Stochastic, parameter-resampled",
+                            ipm_type = "B) Stochastic with lagged effects",
                             label=bquote("lambda[det]")),
                             aes(x = x, y = y, label = label), 
                                 parse = TRUE, 
@@ -366,7 +366,7 @@ lambdas_fig <-lambdas_fig +
   # add the avg lambda in FF to parameter resampled 
   geom_text(data = data.frame(x = 0.960, 
                             y = -35,
-                            ipm_type = "B) Stochastic, parameter-resampled",
+                            ipm_type = "B) Stochastic with lagged effects",
                             label=bquote("bar(lambda)")),
                             aes(x = x, y = y, label = label), 
                                 parse = TRUE, 
@@ -375,7 +375,7 @@ lambdas_fig <-lambdas_fig +
   # add the det lambda in FF to kernel resampled 
   geom_text(data = data.frame(x = 0.975, 
                               y = -53, 
-                              ipm_type = "A) Stochastic, kernel-resampled",
+                              ipm_type = "A) Stochastic",
                               label=bquote("lambda[det]")),
             aes(x = x, y = y, label = label), 
             parse = TRUE, 
@@ -384,7 +384,7 @@ lambdas_fig <-lambdas_fig +
   # add the avg lambda in FF to kernel resampled 
   geom_text(data = data.frame(x = 0.983, 
                               y = -53, 
-                              ipm_type = "A) Stochastic, kernel-resampled",
+                              ipm_type = "A) Stochastic",
                               label=bquote("bar(lambda)")),
             aes(x = x, y = y, label = label), 
             parse = TRUE, 
@@ -392,7 +392,7 @@ lambdas_fig <-lambdas_fig +
   # add the avg lambda in CF to paramenter resampled 
   geom_text(data = data.frame(x = 0.98, 
                               y = 35, 
-                              ipm_type = "B) Stochastic, parameter-resampled",
+                              ipm_type = "B) Stochastic with lagged effects",
                               label=bquote("bar(lambda)")),
             aes(x = x, y = y, label = label), 
             parse = TRUE, 
@@ -402,7 +402,7 @@ lambdas_fig <-lambdas_fig +
   # add the det lambda in CF to paramenter resampled 
   geom_text(data = data.frame(x = 0.99, 
                               y = 35, 
-                              ipm_type = "B) Stochastic, parameter-resampled",
+                              ipm_type = "B) Stochastic with lagged effects",
                               label=bquote("lambda[det]")),
             aes(x = x, y = y, label = label), 
             parse = TRUE, 
@@ -411,7 +411,7 @@ lambdas_fig <-lambdas_fig +
   # add the avg lambda in CF to kernel resampled 
   geom_text(data = data.frame(x = 0.993, 
                               y = 38, 
-                              ipm_type = "A) Stochastic, kernel-resampled",
+                              ipm_type = "A) Stochastic",
                               label=bquote("bar(lambda)")),
             aes(x = x, y = y, label = label), 
             parse = TRUE, 
@@ -420,7 +420,7 @@ lambdas_fig <-lambdas_fig +
 # add the det lambda in CF to kernel resampled 
 geom_text(data = data.frame(x = 0.985, 
                             y = 38, 
-                            ipm_type = "A) Stochastic, kernel-resampled",
+                            ipm_type = "A) Stochastic",
                             label=bquote("lambda[det]")),
           aes(x = x, y = y, label = label), 
           parse = TRUE, 
@@ -435,7 +435,7 @@ ggsave("./docs/figures/lambdas_fig.png", height = 7.5, width = 8.5, units = "in"
 
 # deterministic % greater -------------------------------------------------
 
-dlnm_lambdas<-plot_data2 %>% dplyr::filter(ipm_type=="Stochastic, parameter-resampled")
+dlnm_lambdas<-plot_data2 %>% dplyr::filter(ipm_type=="Stochastic with lagged effects")
 
 det_lambda_cf<-means %>% dplyr::filter(ipm_type=="Deterministic" & habitat=="Continuous Forest") %>% select(mean_l)
 det_lambda_cf<-as.numeric(det_lambda_cf[1,2])
@@ -580,7 +580,7 @@ l_lag_cf<-as_tibble(l_lag_cf) %>%
 
 # lagged FF
 ipm_dlnm_ff<-tar_read(ipm_dlnm_ff)
-size_lag_ff<-ipm_dlnm_ff$pop_state$n_log_size
+l_lag_ff<-ipm_dlnm_ff$pop_state$n_log_size
 l_lag_ff<-as.vector(l_lag_ff)
 l_lag_ff<-as_tibble(l_lag_ff) %>% 
   slice_tail(n=900) %>% 
@@ -709,8 +709,8 @@ plot_pop_states <- function(ipm_list, xlim = c(0, 250), save_path = NULL, ...) {
         ipm,
         c(
           "det" = "Deterministic",
-          "stoch" = "Kernel-resampled",
-          "dlnm" = "Parameter-resampled"
+          "stoch" = "Stochastic",
+          "dlnm" = "Stochastic with lagged effects"
         )
       ),
       habitat = toupper(habitat)
