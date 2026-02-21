@@ -22,7 +22,7 @@ affiliations:
   - id: 4
     name: Biological Dynamics of Forest Fragments Project, INPA-PDBFF, CP 478, Manaus, Amazonas 69011-970 Brazil
   - id: 5
-    name: \textit{Current Address:} CCT Data Science, University of Arizona, Tucson, AZ 85721 USA
+    name: \textit{Current Address:} Communication & Cyber Technologies, University of Arizona, Tucson, AZ 85721 USA
 date: 'last-modified'
 date-format: '([draft:] D MMMM YYYY)'
 linkcolor: blue
