@@ -19,12 +19,11 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-This repository contains data and code for a manuscript by Eric Scott and Emilio Bruna written for submission to The American Naturalist tentatively titled: *Context-dependent consequences of including lagged effects in demographic models*.
+This repository contains data and code for a manuscript by Eric Scott, María Uriarte, and Emilio Bruna written for submission to The American Naturalist tentatively titled: *Context-dependent consequences of including lagged effects in demographic models*.
 
-The idea here is to investigate the consequences of including lagged effects (such as those modeled by distributed lag non-linear models) into population models (integral projection models, IPMs).
-We'll compare population growth rates (lambda) with deterministic, stochastic (matrix shuffling), and lagged effects IPMs.
+The idea here is to investigate the consequences of including lagged effects (such as those modeled by distributed lag non-linear models) into population models (integral projection models, IPMs). We'll compare population growth rates (lambda) with deterministic, stochastic (matrix shuffling), and lagged effects IPMs.
 
-The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/paper.html).
+The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/ipm_comparison_ms.pdf).
 
 [Notes for collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
 
@@ -34,27 +33,26 @@ Before June 3:
 
 -   [x] Finish building all IPMs
 -   [x] Document functions and \_targets.R
--   [ ] Calculate bootstrapped 95% CIs around all lambdas
+-   [x] Calculate bootstrapped 95% CIs around all lambdas
 -   [x] Finish draft of methods section
 -   [x] Draft tables & figures
 -   [ ] Archive draft of code in Zenodo
 
 Future:
 
--   [ ] Finish writing and revising
+-   [x] Finish writing and revising
 -   [ ] Submit
 
 # Reproducibility
 
-This research compendium has been developed using the statistical programming language R.
-To work with the compendium, you will need installed on your computer the [R software](https://cloud.r-project.org/) itself and [RStudio Desktop](https://rstudio.com/products/rstudio/download/).
+This research compendium has been developed using the statistical programming language R. To work with the compendium, you will need installed on your computer the [R software](https://cloud.r-project.org/) (v4.3 for best compatibility) itself and [RStudio Desktop](https://rstudio.com/products/rstudio/download/).
 
 You can download the compendium as a zip file from from this URL: [master.zip](/archive/master.zip).
 
 To run the compendium and reproduce all outputs:
 
 -   Open the project in RStudio by double-clicking the `.Rproj` file.
--   This project uses `renv` for package management, which should be installed automatically when opening the project. Run `renv::restore()` to install all required packages.
+-   This project uses `renv` for package management, which should be installed automatically when opening the project. Run `renv::restore()` to install all required packages (this will have the highest likelihood of succeeding if run on R v4.3.0).
 -   This project uses `targets` for workflow management. The functions used in the project are defined in `R/` and the steps are defined in `_targets.R` and summarized in the schematic below. Run `targets::tar_make()` or `targets::tar_make_clustermq()` from the R console to run all code and produce all outputs.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
