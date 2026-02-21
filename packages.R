@@ -17,5 +17,6 @@ suppressPackageStartupMessages({
   library(clustermq)
   library(ipmr)
   library(patchwork)
+  library(ggExtra)
 })
 
