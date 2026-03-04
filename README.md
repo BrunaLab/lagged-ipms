@@ -24,21 +24,6 @@ The most recent draft of the manuscript is available
 [Notes for
 collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
 
-# Roadmap
-
-Before June 3:
-
--   [x] Finish building all IPMs
--   [x] Document functions and \_targets.R
--   [ ] Calculate bootstrapped 95% CIs around all lambdas
--   [x] Finish draft of methods section
--   [x] Draft tables & figures
--   [ ] Archive draft of code in Zenodo
-
-Future:
-
--   [ ] Finish writing and revising
--   [ ] Submit
 
 # Reproducibility
 
