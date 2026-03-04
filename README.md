@@ -8,45 +8,23 @@
 
 <!-- badges: end -->
 
-This repository contains data and code for a manuscript by Eric Scott,
-María Uriarte, and Emilio Bruna written for submission to The American
-Naturalist tentatively titled: *Context-dependent consequences of
-including lagged effects in demographic models*.
+This repository contains data and code for a manuscript by Eric Scott, María Uriarte, and Emilio Bruna written for submission to The American Naturalist tentatively titled: *Context-dependent consequences of including lagged effects in demographic models*.
 
-The idea here is to investigate the consequences of including lagged
-effects (such as those modeled by distributed lag non-linear models)
-into population models (integral projection models, IPMs). We’ll compare
-population growth rates (lambda) with deterministic, stochastic (matrix
-shuffling), and lagged effects IPMs.
+The idea here is to investigate the consequences of including lagged effects (such as those modeled by distributed lag non-linear models) into population models (integral projection models, IPMs). We’ll compare population growth rates (lambda) with deterministic, stochastic (matrix shuffling), and lagged effects IPMs.
 
-The most recent draft of the manuscript is available
-[here](https://brunalab.github.io/lagged-ipms/docs/ipm_comparison_ms.pdf).
-
-[Notes for
-collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
+The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/ipm_comparison_ms.pdf).
 
 # Roadmap
 
 <!-- badges: end -->
 
-This repository contains data and code for a manuscript by Eric Scott and Emilio Bruna written for submission to The American Naturalist tentatively titled: *Context-dependent consequences of including lagged effects in demographic models*.
+This repository contains data and code for a manuscript by Eric Scott and Emilio Bruna tentatively titled: *Context-dependent consequences of including lagged effects in demographic models*. We investigated the consequences of including lagged effects (such as those modeled by distributed lag non-linear models) into population models (integral projection models, IPMs). We compared population growth rates projected with deterministic IPMs, stochastic IPMs (using 'matrix-shuffling'), and stochastic IPMs with lagged effects.
 
-The idea here is to investigate the consequences of including lagged effects (such as those modeled by distributed lag non-linear models) into population models (integral projection models, IPMs). We’ll compare population growth rates (lambda) with deterministic, stochastic (matrix shuffling), and lagged effects IPMs.
-
-The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/paper.html).
-
-- [x] Finish writing and revising
-- [ ] Submit
+The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/ipm_comparison_ms.pdf).
 
 # Reproducibility
 
-This research compendium has been developed using the statistical
-programming language R. To work with the compendium, you will need
-installed on your computer the [R
-software](https://cloud.r-project.org/) (v4.3 for best compatibility)
-itself and [RStudio
-Desktop](https://rstudio.com/products/rstudio/download/).
-[Notes for collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
+This research compendium has been developed using the statistical programming language R. To work with the compendium, you will need installed on your computer the [R software](https://cloud.r-project.org/) (v4.3 for best compatibility) itself and [RStudio Desktop](https://rstudio.com/products/rstudio/download/). [Notes for collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
 
 # Reproducibility
 
@@ -56,25 +34,12 @@ You can download the compendium as a zip file from from this URL: [master.zip](/
 
 To run the compendium and reproduce all outputs:
 
-- Open the project in RStudio by double-clicking the `.Rproj` file.
-
-- This project uses `renv` for package management, which should be
-  installed automatically when opening the project. Run
-  `renv::restore()` to install all required packages (this will have the
-  highest likelihood of succeeding if run on R v4.3.0).
-
-- This project uses `targets` for workflow management. The functions
-  used in the project are defined in `R/` and the steps are defined in
-  `_targets.R` and summarized in the schematic below. Run
-  `targets::tar_make()` or `targets::tar_make_clustermq()` from the R
-  console to run all code and produce all outputs.
-
-- One or more packages recorded in the lockfile are not installed.
-
-- Use `renv::status()` for more details. There were 11 warnings (use
-  warnings() to see them)
 -   Open the project in RStudio by double-clicking the `.Rproj` file.
--   This project uses `renv` for package management, which should be installed automatically when opening the project. Run `renv::restore()` to install all required packages. Can also run `renv::deactivate()` if you want to turn of `renv` but keep the lockfile as a record of package versions used.
+
+-   This project uses `renv` for package management, which should be installed automatically when opening the project. Run `renv::restore()` to install all required packages (this will have the highest likelihood of succeeding if run on R v4.3.0).
+
+-   You can run `renv::deactivate()` if you want to turn of `renv` but keep the lockfile as a record of package versions used.
+
 -   This project uses `targets` for workflow management. The functions used in the project are defined in `R/` and the steps are defined in `_targets.R` and summarized in the schematic below. Run `targets::tar_make()` or `targets::tar_make_clustermq()` from the R console to run all code and produce all outputs.
 
 ``` mermaid
@@ -184,13 +149,9 @@ graph LR
   linkStyle 87 stroke-width:0px;
 ```
 
+There is some additional technical information for collaborators on the ['notes for collaborators' page](https://brunalab.github.io/lagged-ipms/notes/index.html).
+
 ### NOTES:
 
-- The targets `lambda_bt_dlnm_ff` and `lambda_bt_dlnm_cf` will take a
-  very long time to run (days), so you may want to comment those out
-  before attempting to reproduce results.
-- If you want to make use of HPC, follow instructions
-  [here](https://github.com/BrunaLab/hipergator-targets-ssh) to
-  customize templates and options.
 -   The targets `lambda_bt_dlnm_ff` and `lambda_bt_dlnm_cf` will take a very long time to run (days), so you may want to comment those out before attempting to reproduce results.
 -   If you want to make use of HPC, follow instructions [here](https://github.com/BrunaLab/hipergator-targets-ssh) to customize templates and options.
