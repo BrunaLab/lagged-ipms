@@ -97,16 +97,16 @@ keywords:
   - population dynamics
   - environmental stochasticity
   - lagged effects
-filters:
-  - wordcount
-wordcount:
-  count-code-blocks: false
-  count-inline-code: false
+# filters:
+#   - wordcount
+# wordcount:
+#   count-code-blocks: false
+#   count-inline-code: false
   
 Notes: >
   Manuscript elements: Figures 1-4, Tables 1-6.  
   Manuscript type: e-note
-  There are {{wordcount}} words in this document.
+  
 
 
 # abstract: >
@@ -335,19 +335,31 @@ The second implication is that demographic precision is computationally costly. 
 
 It is important to emphasize, however, that computational power cannot compensate for limited data. Detecting lagged effects and evaluating their consequences requires long-term demographic data --- data that are only available for a relatively small number of species, few of which are in the tropics [@brunaHabitatFragmentationPlant2009; @romerPlantDemographicKnowledge2024]. The increasing evidence that lagged effects are ubiquitous, and that they can have major demographic impacts, underscores the need to support the collection of such long-term data, the complementary development of experimental and statistical approaches to disentangling lagged effects, and community driven efforts to identify priority or model systems for in-depth investigation.\
 
-## Acknowledgments
+<!-- #################################### -->
 
-We thank M. Acevedo, O. Acevedo-Charry, and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript. We also thank Sam Levin for his help with the `ipmr` package. Financial support for collecting the demographic data used in this study was provided by the U.S. National Science Foundation (awards INT 98-06351, DEB-0309819, DEB-0614149,DEB-0614339, and DEB-1948607). This article is publication no. \_\_\_ in the BDFFP Technical series. The authors declare no conflicts of interest.
+<!-- #################################### -->
 
-## CRediT Statement
+<!-- COMMENTED OUT BELOW FOR 2X-BLIND SUBMISSION -->
 
-<!--# https://casrai.org/credit/ -->
+<!-- ## Acknowledgments -->
 
-The authors made the following contributions: Eric R. Scott: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing – original draft, review, and editing; Emilio M. Bruna: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing (original draft, review and editing), funding acquisition, project administration, supervision; Maria Uriarte: conceptualization, methodology, writing (review and editing), funding acquisition.
+<!-- We thank M. Acevedo, O. Acevedo-Charry, and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript. We also thank Sam Levin for his help with the `ipmr` package. Financial support for collecting the demographic data used in this study was provided by the U.S. National Science Foundation (awards INT 98-06351, DEB-0309819, DEB-0614149,DEB-0614339, and DEB-1948607). This article is publication no. \_\_\_ in the BDFFP Technical series. The authors declare no conflicts of interest. -->
 
-## Data Availability Statement
+<!-- ## CRediT Statement -->
 
-Data and R code used in this study are archived with Zenodo at *(doi and url to be added on acceptance)*.
+<!-- <!--# https://casrai.org/credit/ -->
+
+--\>
+
+<!-- The authors made the following contributions: Eric R. Scott: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing – original draft, review, and editing; Emilio M. Bruna: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing (original draft, review and editing), funding acquisition, project administration, supervision; Maria Uriarte: conceptualization, methodology, writing (review and editing), funding acquisition. -->
+
+<!-- ## Data Availability Statement -->
+
+<!-- Data and R code used in this study are archived with Zenodo at *(doi and url to be added on acceptance)*. -->
+
+<!-- #################################### -->
+
+<!-- #################################### -->
 
 <!-- ```{r } -->
 
