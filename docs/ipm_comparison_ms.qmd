@@ -5,13 +5,16 @@ authors:
   - name: Eric R. Scott
     email: scottericr@gmail.com
     affil-id: 1,5
+    orcid: 0000-0002-7430-7879
   - name: María Uriarte
     email: mu2126@columbia.edu
     affil-id: 2
+    orcid: 0000-0002-0484-0758
   - name: Emilio M. Bruna
     email: embruna@ufl.edu
     affil-id: 1,3,4
     corresponding: true
+    orcid: 0000-0003-3381-8477
 affiliations:
   - id: 1
     name: Department of Wildlife Ecology and Conservation, University of Florida, Gainesville, Florida 32611-0430 USA
@@ -155,7 +158,7 @@ withr::with_dir(here(), {
 
 <!-- AmNat Note Abstracts are no longer than 150 words. -->
 
-Text of 150 words max summarizing this amazing paper.
+Environmental conditions influence demographic vital rates, but there is increasing evidence that changes in vital rates can be delayed months or even years. These *Lagged Effects*, also known as *Delayed Life-history Events*, can simultaneously affect an entire cohort or only a subset of the population. Moreover, the temporal delay between an environmental event and the resulting changes in demographic vital rates may depend on both the intensity of the event and its timing relative to the underlying physiological mechanisms. Because lagged effects are often directly linked to reproduction and survival, it has been argued they could have major but underappreciated consequences for population dynamics. There have been few tests of this hypothesis, however, in part because the statistical methods for incorporating lagged effects in structured population models have only recently been developed. We parameterized three classes of Integral Projection Models --- deterministic, stochastic, and stochastic with lagged effects of precipitation on vital rates --- using census data from populations of a Amazonian understory herb. We used these models to determine (1) if incorporating lagged effects altered projections of population growth rate, and (2) if habitat-specific differences in lagged effects translate into habitat-specific projections of population growth rate (i.e., $\lambda$). Projections of $\lambda$ were significantly lower when models included lagged effects. These models also resulted in more variable projections of population structure, both within and across habitats. These differences could be critical in conservation or management settings, where even small differences in $\lambda$ can have major short-term consequences for population dynamics.
 
 \bigskip
 
@@ -333,7 +336,7 @@ Including lagged effects in IPMs also resulted in significantly less predictable
 
 What are the implications of these results for the use of IPMs to study plant demography? The first is that failing to include lagged effects in models could significantly underestimate the growth rate of populations. While relative differences in projections of $\lambda$ may be sufficient for some tests of theory, the actual value of projections may be critical in conservation or management settings. For example, they could be used to identify which populations face the greatest risk of extinction (e.g., $\lambda=0.99$ vs. $\lambda=1.01$) or, because even small differences in $\lambda$ can have major short-term consequences for population dynamics (e.g., $\lambda=1.01$ vs. $\lambda=1.02$), be used to choose among alternative management strategies. Moreover, including lagged effects in models could be especially critical for studies assessing the effects of climate change, given many DLHE are climate driven.
 
-The second implication is that demographic precision is computationally costly. While Deterministic IPMs and the Stochastic IPMs without lagged effects took only \~`r det_time` and \~`r sker_time` min to iterate (respectively), the Stochastic IPMs including lags took \~`r spar_time` min. <!--- [MU: What computing environment (CPU cores, RAM)? ] ---> This is largely due to the required computational resources and algorithms (i.e., `predict()`), which are much slower for Generalized Additive Models with 2D smooths than for the GAMs used in Deterministic and Stochastic IPMs. Advances in computational power and access to high-performance computing resources could lower this temporal and computational cost, as could GAMs for large datasets [i.e., @mgcv]. Until these resources are more broadly available, it is important to consider how failing to include lagged effects in demographic models could influence conclusions drawn from their analysis. <!--- [MU: Are there optimization possibilities with mgcv::bam?] EB: added last sentence to paragraph above but note eric's comment: can't really be paralellized because each iteration depends on the previous one.  There's *maybe* some potential speed gains in using multiple cores with predict.bam(), but unlikely to be substantial. -->
+The second implication is that demographic precision is computationally costly. Our analyses were conducted on the University of Florida's HiperGator supercomputer using one nVidia A100 GPU with an allocation of 8 GB RAM. While rach iteration of the Deterministic IPM and Stochastic IPM without lagged effects took only \~`r det_time` and \~`r sker_time` min to iterate (respectively), each iteration of the Stochastic IPM with lagged effects took \~`r spar_time` min. This is largely due to the required computational resources and algorithms (i.e., `predict()`), which are much slower for Generalized Additive Models with 2D smooths than for the GAMs used in Deterministic and Stochastic IPMs. Advances in computational power and access to supercomputer could lower the temporal and computational cost of running the thousands of iterations required to estimate $\lambda$ and its confidence intervals, as could GAMs for large datasets [i.e., @mgcv]. Until these resources are more broadly available, however, it is important to consider how failing to include lagged effects in demographic models could influence conclusions drawn from their analysis. <!--- [MU: Are there optimization possibilities with mgcv::bam?] EB: added last sentence to paragraph above but note eric's comment: can't really be paralellized because each iteration depends on the previous one.  There's *maybe* some potential speed gains in using multiple cores with predict.bam(), but unlikely to be substantial. -->
 
 It is important to emphasize, however, that computational power cannot compensate for limited data. Detecting lagged effects and evaluating their consequences requires long-term demographic data --- data that are only available for a relatively small number of species, few of which are in the tropics [@brunaHabitatFragmentationPlant2009; @romerPlantDemographicKnowledge2024]. The increasing evidence that lagged effects are ubiquitous, and that they can have major demographic impacts, underscores the need to support the collection of such long-term data, the complementary development of experimental and statistical approaches to disentangling lagged effects, and community driven efforts to identify priority or model systems for in-depth investigation.\
 
@@ -350,8 +353,6 @@ It is important to emphasize, however, that computational power cannot compensat
 <!-- ## CRediT Statement -->
 
 <!-- <!--# https://casrai.org/credit/ -->
-
---\>
 
 <!-- The authors made the following contributions: Eric R. Scott: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing – original draft, review, and editing; Emilio M. Bruna: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing (original draft, review and editing), funding acquisition, project administration, supervision; Maria Uriarte: conceptualization, methodology, writing (review and editing), funding acquisition. -->
 
