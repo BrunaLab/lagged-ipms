@@ -17,3 +17,5 @@ _targets/
 *.docx
 !docs/templates/template.docx
 lagged-ipms.Rproj
+amnat_submission_info.html
+amnat_submission_info.qmd
