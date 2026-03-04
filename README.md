@@ -1,4 +1,3 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <!-- badges: start -->
@@ -28,16 +27,13 @@ collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
 
 # Roadmap
 
-Before June 3:
+<!-- badges: end -->
 
-- [x] Finish building all IPMs
-- [x] Document functions and \_targets.R
-- [x] Calculate bootstrapped 95% CIs around all lambdas
-- [x] Finish draft of methods section
-- [x] Draft tables & figures
-- [ ] Archive draft of code in Zenodo
+This repository contains data and code for a manuscript by Eric Scott and Emilio Bruna written for submission to The American Naturalist tentatively titled: *Context-dependent consequences of including lagged effects in demographic models*.
 
-Future:
+The idea here is to investigate the consequences of including lagged effects (such as those modeled by distributed lag non-linear models) into population models (integral projection models, IPMs). We’ll compare population growth rates (lambda) with deterministic, stochastic (matrix shuffling), and lagged effects IPMs.
+
+The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/paper.html).
 
 - [x] Finish writing and revising
 - [ ] Submit
@@ -50,9 +46,13 @@ installed on your computer the [R
 software](https://cloud.r-project.org/) (v4.3 for best compatibility)
 itself and [RStudio
 Desktop](https://rstudio.com/products/rstudio/download/).
+[Notes for collaborators](https://brunalab.github.io/lagged-ipms/notes/index.html)
 
-You can download the compendium as a zip file from from this URL:
-[master.zip](/archive/master.zip).
+# Reproducibility
+
+This research compendium has been developed using the statistical programming language R. To work with the compendium, you will need installed on your computer the [R software](https://cloud.r-project.org/) itself and [RStudio Desktop](https://rstudio.com/products/rstudio/download/).
+
+You can download the compendium as a zip file from from this URL: [master.zip](/archive/master.zip).
 
 To run the compendium and reproduce all outputs:
 
@@ -73,6 +73,9 @@ To run the compendium and reproduce all outputs:
 
 - Use `renv::status()` for more details. There were 11 warnings (use
   warnings() to see them)
+-   Open the project in RStudio by double-clicking the `.Rproj` file.
+-   This project uses `renv` for package management, which should be installed automatically when opening the project. Run `renv::restore()` to install all required packages. Can also run `renv::deactivate()` if you want to turn of `renv` but keep the lockfile as a record of package versions used.
+-   This project uses `targets` for workflow management. The functions used in the project are defined in `R/` and the steps are defined in `_targets.R` and summarized in the schematic below. Run `targets::tar_make()` or `targets::tar_make_clustermq()` from the R console to run all code and produce all outputs.
 
 ``` mermaid
 graph LR
@@ -189,3 +192,5 @@ graph LR
 - If you want to make use of HPC, follow instructions
   [here](https://github.com/BrunaLab/hipergator-targets-ssh) to
   customize templates and options.
+-   The targets `lambda_bt_dlnm_ff` and `lambda_bt_dlnm_cf` will take a very long time to run (days), so you may want to comment those out before attempting to reproduce results.
+-   If you want to make use of HPC, follow instructions [here](https://github.com/BrunaLab/hipergator-targets-ssh) to customize templates and options.

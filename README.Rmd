@@ -53,6 +53,7 @@ To run the compendium and reproduce all outputs:
 
 -   Open the project in RStudio by double-clicking the `.Rproj` file.
 -   This project uses `renv` for package management, which should be installed automatically when opening the project. Run `renv::restore()` to install all required packages (this will have the highest likelihood of succeeding if run on R v4.3.0).
+-   This project uses `renv` for package management, which should be installed automatically when opening the project. Run `renv::restore()` to install all required packages. Can also run `renv::deactivate()` if you want to turn of `renv` but keep the lockfile as a record of package versions used.
 -   This project uses `targets` for workflow management. The functions used in the project are defined in `R/` and the steps are defined in `_targets.R` and summarized in the schematic below. Run `targets::tar_make()` or `targets::tar_make_clustermq()` from the R console to run all code and produce all outputs.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
