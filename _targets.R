@@ -18,7 +18,8 @@ options(
 source("./packages.R")
 
 ## Load your R files
-lapply(list.files("./R", full.names = TRUE), source)
+# lapply(list.files("./R", full.names = TRUE), source)
+tar_source()
 
 ## tar_plan supports drake-style targets and also tar_target()
 tar_plan(
@@ -333,7 +334,6 @@ tar_plan(
 
 
   # Outputs --------------------------------------------------------------
-  tar_render(paper, here("docs", "paper.Rmd"), packages = "bookdown", output_format = "all", deployment = "main"),
   tar_render(readme, "README.Rmd", deployment = "main")
   
   

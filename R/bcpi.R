@@ -11,7 +11,6 @@
 #'
 #' @references Caswell, Hal. Matrix Population Models: Construction, Analysis,
 #'   and Interpretation. 2. ed., Sunderland, Mass: Sinauer Associates, 2008.
-
 #' 
 #'
 #' @examples
