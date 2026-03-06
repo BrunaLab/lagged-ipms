@@ -19,9 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-This repository contains data and code for a manuscript by Eric Scott, María Uriarte, and Emilio Bruna tentatively titled: *Context-dependent consequences of including lagged effects in demographic models*. We investigated the consequences of including lagged effects (such as those modeled by distributed lag non-linear models) into population models (integral projection models, IPMs). We compared population growth rates projected with deterministic IPMs, stochastic IPMs (using 'matrix-shuffling'), and stochastic IPMs with lagged effects.
-
-The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/ipm_comparison_ms.pdf).
+This repository contains data and code for the manuscript *"Context-dependent consequences of including lagged effects on the projections of structured population models"* by -------. We investigated the consequences of including lagged effects, such as those modeled by distributed lag non-linear models, into integral projection models (i.e., IPMs). We compared population growth rates projected with deterministic IPMs, stochastic IPMs (using 'matrix-shuffling'), and stochastic IPMs with lagged effects.
 
 # Reproducibility
 
@@ -45,8 +43,6 @@ cat(
 )
 #this should display correctly on GitHub, or code can be pasted into https://mermaid.live
 ```
-
-There is some additional technical information for collaborators on the ['notes for collaborators' page](https://brunalab.github.io/lagged-ipms/notes/index.html).
 
 ### NOTES:
 
