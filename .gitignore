@@ -18,3 +18,4 @@ _targets/
 !docs/templates/template.docx
 lagged-ipms.Rproj
 .Renviron
+.DS_Store
