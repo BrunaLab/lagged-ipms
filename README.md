@@ -11,12 +11,13 @@
 
 This repository contains data and code for the manuscript
 *“Context-dependent consequences of including lagged effects on the
-projections of structured population models”* by ——-. We investigated
-the consequences of including lagged effects, such as those modeled by
-distributed lag non-linear models, into integral projection models
-(i.e., IPMs). We compared population growth rates projected with
-deterministic IPMs, stochastic IPMs (using ‘matrix-shuffling’), and
-stochastic IPMs with lagged effects.
+projections of structured population models”* by Eric R. Scott, María
+Uriarte, and Emilio M. Bruna. We investigated the consequences of
+including lagged effects, such as those modeled by distributed lag
+non-linear models, into integral projection models (i.e., IPMs). We
+compared population growth rates projected with deterministic IPMs,
+stochastic IPMs (using ‘matrix-shuffling’), and stochastic IPMs with
+lagged effects.
 
 # Reproducibility
 
@@ -45,11 +46,12 @@ To run the compendium and reproduce all outputs:
   `targets::tar_make()` or `targets::tar_make_clustermq()` from the R
   console to run all code and produce all outputs.
 
-tar_source() only sources R scripts. Ignoring non-R files: R/.gitkeep +
-lambda_bt_det_cf declared \[5 branches\] + lambda_bt_dlnm_cf declared
-\[500 branches\] + lambda_bt_stoch_cf declared \[5 branches\] +
-lambda_bt_det_ff declared \[5 branches\] + lambda_bt_stoch_ff declared
-\[5 branches\] + lambda_bt_dlnm_ff declared \[500 branches\]
+tar_source() only sources R scripts. Ignoring non-R files: R/.gitkeep,
+R/.Rhistory + lambda_bt_det_cf declared \[5 branches\] +
+lambda_bt_dlnm_cf declared \[500 branches\] + lambda_bt_stoch_cf
+declared \[5 branches\] + lambda_bt_det_ff declared \[5 branches\] +
+lambda_bt_stoch_ff declared \[5 branches\] + lambda_bt_dlnm_ff declared
+\[500 branches\]
 
 ``` mermaid
 graph LR
@@ -162,6 +164,12 @@ graph LR
   classDef outdated stroke:#000000,color:#000000,fill:#78B7C5;
   classDef none stroke:#000000,color:#000000,fill:#94a4ac;
 ```
+
+There is some additional technical information for collaborators on the
+[‘notes for collaborators’
+page](https://brunalab.github.io/lagged-ipms/notes/index.html). The most
+recent draft of the manuscript is available
+[here](https://brunalab.github.io/lagged-ipms/docs/ipm_comparison_ms.pdf).
 
 ### NOTES:
 
