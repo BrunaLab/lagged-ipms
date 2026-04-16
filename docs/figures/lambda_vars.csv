@@ -1,0 +1,5 @@
+ipm_type,habitat,variance
+stoch,cf,2e-4
+stoch,ff,1e-4
+lag,cf,4e-4
+lag,ff,6e-4

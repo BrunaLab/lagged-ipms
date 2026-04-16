@@ -152,6 +152,9 @@ plot(model, which = 2)
 acf(residuals(model)) ## check autocorrelation
 tidy(model)
 
+
+
+
 # as anova
 res.aov2 <- aov(lambda ~ habitat*ipm_type, data = stoch_lambdas)
 summary(res.aov2)
@@ -520,87 +523,171 @@ plot(res_aov, which = 2)
 summary(res_aov)
 
 
+# comparison of variance within and across model and habitat  --------------
+
+lambdas %>% group_by(habitat,ipm_type) %>% tally()
+
+var_lambdas<-lambdas %>% dplyr::filter(ipm_type!="det")
+
+stoch_var_lambdas<-lambdas %>% dplyr::filter(ipm_type!="det") %>% dplyr::filter(ipm_type=="stoch")
+# vartest_stoch<-vartest::ansari.test(lambda ~ habitat, data = stoch_var_lambdas)
+
+lagged_var_lambdas<-lambdas %>% dplyr::filter(ipm_type!="det") %>% dplyr::filter(ipm_type=="lag")
+# vartest_lagged<-vartest::ansari.test(lambda ~ habitat, data = lagged_var_lambdas)
+
+cf_var_lambdas<-lambdas %>% dplyr::filter(ipm_type!="det") %>% dplyr::filter(habitat=="cf")
+# cf_var_lambdas %>% group_by(ipm_type) %>% tally
+# vartest_cf<-vartest::ansari.test(lambda ~ ipm, data = cf_var_lambdas)
+
+ff_var_lambdas<-lambdas %>% dplyr::filter(ipm_type!="det") %>% dplyr::filter(habitat=="ff")
+# vartest_ff<-vartest::ansari.test(lambda ~ ipm, data = ff_var_lambdas)
+
+
+
+datasets_ipm <- list(stoch_var_lambdas,
+                 lagged_var_lambdas)
+
+comparison_ipm <- c("stochastic: CF vs. FF",
+                "lagged: CF vs. FF")
+
+results_ipm <- map(datasets_ipm, ~ vartest::ansari.test(lambda ~ habitat, data = .x))
+
+
+
+p_values_ipm <- map_dbl(results_ipm, "p.value")
+statistic_ipm <- map_dbl(results_ipm, "statistic")
+comparison_ipm
+
+
+
+datasets_hab <- list(cf_var_lambdas,
+                     ff_var_lambdas)
+
+comparison_hab <- c("CF: stochastic vs. lagged",
+                    "FF: stochastic vs. lagged")
+
+results_hab <- map(datasets_hab, ~ vartest::ansari.test(lambda ~ ipm, data = .x))
+
+
+p_values_hab <- map_dbl(results_hab, "p.value")
+statistic_hab <- map_dbl(results_hab, "statistic")
+comparison_hab
+
+
+vars<-lambdas %>% 
+  dplyr::filter(ipm_type!="det") %>% 
+  group_by(ipm_type,habitat) %>%
+  summarize(variance=var(lambda)) %>% 
+  mutate(variance=round(variance,4))
+write_csv(vars,here("docs","figures","lambda_vars.csv"))
+
+
+
+
+stats_table_lambdavars<-data.frame(Comparison=c(comparison_ipm,comparison_hab),
+                           Statistic=c(statistic_ipm,statistic_hab),
+                           p_values=c(p_values_ipm,p_values_hab))%>%
+  mutate(p_values=round(p_values,4)) %>%
+  mutate(p_values=as.character(p_values)) %>%
+  mutate(Statistic=round(Statistic,2)) %>%
+  # separate_wider_delim(
+  #   comparison,
+  #   delim = ", ",
+  #   names = c("Vital Rate","Habitat")) %>%
+  mutate(p_values=as.numeric(p_values)) %>% 
+  # mutate(p_values=round(p_values,3)) %>% 
+  mutate(p_values=if_else(p_values<0.0009,0.0001,p_values)) %>%
+  mutate(p_values=as.character(p_values)) %>%
+  mutate(p_values=if_else(p_values=="1e-04","< 0.0001",p_values)) %>%
+  # mutate(p_values = if_else(p_values==0.0001,paste("\< ", p_values, sep=""),p_values)) %>%
+  mutate(p_values=if_else(p_values<0.05,paste(p_values,"*",sep=""),p_values)) %>%
+  rename(`p value` = p_values)
+
+
+write_csv(stats_table_lambdavars,here("docs","figures","stats_table_lambdavars.csv"))
+
 
 # variances of popstructure ratios ----------------------------------------
 
 
+# 
+# ipm_list<-
+#   tar_read(
+#   list(
+#     det_cf = ipm_det_cf,
+#     det_ff = ipm_det_ff,
+#     stoch_cf = ipm_stoch_cf,
+#     stoch_ff = ipm_stoch_ff,
+#     dlnm_cf = ipm_dlnm_cf,
+#     dlnm_ff = ipm_dlnm_ff
+#   ))
+# 
+# ipm_det_cf<-tar_read(ipm_det_cf)
+# ipm_det_ff<-tar_read(ipm_det_ff)
+# ipm_dlnm_cf<-tar_read(ipm_dlnm_cf)
+# ipm_dlnm_ff<-tar_read(ipm_dlnm_ff)
+# ipm_stoch_cf<-tar_read(ipm_stoch_cf)
+# ipm_stoch_ff<-tar_read(ipm_stoch_ff)
+# 
+# ipm_stoch_cf$pop_state
+# ipm_list<-list(ipm_det_cf,
+#            ipm_det_ff,
+#            ipm_dlnm_cf,
+#            ipm_dlnm_ff,
+#            ipm_stoch_cf,
+#            ipm_stoch_ff
+#            )
+# 
+# # Deterministic CF
+# ipm_det_cf<-tar_read(ipm_det_cf)
+# l_det_cf<-ipm_det_cf$pop_state$lambda
+# l_det_cf<-as.vector(l_det_cf)
+# l_det_cf<-as_tibble(l_det_cf) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(det_cf=value)
+# 
+# # Deterministic FF
+# ipm_det_ff<-tar_read(ipm_det_ff)
+# l_det_ff<-ipm_det_ff$pop_state$lambda
+# l_det_ff<-as.vector(l_det_ff)
+# l_det_ff<-as_tibble(l_det_ff) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(det_ff=value)
+# 
+# # lagged CF
+# ipm_dlnm_cf<-tar_read(ipm_dlnm_cf)
+# l_lag_cf<-ipm_dlnm_cf$pop_state$lambda
+# l_lag_cf<-as.vector(l_lag_cf)
+# l_lag_cf<-as_tibble(l_lag_cf) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(lag_cf=value)
+# 
+# 
+# 
+# # lagged FF
+# ipm_dlnm_ff<-tar_read(ipm_dlnm_ff)
+# l_lag_ff<-ipm_dlnm_ff$pop_state$lambda
+# l_lag_ff<-as.vector(l_lag_ff)
+# l_lag_ff<-as_tibble(l_lag_ff) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(lag_ff=value)
+# 
+# # stochastic CF
+# ipm_stoch_cf<-tar_read(ipm_stoch_cf)
+# l_stoch_cf<-ipm_stoch_cf$pop_state$lambda
+# l_stoch_cf<-as.vector(l_stoch_cf)
+# l_stoch_cf<-as_tibble(l_stoch_cf) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(stoch_cf=value)
+# 
+# # stochastic FF
+# ipm_stoch_ff<-tar_read(ipm_stoch_ff)
+# l_stoch_ff<-ipm_stoch_ff$pop_state$lambda
+# l_stoch_ff<-as.vector(l_stoch_ff)
+# l_stoch_ff<-as_tibble(l_stoch_ff) %>% 
+#   slice_tail(n=900) %>% 
+#   rename(stoch_ff=value)
 
-ipm_list<-
-  tar_read(
-  list(
-    det_cf = ipm_det_cf,
-    det_ff = ipm_det_ff,
-    stoch_cf = ipm_stoch_cf,
-    stoch_ff = ipm_stoch_ff,
-    dlnm_cf = ipm_dlnm_cf,
-    dlnm_ff = ipm_dlnm_ff
-  ))
-
-ipm_det_cf<-tar_read(ipm_det_cf)
-ipm_det_ff<-tar_read(ipm_det_ff)
-ipm_dlnm_cf<-tar_read(ipm_dlnm_cf)
-ipm_dlnm_ff<-tar_read(ipm_dlnm_ff)
-ipm_stoch_cf<-tar_read(ipm_stoch_cf)
-ipm_stoch_ff<-tar_read(ipm_stoch_ff)
-
-ipm_stoch_cf$pop_state
-ipm_list<-list(ipm_det_cf,
-           ipm_det_ff,
-           ipm_dlnm_cf,
-           ipm_dlnm_ff,
-           ipm_stoch_cf,
-           ipm_stoch_ff
-           )
-
-# Deterministic CF
-ipm_det_cf<-tar_read(ipm_det_cf)
-l_det_cf<-ipm_det_cf$pop_state$lambda
-l_det_cf<-as.vector(l_det_cf)
-l_det_cf<-as_tibble(l_det_cf) %>% 
-  slice_tail(n=900) %>% 
-  rename(det_cf=value)
-
-# Deterministic FF
-ipm_det_ff<-tar_read(ipm_det_ff)
-l_det_ff<-ipm_det_ff$pop_state$lambda
-l_det_ff<-as.vector(l_det_ff)
-l_det_ff<-as_tibble(l_det_ff) %>% 
-  slice_tail(n=900) %>% 
-  rename(det_ff=value)
-
-# lagged CF
-ipm_dlnm_cf<-tar_read(ipm_dlnm_cf)
-l_lag_cf<-ipm_dlnm_cf$pop_state$lambda
-l_lag_cf<-as.vector(l_lag_cf)
-l_lag_cf<-as_tibble(l_lag_cf) %>% 
-  slice_tail(n=900) %>% 
-  rename(lag_cf=value)
-
-
-
-# lagged FF
-ipm_dlnm_ff<-tar_read(ipm_dlnm_ff)
-l_lag_ff<-ipm_dlnm_ff$pop_state$n_log_size
-l_lag_ff<-as.vector(l_lag_ff)
-l_lag_ff<-as_tibble(l_lag_ff) %>% 
-  slice_tail(n=900) %>% 
-  rename(lag_ff=value)
-
-# stochastic CF
-ipm_stoch_cf<-tar_read(ipm_stoch_cf)
-l_stoch_cf<-ipm_stoch_cf$pop_state$lambda
-l_stoch_cf<-as.vector(l_stoch_cf)
-l_stoch_cf<-as_tibble(l_stoch_cf) %>% 
-  slice_tail(n=900) %>% 
-  rename(stoch_cf=value)
-
-# stochastic FF
-ipm_stoch_ff<-tar_read(ipm_stoch_ff)
-l_stoch_ff<-ipm_stoch_ff$pop_state$lambda
-l_stoch_ff<-as.vector(l_stoch_ff)
-l_stoch_ff<-as_tibble(l_stoch_ff) %>% 
-  slice_tail(n=900) %>% 
-  rename(stoch_ff=value)
 
 
 

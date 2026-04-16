@@ -60,8 +60,8 @@ obs_cf <- 0.9897
 diff_obs<-obs_cf-obs_ff
 
 
-ggplot(bootstrap_lambdas, aes(x=value)) + 
-  geom_histogram()
+# ggplot(bootstrap_lambdas, aes(x=value)) + 
+#   geom_histogram()
 
 hist_data<-bootstrap_lambdas %>% 
   pivot_longer(cols = lambda_ff:lambda_cf,
@@ -80,7 +80,7 @@ ggplot(bootstrap_lambdas, aes(x=diff)) +
 
 
 n_bs_greater<-bootstrap_lambdas %>% 
-  filter(diff>diff_obs) %>% 
+  dplyr::filter(diff>diff_obs) %>% 
   tally() %>% 
   mutate(perc_greater=n/nrow(bootstrap_lambdas)*100)
 
