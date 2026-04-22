@@ -3,7 +3,7 @@
 
 <!-- badges: start -->
 
-[![pages-build-deployment](https://github.com/BrunaLab/lagged-ipms/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/BrunaLab/lagged-ipms/actions/workflows/pages/pages-build-deployment)
+<!-- [![pages-build-deployment](https://github.com/BrunaLab/lagged-ipms/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/BrunaLab/lagged-ipms/actions/workflows/pages/pages-build-deployment) -->
 
 <!-- DOI badges go here -->
 
@@ -11,13 +11,14 @@
 
 This repository contains data and code for the manuscript
 *“Context-dependent consequences of including delayed responses to
-climate in Integral Projection Models”* by Eric R. Scott, María Uriarte,
-and Emilio M. Bruna. We investigated the consequences of including
-lagged effects, such as those modeled by distributed lag non-linear
-models, into integral projection models (i.e., IPMs). We compared
-population growth rates projected with deterministic IPMs, stochastic
-IPMs (using ‘matrix-shuffling’), and stochastic IPMs with lagged
-effects.
+climate in Integral Projection Models”*
+<!-- by Eric R. Scott, María Uriarte, and Emilio M. Bruna.  -->
+
+We investigated the consequences of including lagged effects, such as
+those modeled by distributed lag non-linear models, into integral
+projection models (i.e., IPMs). We compared population growth rates
+projected with deterministic IPMs, stochastic IPMs (using
+‘matrix-shuffling’), and stochastic IPMs with lagged effects.
 
 # Reproducibility
 
@@ -165,17 +166,12 @@ graph LR
   classDef none stroke:#000000,color:#000000,fill:#94a4ac;
 ```
 
-There is some additional technical information for collaborators on the
-[‘notes for collaborators’
-page](https://brunalab.github.io/lagged-ipms/notes/index.html). The most
-recent draft of the manuscript is available
-[here](https://brunalab.github.io/lagged-ipms/docs/ipm_comparison_ms.pdf).
+<!-- There is some additional technical information for collaborators on the ['notes for collaborators' page](https://brunalab.github.io/lagged-ipms/notes/index.html). The most recent draft of the manuscript is available [here](https://brunalab.github.io/lagged-ipms/docs/ipm_comparison_ms.pdf). -->
 
 ### NOTES:
 
 - The targets `lambda_bt_dlnm_ff` and `lambda_bt_dlnm_cf` will take a
   very long time to run (days), so you may want to comment those out
   before attempting to reproduce results.
-- If you want to make use of HPC, follow instructions
-  [here](https://github.com/BrunaLab/hipergator-targets-ssh) to
-  customize templates and options.
+
+<!-- -   If you want to make use of HPC, follow instructions [here](https://github.com/BrunaLab/hipergator-targets-ssh) to customize templates and options. -->

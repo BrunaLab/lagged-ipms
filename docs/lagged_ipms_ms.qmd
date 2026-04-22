@@ -159,15 +159,15 @@ stats_table_lambdavars<-read_csv(here("docs","figures","stats_table_lambdavars.c
 4.  Projections of $\lambda$ were lower when models included lagged effects. Projections of $\lambda$ and population structure were also more variable, though the magnitude of this variation varied by habitat type.\
 5.  Synthesis: The choice of demographic model, and whether that model includes the lagged effects of climate, may be especially critical in studies with implications on endangered species or when attempting to identify populations that are declining. This is because failing to include lagged effects may overestimate the actual growth rate of a focal population. It can also lead to incorrect conclusions regarding the outcome of alternative management strategies, because even small differences in $\lambda$ can have major consequences for population dynamics.
 
-\bigskip
+<!-- \bigskip -->
 
-\noindent{}**Keywords:** Amazonia, habitat fragmentation, *Heliconia*, lambda, plant demography, population dynamics, structured population models, vital rates
+<!-- \noindent{}**Keywords:** Amazonia, habitat fragmentation, *Heliconia*, lambda, plant demography, population dynamics, structured population models, vital rates -->
 
-\bigskip
+<!-- \bigskip -->
 
-\noindent{}**Manuscript elements:** Figures 1-4, Tables 1-4, Supplementary Tables S1-S2
+<!-- \noindent{}**Manuscript elements:** Figures 1-4, Tables 1-4, Supplementary Tables S1-S2 -->
 
-\noindent{}**Manuscript type:** Article
+<!-- \noindent{}**Manuscript type:** Article -->
 
 \newpage
 
@@ -349,15 +349,15 @@ The final implication is that computational costs may hinder the widespread cons
 
 It is important to emphasize, however, that computational power cannot compensate for limited data. Detecting lagged effects of climate and evaluating their consequences requires long-term demographic data --- data that are only available for a relatively small number of species, of which few are in the tropics [@brunaHabitatFragmentationPlant2009; @romerPlantDemographicKnowledge2024] and where the synergistic effects of climate- and land-use change may be particularly acute [@lauranceApparentEnvironmentalSynergism2014; @opdamClimateChangeMeets2004; @selwoodEffectsClimateChange2015]. The increasing evidence that lagged effects are ubiquitous, and that they can have major demographic impacts, underscores the need to support the collection of such long-term data, the complementary development of experimental and statistical approaches to disentangling lagged effects, and community driven efforts to identify priority or model systems for in-depth investigation.\
 
-### Acknowledgments {.unnumbered}
+<!-- ### Acknowledgments {.unnumbered} -->
 
-We thank M. Acevedo, O. Acevedo-Charry, and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript. We also thank Sam Levin for his help with the `ipmr` package. Financial support for collecting the demographic data used in this study was provided by the U.S. National Science Foundation (awards INT 98-06351, DEB-0309819, DEB-0614149,DEB-0614339, and DEB-1948607). This article is publication no. \_\_\_ in the BDFFP Technical series. The authors declare no conflicts of interest.
+<!-- We thank M. Acevedo, O. Acevedo-Charry, and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript. We also thank Sam Levin for his help with the `ipmr` package. Financial support for collecting the demographic data used in this study was provided by the U.S. National Science Foundation (awards INT 98-06351, DEB-0309819, DEB-0614149,DEB-0614339, and DEB-1948607). This article is publication no. \_\_\_ in the BDFFP Technical series. The authors declare no conflicts of interest. -->
 
-### CRediT Statement {.unnumbered}
+<!-- ### CRediT Statement {.unnumbered} -->
 
-<!-- https://casrai.org/credit/ -->
+<!-- <!-- https://casrai.org/credit/ -->
 
-The authors made the following contributions: Eric R. Scott: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing – original draft, review, and editing; Emilio M. Bruna: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing (original draft, review and editing), funding acquisition, project administration, supervision; Maria Uriarte: conceptualization, methodology, writing (review and editing), funding acquisition.
+<!-- The authors made the following contributions: Eric R. Scott: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing – original draft, review, and editing; Emilio M. Bruna: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing (original draft, review and editing), funding acquisition, project administration, supervision; Maria Uriarte: conceptualization, methodology, writing (review and editing), funding acquisition. -->
 
 ### Data Availability Statement {.unnumbered}
 
