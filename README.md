@@ -10,14 +10,14 @@
 <!-- badges: end -->
 
 This repository contains data and code for the manuscript
-*“Context-dependent consequences of including lagged effects on the
-projections of structured population models”* by Eric R. Scott, María
-Uriarte, and Emilio M. Bruna. We investigated the consequences of
-including lagged effects, such as those modeled by distributed lag
-non-linear models, into integral projection models (i.e., IPMs). We
-compared population growth rates projected with deterministic IPMs,
-stochastic IPMs (using ‘matrix-shuffling’), and stochastic IPMs with
-lagged effects.
+*“Context-dependent consequences of including delayed responses to
+climate in Integral Projection Models”* by Eric R. Scott, María Uriarte,
+and Emilio M. Bruna. We investigated the consequences of including
+lagged effects, such as those modeled by distributed lag non-linear
+models, into integral projection models (i.e., IPMs). We compared
+population growth rates projected with deterministic IPMs, stochastic
+IPMs (using ‘matrix-shuffling’), and stochastic IPMs with lagged
+effects.
 
 # Reproducibility
 
