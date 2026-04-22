@@ -27,7 +27,7 @@ affiliations:
     name: Biological Dynamics of Forest Fragments Project, INPA-PDBFF, CP 478, Manaus, Amazonas 69011-970 Brazil
   - id: 5
     name: \textit{Current Address:} Communication & Cyber Technologies, University of Arizona, Tucson, AZ 85721 USA
-date: 'last-modified'
+# date: 'last-modified'
 date-format: '([draft:] D MMMM YYYY)'
 linkcolor: blue
 bibliography: lagged-ipms-ms.bib
@@ -35,9 +35,9 @@ csl: "templates/journal-of-ecology.csl" # Insert path for the bib-style
 # 
 # highlights: |
 #   These are the highlights
+# format: docx
+# prefer-html: true
 format:
-  # docx:
-  #   prefer-html: true
   pdf:
     # template: AmNat_MS_template.tex
     # documentclass: scrarticle
@@ -103,15 +103,7 @@ keywords:
 #   count-code-blocks: false
 #   count-inline-code: false
   
-Notes: >
-  Manuscript elements: Figures 1-4, Tables 1-6, Supplementary Tables 1-2
-  
-  
-  
-
-
-# abstract: >
-#  The abstract should have 150 words. 
+#   abstract: > 
 ---
 
 ```{r setup, include=FALSE}
@@ -151,13 +143,31 @@ stats_table_lambdavars<-read_csv(here("docs","figures","stats_table_lambdavars.c
 
 \newpage
 
+# ACKNOWLEDGEMENTS {.unnumbered}
+
+We thank M. Acevedo, O. Acevedo-Charry, and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript. We also thank Sam Levin for his help with the `ipmr` package. The U.S. National Science Foundation provided financial support for collecting the demographic data used in this study (INT Award 98-06351, DEB Awards 0309819, 0614149, 0614339, 1948607) and support for data analysis and manuscript preparation (DEB awards 1948607 and 2530551) This article is publication no. \_\_\_ in the BDFFP Technical series. The authors declare no conflicts of interest.
+
+# AUTHOR CONTRIBUTIONS {.unnumbered}
+
+The authors made the following contributions: Eric R. Scott: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing – original draft, review, and editing; Emilio M. Bruna: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing (original draft, review and editing), funding acquisition, project administration, supervision; Maria Uriarte: conceptualization, methodology, writing (review and editing), funding acquisition.
+
+# DATA AVAILABILITY STATEMENT {.unnumbered}
+
+Data and R code used in this study are archived with Zenodo at *(doi and url to be added on acceptance)*. Anonymized versions are available to Editors and Reviewers at <https://osf.io/mw5a7/overview?view_only=f0ea421ee916437eac32d59debfdc894>
+
+# CONFLICT OF INTEREST STATEMENT {.unnumbered}
+
+The authors declare no conflicts of interest.
+
+\newpage
+
 # Abstract {.unnumbered}
 
 1.  There is increasing evidence that changes in demographic vital rates due to contemporary climatic conditions can be delayed months or even years. This temporal delay between an climatic event and the resulting changes in vital rates can depend on both the intensity of the event and its timing relative to the physiological mechanisms underlying the response.
 2.  Because lagged effects are often directly linked to reproduction and survival, it has been argued they could have major but underappreciated consequences for population dynamics. There have been few tests of this hypothesis, however, in part because the long-term data required to incorporate lagged effects in structured population models are rarely available.
-3.  We parameterized three classes of Integral Projection Models --- deterministic, stochastic, and stochastic with lagged effects of precipitation on vital rates --- using a decade of annual censuses from populations of an Amazonian understory herb. We then evaluated whether (1) if incorporating lagged effects altered projections of population growth rate, and (2) if habitat-specific differences in lagged effects translate into habitat-specific projections of population growth rate (i.e., $\lambda$).
-4.  Projections of $\lambda$ were lower when models included lagged effects. Projections of $\lambda$ and population structure were also more variable, though the magnitude of this variation varied by habitat type.\
-5.  Synthesis: The choice of demographic model, and whether that model includes the lagged effects of climate, may be especially critical in studies with implications on endangered species or when attempting to identify populations that are declining. This is because failing to include lagged effects may overestimate the actual growth rate of a focal population. It can also lead to incorrect conclusions regarding the outcome of alternative management strategies, because even small differences in $\lambda$ can have major consequences for population dynamics.
+3.  We parameterized three classes of Integral Projection Models --- deterministic, stochastic, and stochastic with lagged effects of precipitation on vital rates --- using a decade of annual censuses from populations of an Amazonian understory herb in a fragmented Amazonian Landscape. We then evaluated whether (1) if incorporating lagged effects altered projections of population growth rate, and (2) if habitat-specific differences in lagged effects translate into habitat-specific projections of population growth rate (i.e., $\lambda$).
+4.  Projections of $\lambda$ were lower when models included lagged effects. Projections of $\lambda$ and population structure were also more variable, with the magnitude of this variation accentuated in forest fragments.\
+5.  Synthesis: The choice of demographic model, and whether that model includes the lagged effects of climate, may be especially critical when trying to identify declining populations because models without temporal lags may overestimate the actual growth rate of a focal population. It can also lead to incorrect conclusions regarding the outcome of alternative management strategies, because even small differences in $\lambda$ can have major consequences for long-term population dynamics.
 
 <!-- \bigskip -->
 
@@ -171,7 +181,7 @@ stats_table_lambdavars<-read_csv(here("docs","figures","stats_table_lambdavars.c
 
 \newpage
 
-# Introduction
+# INTRODUCTION
 
 Current climatic conditions can have immediate impacts on the growth, survival, or reproduction of plants [@eversInclusionImmediateLagged2023; @williamsLinkingClimateDemography2025]. However, there is now ample evidence for delays of months or even years between current conditions and any resulting changes in demographic vital rates [@tenhumbergTimelaggedEffectsWeather2018; @eversLaggedDormantSeason2021; @scottDelayedEffectsClimate2021; @pratherCurrentLaggedClimate2023]. These *Lagged Effects*, also known as *Delayed Life-history Events* [@beckermanPopulationDynamicConsequences2002] or *Temporally Varied Responses* [@eversInclusionImmediateLagged2023], can simultaneously affect an entire cohort (e.g., all seedlings emerging during a drought greater risk of mortality due to pathogens) or only a subset of the population (e.g., a freeze this year reduces the probability of flowering, but only for trees below a particular size threshold). Moreover, the delay between an environmental event and altered vital rates can depend on both the intensity of the event and its timing relative to the underlying physiological mechanisms [@eversLaggedDormantSeason2021; @crileyYearProductionHigh1994]. For example, a drought during the early phase of floral bud formation might have a much larger impact on the number of flowers of fruits a plant produces than one at a later stage of development [sensu @tenhumbergTimelaggedEffectsWeather2018].
 
@@ -185,7 +195,7 @@ We sought to address this deficit using three classes of Integral Projection Mod
 
 <!-- from demographic theory [@caswellMatrixPopulationModels2001; @tuljapurkarPopulationDynamicsVariable1990]: (i) projections of $\lambda$ from deterministic models would be higher than those of stochastic models, and that (ii) $\lambda$ is lower for Forest Fragment than Continuous Forest populations regardless of model, but the difference between the two habitats is greatest for the IPM with lagged effects.  <!--- [MU: To me, these predictions come out of nowhere. A few sentences above to justify them would be helpful for the non-IPM reader] --->
 
-# Materials and Methods
+# MATERIALS AND METHODS
 
 ## Study System and Demographic Data
 
@@ -279,7 +289,7 @@ lambda_glm <- glm(lambda ~ habitat*ipm_type,
 
 Finally, we compared the structure of populations that were projected through the first 250 time steps in each habitat by the IPMs with and without lagged effects. At each time step, we assigned the individuals to one of four stage classes based on plant size, probability of survival, and probability of reproduction (@tbl-plantcats). We then calculated the proportion of the population that was in each stage class in each habitat for each IPM type. Comparing the mean proportion will allow us to infer if two IPMs project different population structures over time, while comparing variances in the proportion will allow us to determine if the population structure for a given IPM is consistent across habitat type. Because Shapiro-Wilk tests indicated that the distributions of proportions were not normally distributed, we used the non-parametric Ansari-Bradley Test to compare the distribution of proportions in each habitat x stage combination. These analyses were conducted using the R packages `rstatix` and `vartest`, respectively [@kassambaraRstatixPipefriendlyFramework2023; @cosarVartestTestsVariance2024].
 
-# Results
+# RESULTS
 
 ```{r }
 meta_df <- 
@@ -333,7 +343,7 @@ Deterministic $\lambda$ was nearly identical to the average $\lambda$ from stand
 
 The deterministic IPM for Continuous Forest projected slightly more of the smallest and largest plants than the one for Forest Fragments (i.e., the values for these stage classes are below the 1:1 line in [@fig-pop-states]B). This shift towards intermediate-size plants in forest fragments (i.e., pre-reproductive 2) is even more dramatic when using the stochastic IPMs, especially those with lagged effects ([@fig-pop-states]B). However, including lagged effects of climate in IPMs also resulted in more variable projections of population structure ([@fig-pop-states]A, @tbl-meanvars). In continuous forest, the variance in the proportion of the population seedlings and smaller pre-reproductive plants comprise was significantly higher when using IPMs with lagged effects (@tbl-meanvars, @tbl-vartest, @fig-marginal). For forest fragments, however, projecting with lagged effects resulted in significantly higher variance for all five life-history stages (@tbl-vartest).
 
-# Discussion
+# DISCUSSION
 
 Mathematical and statistical advances [e.g., @williams2012avoiding; @reesEvolvingIntegralProjection2016; @brooksStatisticalModelingPatterns2019] have rapidly expanded the scope of ecological issues that can be investigated with Integral Projection Models. Our results have three important implications for how these models are used to study one that is increasingly important: the role of climate as a driver of plant demography and population dynamics. The first is that failing to include lagged effects in models could significantly underestimate the growth rate of populations. While relative differences in projected values of $\lambda$ may be sufficient for some tests of theory or experimental comparisons, there are cases in which the specific value projected by models can dramatically shift a study's conclusions. The most obvious of these are when projections of $\lambda$ have implications for conservation or management; even small differences in projections of $\lambda$ can lead to very different conclusions regarding whether or not populations are declining (e.g., $\lambda=0.99$ vs. $\lambda=1.01$) or which management strategy will maximize population growth (e.g., $\lambda=1.01$ vs. $\lambda=1.02$). Given the potential for subtle but significant differences in $\lambda$ between habitats [@brunaDemographicEffectsHabitat2005; @mensahDelayedEffectsWaterlimiting2025], and for lagged effects to either buffer or amplify the effects of climatic variability [@eversInclusionImmediateLagged2023], including these effects in models could be similarly critical for forecasting how plant populations will respond to climate change [@eversInclusionImmediateLagged2023]. This may be especially true for slow-growing and long-lived species like *Heliconia acuminata* [@brunaArePlantPopulations2003; @brunaExperimentalAssessmentHeliconia2002], whose population growth rate may be especially sensitive to temporally varied responses in climate [@eversInclusionImmediateLagged2023].
 
@@ -349,31 +359,9 @@ The final implication is that computational costs may hinder the widespread cons
 
 It is important to emphasize, however, that computational power cannot compensate for limited data. Detecting lagged effects of climate and evaluating their consequences requires long-term demographic data --- data that are only available for a relatively small number of species, of which few are in the tropics [@brunaHabitatFragmentationPlant2009; @romerPlantDemographicKnowledge2024] and where the synergistic effects of climate- and land-use change may be particularly acute [@lauranceApparentEnvironmentalSynergism2014; @opdamClimateChangeMeets2004; @selwoodEffectsClimateChange2015]. The increasing evidence that lagged effects are ubiquitous, and that they can have major demographic impacts, underscores the need to support the collection of such long-term data, the complementary development of experimental and statistical approaches to disentangling lagged effects, and community driven efforts to identify priority or model systems for in-depth investigation.\
 
-<!-- ### Acknowledgments {.unnumbered} -->
-
-<!-- We thank M. Acevedo, O. Acevedo-Charry, and \_\_\_ anonymous reviewers for helpful discussions and comments on the manuscript. We also thank Sam Levin for his help with the `ipmr` package. Financial support for collecting the demographic data used in this study was provided by the U.S. National Science Foundation (awards INT 98-06351, DEB-0309819, DEB-0614149,DEB-0614339, and DEB-1948607). This article is publication no. \_\_\_ in the BDFFP Technical series. The authors declare no conflicts of interest. -->
-
-<!-- ### CRediT Statement {.unnumbered} -->
-
-<!-- <!-- https://casrai.org/credit/ -->
-
-<!-- The authors made the following contributions: Eric R. Scott: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing – original draft, review, and editing; Emilio M. Bruna: conceptualization, methodology, formal analysis, validation, visualization, data curation, software, writing (original draft, review and editing), funding acquisition, project administration, supervision; Maria Uriarte: conceptualization, methodology, writing (review and editing), funding acquisition. -->
-
-### Data Availability Statement {.unnumbered}
-
-Data and R code used in this study are archived with Zenodo at *(doi and url to be added on acceptance)*. Anonymized versions are available to Editors and Reviewers at <https://osf.io/mw5a7/overview?view_only=f0ea421ee916437eac32d59debfdc894>
-
-<!-- ```{r } -->
-
-<!-- pkgs <- cite_packages(output = "table", out.dir = ".") -->
-
-<!-- knitr::kable(pkgs) -->
-
-<!-- ``` -->
-
 \newpage
 
-# References {.unnumbered}
+# REFERENCES {.unnumbered}
 
 <!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
 
@@ -651,7 +639,7 @@ kable(digits = 5,
 \setcounter{figure}{0}
 \setcounter{table}{0}
 
-# Supplementary Materials {.appendix .unnumbered}
+## Supporting Information {.appendix .unnumbered}
 
 ```{r aic, results='asis'}
 #| label: tbl-aic
